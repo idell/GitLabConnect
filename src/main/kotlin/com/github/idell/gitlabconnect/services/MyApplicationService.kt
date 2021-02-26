@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.idell.gitlabconnect.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.idell.gitlabconnect.MyBundle
 
 class MyApplicationService {
 
