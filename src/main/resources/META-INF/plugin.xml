@@ -10,6 +10,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceImplementation="com.github.idell.gitlabconnect.services.MyApplicationService"/>
         <projectService serviceImplementation="com.github.idell.gitlabconnect.services.MyProjectService"/>
+        <toolWindow id="GitlabConnect" secondary="false" anchor="bottom"
+                    factoryClass="com.github.idell.gitlabconnect.ui.GitlabConnectToolWindowFactory"/>
     </extensions>
 
     <applicationListeners>
