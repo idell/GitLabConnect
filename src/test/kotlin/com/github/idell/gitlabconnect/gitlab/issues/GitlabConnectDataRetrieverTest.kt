@@ -1,6 +1,5 @@
 package com.github.idell.gitlabconnect.gitlab.issues
 
-import org.gitlab4j.api.models.Issue as GitlabIssue
 import com.github.idell.gitlabconnect.gitlab.ConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
 import org.gitlab4j.api.GitLabApi
@@ -17,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.*
+import org.gitlab4j.api.models.Issue as GitlabIssue
 
 internal class GitlabConnectDataRetrieverTest {
 
@@ -81,19 +81,31 @@ internal class GitlabConnectDataRetrieverTest {
             oneOf(gitLabApi).issuesApi
             will(returnValue(issuesApi))
             oneOf(issuesApi).getIssues(EXPECTED_PROJECT)
-            will(returnValue(listOf(anIssueWith("an issue", "an url",
-                                                listOf("a label", "a fancy label")),
-                                    anIssueWith("another issue", "another url",
-                                                listOf("another label")))))
-
+            will(
+                returnValue(
+                    listOf(
+                        anIssueWith(
+                            "an issue", "an url",
+                            listOf("a label", "a fancy label")
+                        ),
+                        anIssueWith(
+                            "another issue", "another url",
+                            listOf("another label")
+                        )
+                    )
+                )
+            )
         }
 
         val gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
         val issues = gitlabConnectDataRetriever.getIssues(EXPECTED_PROJECT)
-        assertEquals(listOf(Issue("an issue", "an url", listOf("a label", "a fancy label")),
-                            Issue("another issue", "another url", listOf("another label"))),
-                     issues)
-
+        assertEquals(
+            listOf(
+                Issue("an issue", "an url", listOf("a label", "a fancy label")),
+                Issue("another issue", "another url", listOf("another label"))
+            ),
+            issues
+        )
     }
     @Test
     internal fun `given a project id, when it has no issues, returns an empty list`() {
@@ -105,12 +117,10 @@ internal class GitlabConnectDataRetrieverTest {
             will(returnValue(issuesApi))
             oneOf(issuesApi).getIssues(EXPECTED_PROJECT)
             will(returnValue(emptyList<GitlabIssue>()))
-
         }
 
         val issues = gitlabConnectDataRetriever.getIssues(EXPECTED_PROJECT)
         assertEquals(emptyList<Issue>(), issues)
-
     }
 
     private fun anIssueWith(title: String, webUrl: String, labels: List<String>): GitlabIssue {

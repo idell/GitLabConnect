@@ -27,5 +27,4 @@ private fun List<org.gitlab4j.api.models.Issue>.toIssues(): Issues {
     return map { issue ->
         Issue(issue.title, issue.webUrl, issue.labels)
     }.toList()
-
 }

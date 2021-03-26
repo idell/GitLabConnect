@@ -11,7 +11,6 @@ class GitlabConnectToolWindow(val toolWindow: ToolWindow) {
     private var myComponent: JPanel? = JPanel()
     private var myComponent2: JLabel? = JLabel()
 
-
     init {
         this.render()
     }
@@ -24,7 +23,5 @@ class GitlabConnectToolWindow(val toolWindow: ToolWindow) {
 
     fun geContent(): JComponent? {
         return myComponent
-
     }
-
 }

@@ -1,7 +1,6 @@
 package com.github.idell.gitlabconnect.gitlab
 
-
-import java.util.*
+import java.util.Optional
 
 interface ConnectDataRetriever {
     fun getId(pathWitNamespace: String): Optional<Int>
@@ -11,4 +10,3 @@ interface ConnectDataRetriever {
 typealias Issues = List<Issue>
 
 data class Issue(val title: String, val link: String, val labels: List<String>)
-

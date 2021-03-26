@@ -5,8 +5,7 @@ import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.content.ContentFactory
 
-
-class GitlabConnectToolWindowFactory: ToolWindowFactory {
+class GitlabConnectToolWindowFactory : ToolWindowFactory {
 
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val gitlabConnectToolWindow = GitlabConnectToolWindow(toolWindow)
@@ -14,5 +13,4 @@ class GitlabConnectToolWindowFactory: ToolWindowFactory {
         val content = contentFactory.createContent(gitlabConnectToolWindow.geContent(), "Gitlab", false)
         toolWindow.contentManager.addContent(content)
     }
-
 }
