@@ -1,7 +1,5 @@
 package com.github.idell.gitlabconnect.gitlab
 
-import com.github.idell.gitlabconnect.gitlab.ConnectApi
-import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
 import org.gitlab4j.api.GitLabApi
 import org.gitlab4j.api.ProjectApi
 import org.gitlab4j.api.models.Project
