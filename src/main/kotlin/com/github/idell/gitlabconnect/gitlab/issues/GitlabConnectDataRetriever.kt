@@ -5,7 +5,9 @@ import com.github.idell.gitlabconnect.gitlab.ConnectDataRetriever
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.Issues
 import org.gitlab4j.api.models.Project
-import java.util.*
+import java.util.Optional
+import kotlin.NoSuchElementException
+
 
 class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : ConnectDataRetriever {
 
