@@ -95,6 +95,23 @@ internal class GitlabConnectDataRetrieverTest {
                      issues)
 
     }
+    @Test
+    internal fun `given a project id, when it has no issues, returns an empty list`() {
+
+        context.expecting {
+            oneOf(gitlabConnectApi).getGitlabApi()
+            will(returnValue(gitLabApi))
+            oneOf(gitLabApi).issuesApi
+            will(returnValue(issuesApi))
+            oneOf(issuesApi).getIssues(EXPECTED_PROJECT)
+            will(returnValue(emptyList<GitlabIssue>()))
+
+        }
+
+        val issues = gitlabConnectDataRetriever.getIssues(EXPECTED_PROJECT)
+        assertEquals(emptyList<Issue>(), issues)
+
+    }
 
     private fun anIssueWith(title: String, webUrl: String, labels: List<String>): GitlabIssue {
         var issue = GitlabIssue()
