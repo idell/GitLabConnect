@@ -35,7 +35,7 @@ dependencies {
     testImplementation("org.jmock:jmock-junit5:2.12.0")
     testImplementation("org.jmock:jmock-legacy:2.12.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
-    compile("org.gitlab4j:gitlab4j-api:4.15.7")
+    implementation("org.gitlab4j:gitlab4j-api:4.15.7")
 }
 
 tasks {
