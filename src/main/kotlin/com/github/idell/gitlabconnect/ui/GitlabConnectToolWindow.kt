@@ -17,7 +17,7 @@ class GitlabConnectToolWindow(val toolWindow: ToolWindow) {
     }
 
     private fun render() {
-        myComponent?.layout = FlowLayout ()
+        myComponent?.layout = FlowLayout()
         myComponent2?.text = "My fantabolulus text"
         myComponent?.add(myComponent2)
     }
