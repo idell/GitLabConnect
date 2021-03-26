@@ -32,6 +32,8 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.15.0")
     testImplementation("org.assertj:assertj-core:3.12.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
+    testImplementation("org.jmock:jmock-junit5:2.12.0")
+    testImplementation("org.jmock:jmock-legacy:2.12.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
     compile("org.gitlab4j:gitlab4j-api:4.15.7")
 }
