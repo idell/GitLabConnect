@@ -1,6 +1,10 @@
-package com.github.idell.gitlabconnect.gitlab
+package com.github.idell.gitlabconnect.gitlab.issues
 
+import org.gitlab4j.api.models.Issue as GitlabIssue
+import com.github.idell.gitlabconnect.gitlab.ConnectApi
+import com.github.idell.gitlabconnect.gitlab.Issue
 import org.gitlab4j.api.GitLabApi
+import org.gitlab4j.api.IssuesApi
 import org.gitlab4j.api.ProjectApi
 import org.gitlab4j.api.models.Project
 import org.jmock.AbstractExpectations.returnValue
@@ -17,8 +21,10 @@ import java.util.*
 internal class GitlabConnectDataRetrieverTest {
 
     private lateinit var projectApi: ProjectApi
+    private lateinit var issuesApi: IssuesApi
     private lateinit var gitLabApi: GitLabApi
     private lateinit var gitlabConnectApi: ConnectApi
+    private lateinit var gitlabConnectDataRetriever: GitlabConnectDataRetriever
 
     @RegisterExtension
     var context: Mockery = object : JUnit5Mockery() {
@@ -32,6 +38,8 @@ internal class GitlabConnectDataRetrieverTest {
         gitlabConnectApi = context.mock(ConnectApi::class.java)
         gitLabApi = context.mock(GitLabApi::class.java)
         projectApi = context.mock(ProjectApi::class.java)
+        issuesApi = context.mock(IssuesApi::class.java)
+        gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
     }
 
     @Test
@@ -45,8 +53,6 @@ internal class GitlabConnectDataRetrieverTest {
             oneOf(projectApi).getProjects(EXPECTED_PROJECT)
             will(returnValue(generateProjects(EXPECTED_PROJECT, EXPECTED_ID)))
         }
-
-        val gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
 
         assertEquals(EXPECTED_ID, gitlabConnectDataRetriever.getId(EXPECTED_PROJECT).get())
     }
@@ -63,9 +69,39 @@ internal class GitlabConnectDataRetrieverTest {
             will(returnValue(generateProjects()))
         }
 
-        val gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
-
         assertEquals(Optional.empty<Int>(), gitlabConnectDataRetriever.getId(WRONG_PROJECT))
+    }
+
+    @Test
+    internal fun `given a project id, returns his issues`() {
+
+        context.expecting {
+            oneOf(gitlabConnectApi).getGitlabApi()
+            will(returnValue(gitLabApi))
+            oneOf(gitLabApi).issuesApi
+            will(returnValue(issuesApi))
+            oneOf(issuesApi).getIssues(EXPECTED_PROJECT)
+            will(returnValue(listOf(anIssueWith("an issue", "an url",
+                                                listOf("a label", "a fancy label")),
+                                    anIssueWith("another issue", "another url",
+                                                listOf("another label")))))
+
+        }
+
+        val gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
+        val issues = gitlabConnectDataRetriever.getIssues(EXPECTED_PROJECT)
+        assertEquals(listOf(Issue("an issue", "an url", listOf("a label", "a fancy label")),
+                            Issue("another issue", "another url", listOf("another label"))),
+                     issues)
+
+    }
+
+    private fun anIssueWith(title: String, webUrl: String, labels: List<String>): GitlabIssue {
+        var issue = GitlabIssue()
+        issue.title = title
+        issue.webUrl = webUrl
+        issue.labels = labels
+        return issue
     }
 
     companion object {
@@ -90,11 +126,8 @@ internal class GitlabConnectDataRetrieverTest {
             return listOf(expectedProject, anotherProject)
         }
 
+        fun Mockery.expecting(block: Expectations.() -> Unit) {
+            this.checking(Expectations().apply(block))
+        }
     }
-
-}
-
-
-fun Mockery.expecting(block: Expectations.() -> Unit) {
-    this.checking(Expectations().apply(block))
 }
