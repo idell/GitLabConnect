@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import java.util.*
+import java.util.Optional
 import org.gitlab4j.api.models.Issue as GitlabIssue
 
 internal class GitlabConnectDataRetrieverTest {

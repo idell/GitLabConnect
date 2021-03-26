@@ -8,7 +8,6 @@ import org.gitlab4j.api.models.Project
 import java.util.Optional
 import kotlin.NoSuchElementException
 
-
 class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : ConnectDataRetriever {
 
     override fun getId(pathWitNamespace: String): Optional<Int> {
