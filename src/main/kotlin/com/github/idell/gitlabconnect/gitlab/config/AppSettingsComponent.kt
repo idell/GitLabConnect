@@ -6,23 +6,23 @@ import com.intellij.util.ui.FormBuilder
 import javax.swing.JPanel
 
 class GitlabConnectSettingsComponent {
-    private var myMainPanel: JPanel
-    private val myUserNameText = JBTextField()
-    private val myTokenText = JBTextField()
+    private var mainPanel: JPanel
+    private val hostName = JBTextField()
+    private val connectionToken = JBTextField()
 
     init {
-        myMainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("Enter user name: "), myUserNameText, 1, false)
-            .addLabeledComponent(JBLabel("Enter gitlab connection token"), myTokenText, 1)
+        mainPanel = FormBuilder.createFormBuilder()
+            .addLabeledComponent(JBLabel("Enter Gitlab host: "), hostName, 1, false)
+            .addLabeledComponent(JBLabel("Enter gitlab connection token:"), connectionToken, 1)
             .addComponentFillVertically(JPanel(), 0)
             .panel
     }
 
     fun getPanel(): JPanel {
-        return myMainPanel
+        return mainPanel
     }
 
-    fun getMyUserNameText() = myUserNameText
+    fun getMyUserNameText() = hostName
 
-    fun getMyTokenText() = myTokenText
+    fun getMyTokenText() = connectionToken
 }
