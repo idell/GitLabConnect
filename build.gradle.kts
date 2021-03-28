@@ -30,6 +30,18 @@ repositories {
 }
 dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.15.0")
+    testImplementation("org.assertj:assertj-core:3.12.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.2")
+    testImplementation("org.jmock:jmock-junit5:2.12.0")
+    testImplementation("org.jmock:jmock-legacy:2.12.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
+    implementation("org.gitlab4j:gitlab4j-api:4.15.7")
+}
+
+tasks {
+    "test"(Test::class) {
+        useJUnitPlatform()
+    }
 }
 
 // Configure gradle-intellij-plugin plugin.
@@ -68,15 +80,15 @@ detekt {
 tasks {
     // Set the compatibility versions to 1.8
     withType<JavaCompile> {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
     }
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     withType<Detekt> {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 
     patchPluginXml {
