@@ -10,7 +10,7 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val gitlabConnectToolWindow = GitlabConnectToolWindow(toolWindow)
         val contentFactory = ContentFactory.SERVICE.getInstance()
-        val content = contentFactory.createContent(gitlabConnectToolWindow.geContent(), "Gitlab", false)
+        val content = contentFactory.createContent(gitlabConnectToolWindow.geContent(), "Issues", false)
         toolWindow.contentManager.addContent(content)
     }
 }
