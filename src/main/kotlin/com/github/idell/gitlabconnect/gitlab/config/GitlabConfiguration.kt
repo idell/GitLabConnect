@@ -1,14 +1,12 @@
 package com.github.idell.gitlabconnect.gitlab.config
 
 import com.intellij.openapi.options.Configurable
-import javax.swing.JComponent
 import javax.swing.JPanel
-
 
 class GitlabConfiguration : Configurable {
     private lateinit var appSettingsComponent: GitlabConnectSettingsComponent
-    val userId:String = "idell"
-    val token:String = "stocazzo"
+    val userId: String = "idell"
+    val token: String = "stocazzo"
 
     override fun createComponent(): JPanel {
         appSettingsComponent = GitlabConnectSettingsComponent()
@@ -26,10 +24,7 @@ class GitlabConfiguration : Configurable {
         val settings: GitlabConnectSettingState = GitlabConnectSettingState.getInstance()
         settings.userId = appSettingsComponent.getMyUserNameText().text
         settings.privateToken = appSettingsComponent.getMyTokenText().text
-
     }
 
     override fun getDisplayName(): String = "Gitlab Connect"
-
-
 }
