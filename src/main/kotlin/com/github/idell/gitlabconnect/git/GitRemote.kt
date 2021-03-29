@@ -1,12 +1,14 @@
 package com.github.idell.gitlabconnect.git
 
+import com.github.idell.gitlabconnect.exception.GitlabConnectException
+
 class GitRemote(val name: String, val address: String) {
 
     init {
-        if (!address.matches(Regex(REGEX))) throw RuntimeException("address is not a valid git repository")
+        if (!address.matches(Regex(REGEX))) throw GitlabConnectException("address is not a valid git repository")
     }
 
-    fun getRepositoryWithNamespace() : String {
+    fun getRepositoryWithNamespace(): String {
 
         if (!address.contains("http")) {
             return address.substringAfter(":").removeSuffix(".git")

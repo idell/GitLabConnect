@@ -20,14 +20,15 @@ class GitApi(private val repository: Repository) {
     )
 
     companion object {
-        fun from(repository: String) : GitApi {
+        fun from(repository: String): GitApi {
             return GitApi(
                 FileRepositoryBuilder()
                     .setGitDir(File(repository))
                     .readEnvironment()
                     .findGitDir()
                     .setMustExist(true)
-                    .build())
+                    .build()
+            )
         }
     }
 }

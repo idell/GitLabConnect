@@ -1,5 +1,6 @@
 package com.github.idell.gitlabconnect.git
 
+import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
@@ -48,9 +49,8 @@ internal class GitRemoteTest {
         assertEquals("another/project", gitRemote.getRepositoryWithNamespace())
     }
 
-
     @Test
     internal fun `check if an address is a valid git repository`() {
-        assertThrows(RuntimeException::class.java) { GitRemote("origin", "$$$$$") }
+        assertThrows(GitlabConnectException::class.java) { GitRemote("origin", "$$$$$") }
     }
 }
