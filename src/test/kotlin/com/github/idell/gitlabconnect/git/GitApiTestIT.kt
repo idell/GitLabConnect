@@ -39,7 +39,6 @@ internal class GitApiTestIT {
             .call()
     }
 
-
     @Test
     internal fun `given a git folder, retrieve information related remotes`() {
 
