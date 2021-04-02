@@ -5,10 +5,10 @@ import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
 import javax.swing.JPanel
 
-class GitlabConnectSettingsComponent {
+class GitlabConnectSettingsComponent(host: String, token: String) {
     private var mainPanel: JPanel
-    private val hostName = JBTextField()
-    private val connectionToken = JBTextField()
+    private val hostName = JBTextField(host)
+    private val connectionToken = JBTextField(token)
 
     init {
         mainPanel = FormBuilder.createFormBuilder()
