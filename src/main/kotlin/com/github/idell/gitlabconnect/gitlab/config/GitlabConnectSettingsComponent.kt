@@ -22,7 +22,7 @@ class GitlabConnectSettingsComponent {
         return mainPanel
     }
 
-    fun getMyUserNameText() = hostName
+    fun getMyUserNameText(): String = hostName.text
 
-    fun getMyTokenText() = connectionToken
+    fun getMyTokenText(): String = connectionToken.text
 }

@@ -20,8 +20,8 @@ class GitlabConfiguration : Configurable {
 
     override fun apply() {
         val settings: GitlabConnectSettingState = GitlabConnectSettingState.getInstance()
-        settings.connectionHost = appSettingsComponent.getMyUserNameText().text
-        settings.privateToken = appSettingsComponent.getMyTokenText().text
+        settings.connectionHost = appSettingsComponent.getMyUserNameText()
+        settings.privateToken = appSettingsComponent.getMyTokenText()
     }
 
     override fun getDisplayName(): String = "Gitlab Connect"
