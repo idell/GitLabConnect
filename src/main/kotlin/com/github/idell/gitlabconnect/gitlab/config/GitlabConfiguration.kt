@@ -13,8 +13,8 @@ class GitlabConfiguration : Configurable {
 
     override fun isModified(): Boolean {
         val settings: GitlabConnectSettingState = GitlabConnectSettingState.getInstance()
-        var modified: Boolean = !appSettingsComponent.getMyUserNameText().equals(settings.connectionHost)
-        modified = modified or (appSettingsComponent.getMyTokenText().equals(settings.privateToken))
+        var modified: Boolean = appSettingsComponent.getMyUserNameText() != settings.connectionHost
+        modified = modified or (appSettingsComponent.getMyTokenText() == settings.privateToken)
         return modified
     }
 

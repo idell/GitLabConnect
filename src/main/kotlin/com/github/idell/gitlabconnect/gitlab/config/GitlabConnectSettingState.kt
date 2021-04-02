@@ -11,8 +11,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil
     storages = [Storage("GitlabConnectSettingsPlugin.xml")]
 )
 class GitlabConnectSettingState : PersistentStateComponent<GitlabConnectSettingState> {
-    var connectionHost: String = "aConnectionHost"
-    var privateToken: String = "aToken"
+    var connectionHost: String = "<insert your connection host here>"
+    var privateToken: String = "<insert your connection token here>"
 
     override fun getState(): GitlabConnectSettingState = this
 
