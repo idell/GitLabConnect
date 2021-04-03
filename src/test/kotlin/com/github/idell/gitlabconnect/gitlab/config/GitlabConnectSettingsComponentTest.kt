@@ -1,8 +1,6 @@
 package com.github.idell.gitlabconnect.gitlab.config
 
-
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class GitlabConnectSettingsComponentTest {
 
