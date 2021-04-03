@@ -13,8 +13,8 @@ internal class GitlabConnectSettingsComponentTest {
         val panel = GitlabConnectSettingsComponent().getPanel()
 
         val jLabels: List<JBLabel> = panel.components.filterIsInstance<JBLabel>()
-        assertThat(jLabels.filter { it.text ==  "Gitlab host: "}).isNotEmpty
-        assertThat(jLabels.filter { it.text ==  "Gitlab connection token:"}).isNotEmpty
+        assertThat(jLabels.filter { it.text == "Gitlab host: " }).isNotEmpty
+        assertThat(jLabels.filter { it.text == "Gitlab connection token:" }).isNotEmpty
 
         val jPanels: List<JPanel> = panel.components.filterIsInstance<JPanel>()
         assertThat(jPanels.size).isEqualTo(2)
