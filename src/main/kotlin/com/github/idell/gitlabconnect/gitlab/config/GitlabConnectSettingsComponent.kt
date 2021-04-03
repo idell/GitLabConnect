@@ -15,12 +15,11 @@ class GitlabConnectSettingsComponent {
     private var mainPanel: JPanel
     private val hostName = JBTextField()
     private val connectionToken = JPasswordField()
-    private var connectionResult = JBTextField(20)
+    private var connectionResult = JBTextField(CONNECTION_RESULT_SIZE)
 
     init {
         connectionResult.isEditable = false
         connectionResult.isOpaque = false
-        connectionResult.size = Dimension(5, 5)
         connectionResult.border = JBEmptyBorder(0)
 
         mainPanel = FormBuilder.createFormBuilder()
@@ -72,6 +71,7 @@ class GitlabConnectSettingsComponent {
         private const val BUTTON_TEXT = "Test connection"
         private const val CONNECTION_SUCESS = "Connection success"
         private const val CONNECTION_FAILED = "Connection failed"
+        private const val CONNECTION_RESULT_SIZE = 20
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }
