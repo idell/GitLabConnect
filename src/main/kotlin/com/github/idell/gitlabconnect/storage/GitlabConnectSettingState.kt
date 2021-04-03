@@ -1,4 +1,4 @@
-package com.github.idell.gitlabconnect.ui.config
+package com.github.idell.gitlabconnect.storage
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.ServiceManager
@@ -7,12 +7,12 @@ import com.intellij.openapi.components.Storage
 import com.intellij.util.xmlb.XmlSerializerUtil
 
 @State(
-    name = "org.intellij.sdk.settings.GitlabConnectSettingState",
+    name = "org.intellij.sdk.settings.GitlabConnectSettings",
     storages = [Storage("gitlabConnectSettingsPlugin.xml")]
 )
 class GitlabConnectSettingState : PersistentStateComponent<GitlabConnectSettingState> {
-    var connectionHost: String = "<insert your connection host here>"
-    var privateToken: String = "<insert your connection token here>"
+    var host: String = "<insert your connection host here>"
+    var token: String = "<insert your connection token here>"
 
     override fun getState(): GitlabConnectSettingState = this
 

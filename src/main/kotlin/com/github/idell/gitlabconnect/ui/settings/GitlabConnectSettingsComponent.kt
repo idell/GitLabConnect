@@ -1,4 +1,4 @@
-package com.github.idell.gitlabconnect.ui.config
+package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.intellij.ui.components.JBLabel
@@ -11,7 +11,7 @@ import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
-class GitlabConnectSettingsComponent(private val connectionHost: String, private val privateToken: String) {
+class GitlabConnectSettingsComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
     private val connectionToken = JPasswordField(privateToken)

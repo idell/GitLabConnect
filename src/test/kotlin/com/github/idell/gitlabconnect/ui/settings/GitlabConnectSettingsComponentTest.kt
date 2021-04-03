@@ -1,9 +1,9 @@
-package com.github.idell.gitlabconnect.ui.config
+package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.ui.config.GitlabConnectSettingsComponent.Companion.CONNECTION_LABEL
-import com.github.idell.gitlabconnect.ui.config.GitlabConnectSettingsComponent.Companion.HOST
-import com.github.idell.gitlabconnect.ui.config.GitlabConnectSettingsComponent.Companion.TOKEN
+import com.github.idell.gitlabconnect.ui.settings.GitlabConnectSettingsComponent.Companion.CONNECTION_LABEL
+import com.github.idell.gitlabconnect.ui.settings.GitlabConnectSettingsComponent.Companion.HOST
+import com.github.idell.gitlabconnect.ui.settings.GitlabConnectSettingsComponent.Companion.TOKEN
 import com.intellij.ui.components.JBLabel
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

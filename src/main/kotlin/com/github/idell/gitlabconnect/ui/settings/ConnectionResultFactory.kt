@@ -1,4 +1,4 @@
-package com.github.idell.gitlabconnect.ui.config
+package com.github.idell.gitlabconnect.ui.settings
 
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.JBEmptyBorder
