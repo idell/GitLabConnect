@@ -8,7 +8,7 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 
 @State(
     name = "org.intellij.sdk.settings.GitlabConnectSettingState",
-    storages = [Storage("GitlabConnectSettingsPlugin.xml")]
+    storages = [Storage("gitlabConnectSettingsPlugin.xml")]
 )
 class GitlabConnectSettingState : PersistentStateComponent<GitlabConnectSettingState> {
     var connectionHost: String = "<insert your connection host here>"
