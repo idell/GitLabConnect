@@ -70,9 +70,9 @@ class GitlabConnectSettingsComponent {
     companion object {
         private const val BUTTON_TEXT = "ui.settings.connection.test.button"
         private const val CONNECTION_RESULT = "ui.settings.connection.test.result"
-        private const val CONNECTION_LABEL = "ui.settings.connection.label"
-        private const val TOKEN = "token"
-        private const val HOST = "host"
+        const val CONNECTION_LABEL = "ui.settings.connection.label"
+        const val TOKEN = "token"
+        const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"
         private const val CONNECTION_FAILED = "failed"
         private const val CONNECTION_RESULT_SIZE = 20
