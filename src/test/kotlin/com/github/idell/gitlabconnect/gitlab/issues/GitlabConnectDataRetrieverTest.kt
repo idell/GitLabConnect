@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import java.util.Optional
+import java.util.*
 import org.gitlab4j.api.models.Issue as GitlabIssue
 
 internal class GitlabConnectDataRetrieverTest {
@@ -53,6 +53,7 @@ internal class GitlabConnectDataRetrieverTest {
             oneOf(projectApi).getProjects(EXPECTED_PROJECT)
             will(returnValue(generateProjects(EXPECTED_PROJECT, EXPECTED_ID)))
         }
+
 
         assertEquals(EXPECTED_ID, gitlabConnectDataRetriever.getId(EXPECTED_PROJECT).get())
     }
@@ -107,6 +108,7 @@ internal class GitlabConnectDataRetrieverTest {
             issues
         )
     }
+
     @Test
     internal fun `given a project id, when it has no issues, returns an empty list`() {
 
@@ -124,7 +126,7 @@ internal class GitlabConnectDataRetrieverTest {
     }
 
     private fun anIssueWith(title: String, webUrl: String, labels: List<String>): GitlabIssue {
-        var issue = GitlabIssue()
+        val issue = GitlabIssue()
         issue.title = title
         issue.webUrl = webUrl
         issue.labels = labels
