@@ -2,7 +2,7 @@ package com.github.idell.gitlabconnect.gitlab
 
 import org.gitlab4j.api.models.Project
 import org.gitlab4j.api.models.User
-import java.util.*
+import java.util.Optional
 
 class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : ConnectDataRetriever {
 

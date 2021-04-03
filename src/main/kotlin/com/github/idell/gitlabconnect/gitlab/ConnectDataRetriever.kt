@@ -1,6 +1,6 @@
 package com.github.idell.gitlabconnect.gitlab
 
-import java.util.*
+import java.util.Optional
 
 interface ConnectDataRetriever {
     fun search(projectSearch: ProjectSearch): Optional<ProjectInfo>
