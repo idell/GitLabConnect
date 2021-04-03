@@ -1,5 +1,6 @@
-package com.github.idell.gitlabconnect.gitlab.config
+package com.github.idell.gitlabconnect.ui.config
 
+import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
@@ -22,8 +23,8 @@ class GitlabConnectSettingsComponent {
         connectionResult.border = JBEmptyBorder(0)
 
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("Gitlab host: "), hostName, 1, false)
-            .addLabeledComponent(JBLabel("Gitlab connection token:"), connectionToken, 1)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionToken, 1)
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
@@ -31,7 +32,7 @@ class GitlabConnectSettingsComponent {
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
-        val jButton = JButton(BUTTON_TEXT)
+        val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
         var switch = false
 
         jButton.addActionListener {
@@ -55,21 +56,25 @@ class GitlabConnectSettingsComponent {
     fun getMyTokenText(): String = connectionToken.password.toString()
 
     private fun success(): Boolean {
-        connectionResult.text = CONNECTION_SUCESS
+        connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_SUCCESS)
         connectionResult.foreground = DARK_GREEN
         return true
     }
 
     private fun fail(): Boolean {
-        connectionResult.text = CONNECTION_FAILED
+        connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_FAILED)
         connectionResult.foreground = Color.RED
         return false
     }
 
     companion object {
-        private const val BUTTON_TEXT = "Test connection"
-        private const val CONNECTION_SUCESS = "Connection success"
-        private const val CONNECTION_FAILED = "Connection failed"
+        private const val BUTTON_TEXT = "ui.settings.connection.test.button"
+        private const val CONNECTION_RESULT = "ui.settings.connection.test.result"
+        private const val CONNECTION_LABEL = "ui.settings.connection.label"
+        private const val TOKEN = "token"
+        private const val HOST = "host"
+        private const val CONNECTION_SUCCESS = "success"
+        private const val CONNECTION_FAILED = "failed"
         private const val CONNECTION_RESULT_SIZE = 20
         private val DARK_GREEN = Color(3, 146, 94)
     }

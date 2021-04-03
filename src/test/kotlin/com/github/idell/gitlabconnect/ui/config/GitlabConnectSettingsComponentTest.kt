@@ -1,4 +1,4 @@
-package com.github.idell.gitlabconnect.gitlab.config
+package com.github.idell.gitlabconnect.ui.config
 
 import com.intellij.ui.components.JBLabel
 import org.assertj.core.api.Assertions.assertThat

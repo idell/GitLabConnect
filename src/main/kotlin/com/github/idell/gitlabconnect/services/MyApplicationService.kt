@@ -1,10 +1,10 @@
 package com.github.idell.gitlabconnect.services
 
-import com.github.idell.gitlabconnect.MyBundle
+import com.github.idell.gitlabconnect.GitlabConnectBundle
 
 class MyApplicationService {
 
     init {
-        println(MyBundle.message("applicationService"))
+        println(GitlabConnectBundle.message("ui.plugin.name"))
     }
 }

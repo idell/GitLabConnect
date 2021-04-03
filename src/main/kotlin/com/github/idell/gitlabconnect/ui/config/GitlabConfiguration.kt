@@ -1,5 +1,6 @@
-package com.github.idell.gitlabconnect.gitlab.config
+package com.github.idell.gitlabconnect.ui.config
 
+import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
 
@@ -24,5 +25,5 @@ class GitlabConfiguration : Configurable {
         settings.privateToken = appSettingsComponent.getMyTokenText()
     }
 
-    override fun getDisplayName(): String = "Gitlab Connect"
+    override fun getDisplayName(): String = GitlabConnectBundle.getMessage("ui.plugin.name")
 }

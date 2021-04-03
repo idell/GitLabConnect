@@ -1,11 +1,11 @@
 package com.github.idell.gitlabconnect.services
 
-import com.github.idell.gitlabconnect.MyBundle
+import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.intellij.openapi.project.Project
 
 class MyProjectService(project: Project) {
 
     init {
-        println(MyBundle.message("projectService", project.name))
+        println(GitlabConnectBundle.message("projectService", project.name))
     }
 }
