@@ -16,5 +16,4 @@ class ConnectionResultFactory {
     companion object {
         private const val CONNECTION_RESULT_SIZE = 20
     }
-
 }

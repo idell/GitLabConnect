@@ -19,11 +19,11 @@ class GitlabConnectSettingsComponent {
 
     init {
         mainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionToken, 1)
-                .addLabeledComponent(JBLabel(""), testConnectionPanel())
-                .addComponentFillVertically(JPanel(), 0)
-                .panel
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionToken, 1)
+            .addLabeledComponent(JBLabel(""), testConnectionPanel())
+            .addComponentFillVertically(JPanel(), 0)
+            .panel
     }
 
     fun getPanel(): JPanel {
@@ -82,4 +82,3 @@ class GitlabConnectSettingsComponent {
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }
-
