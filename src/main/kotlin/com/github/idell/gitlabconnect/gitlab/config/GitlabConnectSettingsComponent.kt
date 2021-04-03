@@ -23,41 +23,30 @@ class GitlabConnectSettingsComponent {
         connectionResult.border = JBEmptyBorder(0)
 
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel("Gitlab host: "), hostName, 1, false)
-            .addLabeledComponent(JBLabel("Gitlab connection token:"), connectionToken, 1)
-            .addLabeledComponent(JBLabel(""), testConnectionPanel())
-            .addComponentFillVertically(JPanel(), 0)
-            .panel
+                .addLabeledComponent(JBLabel("Gitlab host: "), hostName, 1, false)
+                .addLabeledComponent(JBLabel("Gitlab connection token:"), connectionToken, 1)
+                .addLabeledComponent(JBLabel(""), testConnectionPanel())
+                .addComponentFillVertically(JPanel(), 0)
+                .panel
     }
 
     private fun testConnectionPanel(): JPanel {
-        val jPanel = JPanel()
-        jPanel.size = Dimension(50, 10)
-        jPanel.border = JBEmptyBorder(1)
-        jPanel.isOpaque = false
+        val jPanel = testButtonPanel()
 
         val jButton = JButton(BUTTON_TEXT)
         var switch = false
 
         jButton.addActionListener {
-            if (!switch) {
+            switch = if (!switch) {
                 success()
-                switch = true
             } else {
-                connectionResult.text = CONNECTION_FAILED
-                connectionResult.foreground = Color.RED
-                switch = false
+                fail()
             }
         }
         jPanel.add(jButton)
         jPanel.add(connectionResult)
 
         return jPanel
-    }
-
-    private fun success() {
-        connectionResult.text = CONNECTION_SUCESS
-        connectionResult.foreground = DARK_GREEN
     }
 
     fun getPanel(): JPanel {
@@ -67,6 +56,26 @@ class GitlabConnectSettingsComponent {
     fun getMyUserNameText(): String = hostName.text
 
     fun getMyTokenText(): String = connectionToken.password.toString()
+
+    private fun testButtonPanel(): JPanel {
+        val jPanel = JPanel()
+        jPanel.size = Dimension(50, 10)
+        jPanel.border = JBEmptyBorder(1)
+        jPanel.isOpaque = false
+        return jPanel
+    }
+
+    private fun success(): Boolean {
+        connectionResult.text = CONNECTION_SUCESS
+        connectionResult.foreground = DARK_GREEN
+        return true
+    }
+
+    private fun fail(): Boolean {
+        connectionResult.text = CONNECTION_FAILED
+        connectionResult.foreground = Color.RED
+        return false
+    }
 
     companion object {
         private const val BUTTON_TEXT = "Test connection"
