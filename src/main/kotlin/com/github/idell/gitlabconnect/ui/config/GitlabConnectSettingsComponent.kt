@@ -15,20 +15,24 @@ class GitlabConnectSettingsComponent {
     private var mainPanel: JPanel
     private val hostName = JBTextField()
     private val connectionToken = JPasswordField()
-    private var connectionResult = JBTextField(CONNECTION_RESULT_SIZE)
+    private var connectionResult = ConnectionResultFactory().createConnectionResult()
 
     init {
-        connectionResult.isEditable = false
-        connectionResult.isOpaque = false
-        connectionResult.border = JBEmptyBorder(0)
-
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionToken, 1)
-            .addLabeledComponent(JBLabel(""), testConnectionPanel())
-            .addComponentFillVertically(JPanel(), 0)
-            .panel
+                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
+                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionToken, 1)
+                .addLabeledComponent(JBLabel(""), testConnectionPanel())
+                .addComponentFillVertically(JPanel(), 0)
+                .panel
     }
+
+    fun getPanel(): JPanel {
+        return mainPanel
+    }
+
+    fun getMyUserNameText(): String = hostName.text
+
+    fun getMyTokenText(): String = connectionToken.password.toString()
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
@@ -42,18 +46,17 @@ class GitlabConnectSettingsComponent {
                 fail()
             }
         }
+        configureConnectionResult()
         jPanel.add(jButton)
         jPanel.add(connectionResult)
         return jPanel
     }
 
-    fun getPanel(): JPanel {
-        return mainPanel
+    private fun configureConnectionResult() {
+        connectionResult.isEditable = false
+        connectionResult.isOpaque = false
+        connectionResult.border = JBEmptyBorder(0)
     }
-
-    fun getMyUserNameText(): String = hostName.text
-
-    fun getMyTokenText(): String = connectionToken.password.toString()
 
     private fun success(): Boolean {
         connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_SUCCESS)
@@ -75,7 +78,8 @@ class GitlabConnectSettingsComponent {
         const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"
         private const val CONNECTION_FAILED = "failed"
-        private const val CONNECTION_RESULT_SIZE = 20
+
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }
+
