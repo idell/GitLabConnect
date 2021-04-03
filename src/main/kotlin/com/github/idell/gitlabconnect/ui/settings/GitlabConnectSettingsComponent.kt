@@ -32,7 +32,9 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
 
     fun getMyUserNameText(): String = hostName.text
 
-    fun getMyTokenText(): String = connectionToken.password.toString()
+    fun getMyTokenText(): String {
+        return String(connectionToken.password)
+    }
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
