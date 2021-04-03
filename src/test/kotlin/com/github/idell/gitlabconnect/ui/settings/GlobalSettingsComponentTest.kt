@@ -28,10 +28,4 @@ internal class GlobalSettingsComponentTest {
         val jPasswordFields: List<JPasswordField> = panel.components.filterIsInstance<JPasswordField>()
         assertThat(jPasswordFields).isNotEmpty
     }
-
-    @Test
-    internal fun name() {
-        val globalSettings = GlobalSettings()
-        val serialize = XmlSerializer.serialize(globalSettings)
-    }
 }
