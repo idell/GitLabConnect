@@ -1,30 +1,30 @@
 package com.github.idell.gitlabconnect.gitlab.issues
 
-import com.github.idell.gitlabconnect.gitlab.ConnectApi
-import com.github.idell.gitlabconnect.gitlab.Issue
-import org.gitlab4j.api.GitLabApi
-import org.gitlab4j.api.IssuesApi
-import org.gitlab4j.api.ProjectApi
+import com.github.idell.gitlabconnect.exception.GitlabConnectException
+import com.github.idell.gitlabconnect.gitlab.*
+import org.gitlab4j.api.models.Namespace
 import org.gitlab4j.api.models.Project
+import org.gitlab4j.api.models.User
 import org.jmock.AbstractExpectations.returnValue
+import org.jmock.AbstractExpectations.throwException
 import org.jmock.Expectations
 import org.jmock.Mockery
 import org.jmock.junit5.JUnit5Mockery
 import org.jmock.lib.legacy.ClassImposteriser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.*
+import kotlin.test.assertFalse
 import org.gitlab4j.api.models.Issue as GitlabIssue
 
 internal class GitlabConnectDataRetrieverTest {
 
-    private lateinit var projectApi: ProjectApi
-    private lateinit var issuesApi: IssuesApi
-    private lateinit var gitLabApi: GitLabApi
     private lateinit var gitlabConnectApi: ConnectApi
-    private lateinit var gitlabConnectDataRetriever: GitlabConnectDataRetriever
+    private lateinit var gitlabConnectDataRetriever: ConnectDataRetriever
 
     @RegisterExtension
     var context: Mockery = object : JUnit5Mockery() {
@@ -36,9 +36,6 @@ internal class GitlabConnectDataRetrieverTest {
     @BeforeEach
     internal fun setUp() {
         gitlabConnectApi = context.mock(ConnectApi::class.java)
-        gitLabApi = context.mock(GitLabApi::class.java)
-        projectApi = context.mock(ProjectApi::class.java)
-        issuesApi = context.mock(IssuesApi::class.java)
         gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
     }
 
@@ -46,42 +43,29 @@ internal class GitlabConnectDataRetrieverTest {
     internal fun `given a full path project, returns a valid id`() {
 
         context.expecting {
-            oneOf(gitlabConnectApi).getGitlabApi()
-            will(returnValue(gitLabApi))
-            oneOf(gitLabApi).projectApi
-            will(returnValue(projectApi))
-            oneOf(projectApi).getProjects(EXPECTED_PROJECT)
+            oneOf(gitlabConnectApi).search(EXPECTED_PROJECT)
             will(returnValue(generateProjects(EXPECTED_PROJECT, EXPECTED_ID)))
         }
 
-
-        assertEquals(EXPECTED_ID, gitlabConnectDataRetriever.getId(EXPECTED_PROJECT).get())
+        assertEquals(EXPECTED_ID, gitlabConnectDataRetriever.search(ProjectSearch.from(EXPECTED_PROJECT)).get().id)
     }
 
     @Test
     internal fun `given a wrong full path project, returns an empty `() {
 
         context.expecting {
-            oneOf(gitlabConnectApi).getGitlabApi()
-            will(returnValue(gitLabApi))
-            oneOf(gitLabApi).projectApi
-            will(returnValue(projectApi))
-            oneOf(projectApi).getProjects(WRONG_PROJECT)
+            oneOf(gitlabConnectApi).search(WRONG_PROJECT)
             will(returnValue(generateProjects()))
         }
 
-        assertEquals(Optional.empty<Int>(), gitlabConnectDataRetriever.getId(WRONG_PROJECT))
+        assertEquals(Optional.empty<Int>(), gitlabConnectDataRetriever.search(ProjectSearch.from(WRONG_PROJECT)))
     }
 
     @Test
     internal fun `given a project id, returns his issues`() {
 
         context.expecting {
-            oneOf(gitlabConnectApi).getGitlabApi()
-            will(returnValue(gitLabApi))
-            oneOf(gitLabApi).issuesApi
-            will(returnValue(issuesApi))
-            oneOf(issuesApi).getIssues(EXPECTED_PROJECT)
+            oneOf(gitlabConnectApi).getIssues(ProjectInfo(1, "order-manager", "obi1"))
             will(
                 returnValue(
                     listOf(
@@ -98,8 +82,7 @@ internal class GitlabConnectDataRetrieverTest {
             )
         }
 
-        val gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
-        val issues = gitlabConnectDataRetriever.getIssues(EXPECTED_PROJECT)
+        val issues = gitlabConnectDataRetriever.getIssues(ProjectInfo(1, "order-manager", "obi1"))
         assertEquals(
             listOf(
                 Issue("an issue", "an url", listOf("a label", "a fancy label")),
@@ -113,16 +96,74 @@ internal class GitlabConnectDataRetrieverTest {
     internal fun `given a project id, when it has no issues, returns an empty list`() {
 
         context.expecting {
-            oneOf(gitlabConnectApi).getGitlabApi()
-            will(returnValue(gitLabApi))
-            oneOf(gitLabApi).issuesApi
-            will(returnValue(issuesApi))
-            oneOf(issuesApi).getIssues(EXPECTED_PROJECT)
+            oneOf(gitlabConnectApi).getIssues(ProjectInfo(1, "order-manager", "obi1"))
             will(returnValue(emptyList<GitlabIssue>()))
         }
 
-        val issues = gitlabConnectDataRetriever.getIssues(EXPECTED_PROJECT)
+        val issues = gitlabConnectDataRetriever.getIssues(ProjectInfo(1, "order-manager", "obi1"))
         assertEquals(emptyList<Issue>(), issues)
+    }
+
+    @Test
+    internal fun `given a gitlab configuration when retrieving user info return it correctly`() {
+        context.expecting {
+            oneOf(gitlabConnectApi).currentUser()
+            will(returnValue(anUser("active")))
+        }
+
+        val actualUser = gitlabConnectDataRetriever.getCurrentUser()
+
+        assertEquals(UserInfo(1, "John Doe", "active"), actualUser)
+    }
+
+    @Test
+    internal fun `given a gitlab configuration, when retrieving user info, return an inactive user`() {
+        context.expecting {
+            oneOf(gitlabConnectApi).currentUser()
+            will(returnValue(anUser("inactive")))
+        }
+
+        val actualUser = gitlabConnectDataRetriever.getCurrentUser()
+
+        assertEquals(UserInfo(1, "John Doe", "inactive"), actualUser)
+        assertFalse(actualUser.isActive())
+    }
+
+    @Test
+    internal fun `given a gitlab configuration when retrieving user info throw exception due to unauthorized user`() {
+        context.expecting {
+            oneOf(gitlabConnectApi).currentUser()
+            will(throwException(GitlabConnectException("an error")))
+        }
+
+        assertThrows<GitlabConnectException> { gitlabConnectDataRetriever.getCurrentUser() }
+    }
+
+    @Test
+    @Disabled
+    internal fun name() {
+        val dataRetriever = GitlabConnectDataRetriever(
+            GitlabConnectApi(
+                GitlabConfiguration(
+                    "https://gitlab.lastminute.com",
+                    "FPUDahkVWszzX4_wKTjD"
+                )
+            )
+        )
+
+        val project = dataRetriever.search(ProjectSearch.from("core-software/appfw-java/app-framework"))
+        val get = project.get()
+        println(get.name)
+        val issues = dataRetriever.getIssues(get)
+        println(issues.isEmpty())
+    }
+
+    private fun anUser(s: String): User {
+        val user = User()
+        user.name = "John Doe"
+        user.id = 1
+        user.state = s
+        return user
     }
 
     private fun anIssueWith(title: String, webUrl: String, labels: List<String>): GitlabIssue {
@@ -145,12 +186,25 @@ internal class GitlabConnectDataRetrieverTest {
 
         fun generateProjects(expectedPathWithNamespace: String, expectedId: Int): List<Project> {
             val expectedProject = Project()
+            val namespace = Namespace()
+            namespace.name = "expectedNamespace"
+            namespace.path = "expectedNamespace"
+
             expectedProject.pathWithNamespace = expectedPathWithNamespace
             expectedProject.id = expectedId
+            expectedProject.name = "expectedName"
+            expectedProject.path = "expectedName"
+            expectedProject.namespace = namespace
 
             val anotherProject = Project()
+            val anotherNamespace = Namespace()
+            anotherNamespace.name = "anotherNamespace"
+            anotherNamespace.path = "anotherNamespace"
+
             anotherProject.pathWithNamespace = "aNamespace/aProject"
             anotherProject.id = 123
+            expectedProject.name = "anotherName"
+            expectedProject.namespace = anotherNamespace
 
             return listOf(expectedProject, anotherProject)
         }

@@ -1,3 +1,6 @@
 package com.github.idell.gitlabconnect.exception
 
-class GitlabConnectException(message: String) : RuntimeException(message)
+class GitlabConnectException : RuntimeException {
+    constructor(message: String) : super(message)
+    constructor(cause: Throwable) : super(cause)
+}
