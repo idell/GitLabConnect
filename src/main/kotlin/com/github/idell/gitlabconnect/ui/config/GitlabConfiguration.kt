@@ -8,7 +8,8 @@ class GitlabConfiguration : Configurable {
     private lateinit var appSettingsComponent: GitlabConnectSettingsComponent
 
     override fun createComponent(): JPanel {
-        appSettingsComponent = GitlabConnectSettingsComponent()
+        val settings: GitlabConnectSettingState = GitlabConnectSettingState.getInstance()
+        appSettingsComponent = GitlabConnectSettingsComponent(settings.connectionHost, settings.privateToken)
         return appSettingsComponent.getPanel()
     }
 

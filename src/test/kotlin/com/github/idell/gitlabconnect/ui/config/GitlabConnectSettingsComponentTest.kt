@@ -14,7 +14,7 @@ internal class GitlabConnectSettingsComponentTest {
 
     @Test
     internal fun `construct a component with form`() {
-        val panel = GitlabConnectSettingsComponent().getPanel()
+        val panel = GitlabConnectSettingsComponent("aConnectionHost", "aPrivateToken").getPanel()
 
         val jLabels: List<JBLabel> = panel.components.filterIsInstance<JBLabel>()
         assertThat(jLabels.filter { it.text == GitlabConnectBundle.message(CONNECTION_LABEL, HOST) }).isNotEmpty

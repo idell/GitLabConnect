@@ -11,10 +11,10 @@ import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
-class GitlabConnectSettingsComponent {
+class GitlabConnectSettingsComponent(private val connectionHost: String, private val privateToken: String) {
     private var mainPanel: JPanel
-    private val hostName = JBTextField()
-    private val connectionToken = JPasswordField()
+    private val hostName = JBTextField(connectionHost)
+    private val connectionToken = JPasswordField(privateToken)
     private var connectionResult = ConnectionResultFactory().createConnectionResult()
 
     init {
