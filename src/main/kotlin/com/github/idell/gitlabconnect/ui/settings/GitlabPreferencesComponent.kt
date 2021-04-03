@@ -11,7 +11,7 @@ import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
-class GitlabConnectSettingsComponent(connectionHost: String, privateToken: String) {
+class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
     private val connectionToken = JPasswordField(privateToken)
@@ -30,9 +30,9 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         return mainPanel
     }
 
-    fun getMyUserNameText(): String = hostName.text
+    fun getHost(): String = hostName.text
 
-    fun getMyTokenText(): String {
+    fun getToken(): String {
         return String(connectionToken.password)
     }
 
