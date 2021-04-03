@@ -6,6 +6,7 @@ import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.JBEmptyBorder
 import java.awt.Color
 import java.awt.Dimension
+import java.awt.FlowLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
@@ -23,16 +24,15 @@ class GitlabConnectSettingsComponent {
         connectionResult.border = JBEmptyBorder(0)
 
         mainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(JBLabel("Gitlab host: "), hostName, 1, false)
-                .addLabeledComponent(JBLabel("Gitlab connection token:"), connectionToken, 1)
-                .addLabeledComponent(JBLabel(""), testConnectionPanel())
-                .addComponentFillVertically(JPanel(), 0)
-                .panel
+            .addLabeledComponent(JBLabel("Gitlab host: "), hostName, 1, false)
+            .addLabeledComponent(JBLabel("Gitlab connection token:"), connectionToken, 1)
+            .addLabeledComponent(JBLabel(""), testConnectionPanel())
+            .addComponentFillVertically(JPanel(), 0)
+            .panel
     }
 
     private fun testConnectionPanel(): JPanel {
-        val jPanel = testButtonPanel()
-
+        val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(BUTTON_TEXT)
         var switch = false
 
@@ -45,7 +45,6 @@ class GitlabConnectSettingsComponent {
         }
         jPanel.add(jButton)
         jPanel.add(connectionResult)
-
         return jPanel
     }
 
@@ -56,14 +55,6 @@ class GitlabConnectSettingsComponent {
     fun getMyUserNameText(): String = hostName.text
 
     fun getMyTokenText(): String = connectionToken.password.toString()
-
-    private fun testButtonPanel(): JPanel {
-        val jPanel = JPanel()
-        jPanel.size = Dimension(50, 10)
-        jPanel.border = JBEmptyBorder(1)
-        jPanel.isOpaque = false
-        return jPanel
-    }
 
     private fun success(): Boolean {
         connectionResult.text = CONNECTION_SUCESS
