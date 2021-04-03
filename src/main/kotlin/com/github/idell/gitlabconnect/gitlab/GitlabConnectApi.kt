@@ -22,9 +22,6 @@ class GitlabConnectApi(gitlabConfiguration: GitlabConfiguration) : ConnectApi {
         try {
             return gitLabApi.userApi.currentUser
         } catch (e: GitLabApiException) {
-            /**
-             * ToDo: we should log. Investigate logging with intellij
-             */
             throw GitlabConnectException(e)
         }
     }
