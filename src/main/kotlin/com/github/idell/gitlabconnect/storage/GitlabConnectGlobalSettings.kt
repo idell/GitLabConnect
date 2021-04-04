@@ -31,5 +31,4 @@ class GitlabConnectGlobalSettings : PersistentStateComponent<GlobalSettings> {
         @JvmStatic
         fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).state
     }
-
 }

@@ -21,7 +21,7 @@ class GitlabConnectPreferences : Configurable {
 
     override fun isModified(): Boolean {
         return component.getHost() != settings.tokenConfig?.host ||
-                component.getToken() != settings.tokenConfig?.token
+            component.getToken() != settings.tokenConfig?.token
     }
 
     override fun apply() {

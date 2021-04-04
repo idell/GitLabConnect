@@ -26,15 +26,11 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
             .panel
     }
 
-    fun getPanel(): JPanel {
-        return mainPanel
-    }
+    fun getPanel(): JPanel = mainPanel
 
     fun getHost(): String = hostName.text
 
-    fun getToken(): String {
-        return String(connectionToken.password)
-    }
+    fun getToken(): String = String(connectionToken.password)
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
