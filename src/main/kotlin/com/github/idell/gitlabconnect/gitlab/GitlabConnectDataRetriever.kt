@@ -1,5 +1,7 @@
 package com.github.idell.gitlabconnect.gitlab
 
+import org.gitlab4j.api.models.HealthCheckInfo
+import org.gitlab4j.api.models.HealthCheckStatus
 import org.gitlab4j.api.models.Project
 import org.gitlab4j.api.models.User
 import java.util.Optional
@@ -17,6 +19,12 @@ class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : Con
 
     override fun getIssues(project: ProjectInfo): Issues {
         return gitlabConnectApi.getIssues(project).to()
+    }
+
+    fun connect(): HealthCheckStatus? {
+        // TODO ivn HealthCheckStatus this should be mapped in a proprietary object
+        val connect: HealthCheckInfo? = gitlabConnectApi.connect()
+        return connect?.gitalyCheck?.status
     }
 
     override fun getCurrentUser(): UserInfo {
