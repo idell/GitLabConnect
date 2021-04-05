@@ -7,21 +7,21 @@ class GitlabConnectionStatusTest {
     @Test
     internal fun `will connect to gitlab and return connection status`() {
         val connectionStatus = GitlabConnectionStatus().connect()
-        assertThat(connectionStatus).isEqualTo(SuccesfulConnectionStatus("aValidToken"))
+        assertThat(connectionStatus).isEqualTo(SuccessfulConnectionStatus("aValidToken"))
     }
 }
 
 
 class GitlabConnectionStatus {
     fun connect(): ConnectionStatus {
-        return SuccesfulConnectionStatus("aValidToken")
+        return SuccessfulConnectionStatus("aValidToken")
     }
 
 }
 
 sealed class ConnectionStatus
 
-data class SuccesfulConnectionStatus(val token: String) : ConnectionStatus() {
+data class SuccessfulConnectionStatus(val token: String) : ConnectionStatus() {
 
 }
 
