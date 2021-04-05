@@ -14,6 +14,9 @@ class GitlabConnectSettingState : PersistentStateComponent<GitlabConnectSettingS
     var host: String = "<insert your connection host here>"
     var token: String = "<insert your connection token here>"
 
+    //TODO ivn use secure credentials //TODO ivn store password and url
+    // https://plugins.jetbrains.com/docs/intellij/persisting-sensitive-data.html
+
     override fun getState(): GitlabConnectSettingState = this
 
     override fun loadState(state: GitlabConnectSettingState) {
