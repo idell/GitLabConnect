@@ -10,7 +10,6 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.JBEmptyBorder
-import org.slf4j.LoggerFactory
 import java.awt.Color
 import java.awt.FlowLayout
 import java.awt.event.ActionEvent
