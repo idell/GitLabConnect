@@ -10,6 +10,7 @@ import com.intellij.openapi.components.Storage
     storages = [Storage("gitlabConnectGlobalSettings.xml")]
 )
 class GitlabConnectGlobalSettings : PersistentStateComponent<GlobalSettings> {
+
     private var state: GlobalSettings = GlobalSettings()
 
     override fun getState(): GlobalSettings {
@@ -29,7 +30,7 @@ class GitlabConnectGlobalSettings : PersistentStateComponent<GlobalSettings> {
         fun getInstance(): GitlabConnectGlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java)
 
         @JvmStatic
-        fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).state
+        fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).getState()
     }
 
 }
