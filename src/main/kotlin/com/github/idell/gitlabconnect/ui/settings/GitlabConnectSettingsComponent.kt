@@ -29,13 +29,17 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         connectionTokenContainer()
 
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)),
-                                 hostName,
-                                 1,
-                                 false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
-                                 connectionTokenContainer,
-                                 1)
+            .addLabeledComponent(
+                JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)),
+                hostName,
+                1,
+                false
+            )
+            .addLabeledComponent(
+                JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
+                connectionTokenContainer,
+                1
+            )
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
