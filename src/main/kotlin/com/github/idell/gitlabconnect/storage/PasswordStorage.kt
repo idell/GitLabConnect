@@ -17,12 +17,10 @@ class PasswordStorage(private val hostId: String) {
         PasswordSafe.instance.setPassword(createCredentialAttributes, token)
     }
 
-
     private fun createCredentialAttributes(key: String): CredentialAttributes {
         val serviceName = generateServiceName(SUBSYSTEM, key)
         return CredentialAttributes(serviceName, key)
     }
-
 
     companion object {
         private const val SUBSYSTEM = "gitlabconnect"

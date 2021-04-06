@@ -5,7 +5,6 @@ import com.github.idell.gitlabconnect.gitlab.GitlabConfiguration
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
 import com.github.idell.gitlabconnect.storage.PasswordStorage
-import com.github.idell.gitlabconnect.storage.StoreTokenActionListener
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
@@ -15,7 +14,6 @@ import java.awt.FlowLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
-import javax.swing.plaf.basic.BasicOptionPaneUI
 
 class GitlabConnectSettingsComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
@@ -26,11 +24,11 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
 
     init {
         mainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), token2, 1)
-                .addLabeledComponent(JBLabel(""), testConnectionPanel())
-                .addComponentFillVertically(JPanel(), 0)
-                .panel
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), token2, 1)
+            .addLabeledComponent(JBLabel(""), testConnectionPanel())
+            .addComponentFillVertically(JPanel(), 0)
+            .panel
     }
 
     fun getPanel(): JPanel {
@@ -50,7 +48,7 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
 
             try {
                 val currentUser = gitlabConnectDataRetriever.getCurrentUser()
-                if (currentUser!=null) {
+                if (currentUser != null) {
                     success()
                     PasswordStorage(hostName.text).storeToken(token2.text)
                 } else {
@@ -59,7 +57,6 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
             } catch (e: Exception) {
                 fail()
             }
-
         }
         configureConnectionResult()
         jPanel.add(jButton)
