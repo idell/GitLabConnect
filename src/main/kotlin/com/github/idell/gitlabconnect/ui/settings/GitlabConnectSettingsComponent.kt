@@ -11,7 +11,9 @@ import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.JBEmptyBorder
 import java.awt.Color
 import java.awt.FlowLayout
+import java.awt.event.ActionEvent
 import javax.swing.JButton
+import javax.swing.JCheckBox
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
@@ -19,13 +21,15 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
     private val connectionToken = JPasswordField(privateToken)
-    private val token2 = JBTextField(privateToken)
+    private val connectionTokenContainer = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
     private var connectionResult: JBTextField = ConnectionResultFactory().createConnectionResult()
 
     init {
+        connectionTokenContainer()
+
         mainPanel = FormBuilder.createFormBuilder()
             .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), token2, 1)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionTokenContainer, 1)
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
@@ -37,31 +41,48 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
 
     fun getHostNameText(): String = hostName.text
 
-    fun getMyTokenText(): String = token2.text
+    fun getMyTokenText(): String = String(connectionToken.password)
+
+    private fun connectionTokenContainer() {
+        connectionTokenContainer.add(connectionToken)
+        connectionToken.columns = 50
+        val jCheckBox = JCheckBox(GitlabConnectBundle.message(SHOW_TOKEN_LABEL))
+        jCheckBox.addActionListener { showTokenListener(it) }
+        connectionTokenContainer.add(jCheckBox)
+    }
+
+    private fun showTokenListener(it: ActionEvent) {
+        val source: JCheckBox = it.source as JCheckBox
+        if (source.isSelected) {
+            connectionToken.echoChar = CLEAR_TOKEN
+        } else {
+            connectionToken.echoChar = HIDDEN_TOKEN
+        }
+    }
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
 
-        jButton.addActionListener {
-            val gitlabConnectDataRetriever = GitlabConnectDataRetriever(GitlabConnectApi(GitlabConfiguration(hostName.text, token2.text)))
-
-            try {
-                val currentUser = gitlabConnectDataRetriever.getCurrentUser()
-                if (currentUser != null) {
-                    success()
-                    PasswordStorage(hostName.text).storeToken(token2.text)
-                } else {
-                    fail()
-                }
-            } catch (e: Exception) {
-                fail()
-            }
-        }
+        jButton.addActionListener { testConnectionListener() }
         configureConnectionResult()
         jPanel.add(jButton)
         jPanel.add(connectionResult)
         return jPanel
+    }
+
+    private fun testConnectionListener() {
+        val gitlabConnectDataRetriever =
+            GitlabConnectDataRetriever(GitlabConnectApi(GitlabConfiguration(hostName.text, getMyTokenText())))
+
+        try {
+            gitlabConnectDataRetriever.getCurrentUser()
+            success()
+        } catch (e: Exception) {
+            fail()
+        } finally {
+            PasswordStorage(hostName.text).storeToken(getMyTokenText())
+        }
     }
 
     private fun configureConnectionResult() {
@@ -86,11 +107,13 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         private const val BUTTON_TEXT = "ui.settings.connection.test.button"
         private const val CONNECTION_RESULT = "ui.settings.connection.test.result"
         const val CONNECTION_LABEL = "ui.settings.connection.label"
+        const val SHOW_TOKEN_LABEL = "ui.settings.show.token"
+        const val HIDDEN_TOKEN = '\u25CF'
+        const val CLEAR_TOKEN = 0.toChar()
         const val TOKEN = "token"
         const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"
         private const val CONNECTION_FAILED = "failed"
-
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }

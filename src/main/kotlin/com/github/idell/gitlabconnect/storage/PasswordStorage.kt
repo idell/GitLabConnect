@@ -7,15 +7,10 @@ import com.intellij.ide.passwordSafe.PasswordSafe
 class PasswordStorage(private val hostId: String) {
 
     fun getToken(): String {
-        val credentialAttributes = createCredentialAttributes(hostId)
-        val password = PasswordSafe.instance.getPassword(credentialAttributes) ?: return ""
-        return password!!
+        return PasswordSafe.instance.getPassword(createCredentialAttributes(hostId)) ?: return ""
     }
 
-    fun storeToken(token: String) {
-        val createCredentialAttributes = createCredentialAttributes(hostId)
-        PasswordSafe.instance.setPassword(createCredentialAttributes, token)
-    }
+    fun storeToken(token: String) = PasswordSafe.instance.setPassword(createCredentialAttributes(hostId), token)
 
     private fun createCredentialAttributes(key: String): CredentialAttributes {
         val serviceName = generateServiceName(SUBSYSTEM, key)
