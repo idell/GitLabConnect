@@ -28,5 +28,4 @@ class GitlabTestService {
             false
         }
     }
-
 }

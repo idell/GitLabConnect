@@ -1,12 +1,10 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
-import com.intellij.util.ui.JBEmptyBorder
 import java.awt.Color
 import java.awt.FlowLayout
 import javax.swing.JButton
