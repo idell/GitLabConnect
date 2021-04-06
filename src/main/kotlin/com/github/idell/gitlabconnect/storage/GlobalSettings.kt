@@ -5,5 +5,7 @@ data class GlobalSettings(
     var tokenConfig: TokenConfiguration = TokenConfiguration()
 )
 
-data class TokenConfiguration(var host: String = "<insert your connection host here>",
-                              var token: String = "<insert your connection token here>")
+data class TokenConfiguration(
+    var host: String = "<insert your connection host here>",
+    var token: String = "<insert your connection token here>"
+)

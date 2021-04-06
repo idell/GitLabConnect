@@ -29,11 +29,9 @@ internal class GlobalSettingsComponentTest {
         assertThat(jPasswordFields).isNotEmpty
     }
 
-
     @Test
     internal fun name() {
         val globalSettings = GlobalSettings()
         val serialize = XmlSerializer.serialize(globalSettings)
-
     }
 }

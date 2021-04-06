@@ -2,7 +2,6 @@ package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
-import com.github.idell.gitlabconnect.storage.GlobalSettings
 import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
 
@@ -18,7 +17,7 @@ class GitlabConnectPreferences : Configurable {
 
     override fun isModified(): Boolean {
         return component.getHost() != settings.tokenConfig.host ||
-                component.getToken() != settings.tokenConfig.token
+            component.getToken() != settings.tokenConfig.token
     }
 
     override fun apply() {
