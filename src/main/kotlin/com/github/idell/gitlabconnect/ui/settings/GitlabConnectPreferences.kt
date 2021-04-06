@@ -1,6 +1,7 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
+import com.github.idell.gitlabconnect.services.gitlab.GitlabTestService
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
@@ -13,7 +14,9 @@ class GitlabConnectPreferences : Configurable {
         settings.tokenConfig.token
     )
 
-    override fun createComponent(): JPanel = component.getPanel()
+    override fun createComponent(): JPanel {
+        return component.getPanel()
+    }
 
     override fun isModified(): Boolean {
         return component.getHost() != settings.tokenConfig.host ||
@@ -21,7 +24,7 @@ class GitlabConnectPreferences : Configurable {
     }
 
     override fun apply() {
-        settings.enabled = true
+        settings.enabled = GitlabTestService().test(component.getHost(), component.getToken())
         settings.tokenConfig.host = component.getHost()
         settings.tokenConfig.token = component.getToken()
     }

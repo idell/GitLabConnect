@@ -1,7 +1,7 @@
 package com.github.idell.gitlabconnect.storage
 
 data class GlobalSettings(
-    var enabled: Boolean? = false,
+    var enabled: Boolean = false,
     var tokenConfig: TokenConfiguration = TokenConfiguration()
 )
 

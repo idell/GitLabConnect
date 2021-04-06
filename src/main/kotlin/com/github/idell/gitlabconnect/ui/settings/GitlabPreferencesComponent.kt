@@ -1,6 +1,8 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
+import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
@@ -35,37 +37,22 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
-        var switch = false
 
-        jButton.addActionListener {
-            switch = if (!switch) {
-                success()
-            } else {
-                fail()
-            }
-        }
-        configureConnectionResult()
+        jButton.addActionListener(CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) })
+
         jPanel.add(jButton)
         jPanel.add(connectionResult)
         return jPanel
     }
 
-    private fun configureConnectionResult() {
-        connectionResult.isEditable = false
-        connectionResult.isOpaque = false
-        connectionResult.border = JBEmptyBorder(0)
-    }
-
-    private fun success(): Boolean {
-        connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_SUCCESS)
-        connectionResult.foreground = DARK_GREEN
-        return true
-    }
-
-    private fun fail(): Boolean {
-        connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_FAILED)
-        connectionResult.foreground = Color.RED
-        return false
+    private fun drawFailOrSuccess(result: Boolean) {
+        if (result) {
+            connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_SUCCESS)
+            connectionResult.foreground = DARK_GREEN
+        } else {
+            connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_FAILED)
+            connectionResult.foreground = Color.RED
+        }
     }
 
     companion object {
