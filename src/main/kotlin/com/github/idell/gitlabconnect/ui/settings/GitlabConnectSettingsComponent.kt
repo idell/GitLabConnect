@@ -1,6 +1,7 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
+import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import com.github.idell.gitlabconnect.gitlab.GitlabConfiguration
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
@@ -9,6 +10,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
 import com.intellij.util.ui.JBEmptyBorder
+import org.slf4j.LoggerFactory
 import java.awt.Color
 import java.awt.FlowLayout
 import java.awt.event.ActionEvent
@@ -78,7 +80,7 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         try {
             gitlabConnectDataRetriever.getCurrentUser()
             success()
-        } catch (e: Exception) {
+        } catch (e: GitlabConnectException) {
             fail()
         } finally {
             PasswordStorage(hostName.text).storeToken(getMyTokenText())
