@@ -25,15 +25,8 @@ class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : Con
     }
 }
 
-private fun List<org.gitlab4j.api.models.Issue>.toProjectInfo(): Issues {
-    return map { issue ->
-        Issue(issue.title, issue.webUrl, issue.labels)
-    }.toList()
-}
+private fun List<org.gitlab4j.api.models.Issue>.toProjectInfo(): Issues =
+        map{ issue -> Issue(issue.title, issue.webUrl, issue.labels) }.toList()
 
-private fun Project.toProjectInfo(): ProjectInfo {
-    return ProjectInfo(this.id, this.path, this.namespace.path)
-}
-private fun User.toUserInfo(): UserInfo {
-    return UserInfo(this.id, this.name, this.state)
-}
+private fun Project.toProjectInfo(): ProjectInfo = ProjectInfo(this.id, this.path, this.namespace.path)
+private fun User.toUserInfo(): UserInfo = UserInfo(this.id, this.name, this.state)
