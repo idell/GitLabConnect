@@ -1,6 +1,11 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
+import com.github.idell.gitlabconnect.gitlab.GitlabConfiguration
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
+import com.github.idell.gitlabconnect.storage.PasswordStorage
+import com.github.idell.gitlabconnect.storage.StoreTokenActionListener
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
@@ -10,43 +15,51 @@ import java.awt.FlowLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
+import javax.swing.plaf.basic.BasicOptionPaneUI
 
 class GitlabConnectSettingsComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
     private val connectionToken = JPasswordField(privateToken)
-    private var connectionResult = ConnectionResultFactory().createConnectionResult()
+    private val token2 = JBTextField(privateToken)
+    private var connectionResult: JBTextField = ConnectionResultFactory().createConnectionResult()
 
     init {
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionToken, 1)
-            .addLabeledComponent(JBLabel(""), testConnectionPanel())
-            .addComponentFillVertically(JPanel(), 0)
-            .panel
+                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
+                .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), token2, 1)
+                .addLabeledComponent(JBLabel(""), testConnectionPanel())
+                .addComponentFillVertically(JPanel(), 0)
+                .panel
     }
 
     fun getPanel(): JPanel {
         return mainPanel
     }
 
-    fun getMyUserNameText(): String = hostName.text
+    fun getHostNameText(): String = hostName.text
 
-    fun getMyTokenText(): String {
-        return String(connectionToken.password)
-    }
+    fun getMyTokenText(): String = token2.text
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
-        var switch = false
 
         jButton.addActionListener {
-            switch = if (!switch) {
-                success()
-            } else {
+            val gitlabConnectDataRetriever = GitlabConnectDataRetriever(GitlabConnectApi(GitlabConfiguration(hostName.text, token2.text)))
+
+            try {
+                val currentUser = gitlabConnectDataRetriever.getCurrentUser()
+                if (currentUser!=null) {
+                    success()
+                    PasswordStorage(hostName.text).storeToken(token2.text)
+                } else {
+                    fail()
+                }
+            } catch (e: Exception) {
                 fail()
             }
+
         }
         configureConnectionResult()
         jPanel.add(jButton)
