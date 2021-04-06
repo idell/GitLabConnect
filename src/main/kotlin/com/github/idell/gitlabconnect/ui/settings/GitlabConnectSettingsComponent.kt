@@ -29,8 +29,13 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         connectionTokenContainer()
 
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionTokenContainer, 1)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)),
+                                 hostName,
+                                 1,
+                                 false)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
+                                 connectionTokenContainer,
+                                 1)
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
@@ -46,7 +51,7 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
 
     private fun connectionTokenContainer() {
         connectionTokenContainer.add(connectionToken)
-        connectionToken.columns = 50
+        connectionToken.columns = TOKEN_INPUT_COLUMNS
         val jCheckBox = JCheckBox(GitlabConnectBundle.message(SHOW_TOKEN_LABEL))
         jCheckBox.addActionListener { showTokenListener(it) }
         connectionTokenContainer.add(jCheckBox)
@@ -111,6 +116,7 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         const val SHOW_TOKEN_LABEL = "ui.settings.show.token"
         const val HIDDEN_TOKEN = '\u25CF'
         const val CLEAR_TOKEN = 0.toChar()
+        const val TOKEN_INPUT_COLUMNS = 50
         const val TOKEN = "token"
         const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"

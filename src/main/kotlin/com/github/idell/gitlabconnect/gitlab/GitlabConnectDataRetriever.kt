@@ -10,7 +10,9 @@ class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : Con
     override fun search(projectSearch: ProjectSearch): Optional<ProjectInfo> {
         val projects: List<Project> = gitlabConnectApi.search(projectSearch.pathWithNamespace())
         return try {
-            Optional.of(projects.first { project -> project.pathWithNamespace.equals(projectSearch.fullPath()) }.toProjectInfo())
+            Optional.of(projects.first {
+                project -> project.pathWithNamespace == projectSearch.fullPath()
+            }.toProjectInfo())
         } catch (e: NoSuchElementException) {
             Optional.empty()
         }
@@ -26,7 +28,7 @@ class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : Con
 }
 
 private fun List<org.gitlab4j.api.models.Issue>.toProjectInfo(): Issues =
-        map{ issue -> Issue(issue.title, issue.webUrl, issue.labels) }.toList()
+        map{issue -> Issue(issue.title, issue.webUrl, issue.labels)}.toList()
 
 private fun Project.toProjectInfo(): ProjectInfo = ProjectInfo(this.id, this.path, this.namespace.path)
 private fun User.toUserInfo(): UserInfo = UserInfo(this.id, this.name, this.state)

@@ -23,7 +23,9 @@ class GitlabConnectToolWindow(val toolWindow: ToolWindow) {
     private fun render() {
         myComponent?.layout = FlowLayout()
         val host = GitlabConnectSettingState.getInstance().host
-        myComponent2?.text = GitlabConnectDataRetriever(GitlabConnectApi(GitlabConfiguration(host, PasswordStorage(host).getToken()))).getCurrentUser().toString()
+        val gitlabConnectApi = GitlabConnectApi(GitlabConfiguration(host, PasswordStorage(host).getToken()))
+        val gitlabConnectDataRetriever = GitlabConnectDataRetriever(gitlabConnectApi)
+        myComponent2?.text = gitlabConnectDataRetriever.getCurrentUser().toString()
         myComponent?.add(myComponent2)
     }
 
