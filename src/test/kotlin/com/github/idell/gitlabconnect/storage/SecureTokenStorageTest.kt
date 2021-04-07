@@ -50,10 +50,27 @@ internal class SecureTokenStorageTest {
         assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.empty<String>())
     }
 
+    @Test
+    internal fun `will update the key if overwritten`() {
+        context.expecting {
+            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY), A_TOKEN)
+            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY), ANOTHER_TOKEN)
+
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY))
+            will(returnValue(ANOTHER_TOKEN))
+        }
+
+        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
+        secureTokenStorage.storeToken(A_KEY, ANOTHER_TOKEN)
+
+        assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.ofNullable(ANOTHER_TOKEN))
+    }
+
     companion object {
         private const val A_KEY = "aKey"
         private const val ANOTHER_KEY = "anotherKey"
         private const val A_SERVICE_NAME = "IntelliJ Platform gitlabconnect"
         private const val A_TOKEN = "aToken"
+        private const val ANOTHER_TOKEN = "anotherToken"
     }
 }
