@@ -17,14 +17,15 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
     private val connectionToken = JPasswordField(privateToken)
-    private val connectionTokenContainer = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
+    private val connectionTokenContainer = ConnectionTokenContainerFactory(connectionToken).create()
     private var connectionResult = ConnectionResultFactory().createConnectionResult()
 
     init {
-        connectionTokenContainer()
         mainPanel = FormBuilder.createFormBuilder()
             .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)), connectionTokenContainer, 1)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
+                                 connectionTokenContainer,
+                                 1)
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
@@ -37,34 +38,16 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     fun getToken(): String = String(connectionToken.password)
 
     private fun testConnectionPanel(): JPanel {
+        val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
-            .also { it ->
-                it.addActionListener {
-                    CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) })
-                    { drawFailOrSuccess(it) }
-                }
-            }
 
-        return JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
-            .also { it.add(jButton) }
-            .also { it.add(connectionResult) }
-    }
+        jButton.addActionListener(
+            CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) }
+                                 )
 
-    private fun connectionTokenContainer() {
-        connectionTokenContainer.add(connectionToken)
-        connectionToken.columns = TOKEN_INPUT_COLUMNS
-        val jCheckBox = JCheckBox(GitlabConnectBundle.message(SHOW_TOKEN_LABEL))
-        jCheckBox.addActionListener { showTokenListener(it) }
-        connectionTokenContainer.add(jCheckBox)
-    }
-
-    private fun showTokenListener(it: ActionEvent) {
-        val source: JCheckBox = it.source as JCheckBox
-        if (source.isSelected) {
-            connectionToken.echoChar = CLEAR_TOKEN
-        } else {
-            connectionToken.echoChar = HIDDEN_TOKEN
-        }
+        jPanel.add(jButton)
+        jPanel.add(connectionResult)
+        return jPanel
     }
 
     private fun drawFailOrSuccess(result: Boolean) {
@@ -81,14 +64,10 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
         private const val BUTTON_TEXT = "ui.settings.connection.test.button"
         private const val CONNECTION_RESULT = "ui.settings.connection.test.result"
         const val CONNECTION_LABEL = "ui.settings.connection.label"
-        const val SHOW_TOKEN_LABEL = "ui.settings.show.token"
-        const val HIDDEN_TOKEN = '\u25CF'
-        const val CLEAR_TOKEN = 0.toChar()
         const val TOKEN = "token"
         const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"
         private const val CONNECTION_FAILED = "failed"
-        const val TOKEN_INPUT_COLUMNS = 50
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }
