@@ -27,7 +27,8 @@ class GitlabConnectGlobalSettings : PersistentStateComponent<GlobalSettings> {
 
     companion object {
         @JvmStatic
-        fun getInstance(): GitlabConnectGlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java)
+        fun getInstance(): GitlabConnectGlobalSettings =
+            ServiceManager.getService(GitlabConnectGlobalSettings::class.java)
 
         @JvmStatic
         fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).getState()

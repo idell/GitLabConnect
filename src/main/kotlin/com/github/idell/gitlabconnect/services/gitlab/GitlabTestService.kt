@@ -3,6 +3,7 @@ package com.github.idell.gitlabconnect.services.gitlab
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.openapi.components.Service
+import org.gitlab4j.api.GitLabApiException
 
 @Service
 class GitlabTestService {
@@ -13,7 +14,7 @@ class GitlabTestService {
                 .from(host, token)
                 .getCurrentUser()
                 .isActive()
-        } catch (e: Exception) {
+        } catch (e: GitLabApiException) {
             false
         }
     }
@@ -24,7 +25,7 @@ class GitlabTestService {
                 .from(config.host, config.token)
                 .getCurrentUser()
                 .isActive()
-        } catch (e: Exception) {
+        } catch (e: GitLabApiException) {
             false
         }
     }

@@ -36,7 +36,8 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
 
-        jButton.addActionListener(CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) })
+        jButton.addActionListener(
+                CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) })
 
         jPanel.add(jButton)
         jPanel.add(connectionResult)
