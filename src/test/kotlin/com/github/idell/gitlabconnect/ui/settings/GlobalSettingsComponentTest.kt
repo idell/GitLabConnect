@@ -26,6 +26,5 @@ internal class GlobalSettingsComponentTest {
         val mutableListOf = mutableListOf<JPasswordField>()
         jPanels.forEach { mutableListOf.addAll(it.components.filterIsInstance<JPasswordField>()) }
         assertThat(mutableListOf).isNotEmpty
-
     }
 }
