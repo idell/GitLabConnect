@@ -62,7 +62,6 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
         const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"
         private const val CONNECTION_FAILED = "failed"
-
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }
