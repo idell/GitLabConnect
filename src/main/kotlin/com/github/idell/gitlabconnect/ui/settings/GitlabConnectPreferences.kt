@@ -3,6 +3,7 @@ package com.github.idell.gitlabconnect.ui.settings
 import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.github.idell.gitlabconnect.services.gitlab.GitlabTestService
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
+import com.github.idell.gitlabconnect.storage.GlobalSettings
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
@@ -11,8 +12,8 @@ class GitlabConnectPreferences : Configurable {
     private val gitlabTestService = GitlabTestService
     private var settings = GitlabConnectGlobalSettings.get()
     private var component: GitlabPreferencesComponent = GitlabPreferencesComponent(
-        settings.tokenConfig.host,
-        settings.tokenConfig.token
+        settings.getHost(),
+        settings.getToken()
     )
 
     override fun createComponent(): JPanel {
@@ -30,6 +31,9 @@ class GitlabConnectPreferences : Configurable {
             tokenConfig = TokenConfiguration(component.getHost(), component.getToken())
         )
     }
+
+    private fun GlobalSettings.getHost(): String = this.getHost()
+    private fun GlobalSettings.getToken(): String = this.getToken()
 
     override fun getDisplayName(): String = GitlabConnectBundle.getMessage("ui.plugin.name")
 }
