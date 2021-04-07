@@ -1,24 +1,26 @@
 package com.github.idell.gitlabconnect.storage
 
 import com.intellij.credentialStore.CredentialAttributes
+import com.intellij.credentialStore.CredentialStore
 import com.intellij.credentialStore.generateServiceName
 import com.intellij.ide.passwordSafe.PasswordSafe
+import java.util.*
 
-class SecureTokenStorage {
+class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSafe.instance) {
 
-    fun getToken(): String {
-        return PasswordSafe.instance.getPassword(createCredentialAttributes()) ?: return ""
+    fun getToken(key: String): Optional<String> {
+        return Optional.ofNullable(passwordSafe.getPassword(createCredentialAttributes(key)))
     }
 
-    fun storeToken(token: String) = PasswordSafe.instance.setPassword(createCredentialAttributes(), token)
+    fun storeToken(key: String, token: String) =
+        passwordSafe.setPassword(createCredentialAttributes(key), token)
 
-    private fun createCredentialAttributes(): CredentialAttributes {
-        val serviceName = generateServiceName(SUBSYSTEM, KEY)
-        return CredentialAttributes(serviceName, KEY)
+    private fun createCredentialAttributes(key: String): CredentialAttributes {
+        val serviceName = generateServiceName(SUBSYSTEM, key)
+        return CredentialAttributes(serviceName, key)
     }
 
     companion object {
         private const val SUBSYSTEM = "gitlabconnect"
-        private const val KEY = "gitlab"
     }
 }
