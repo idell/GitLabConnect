@@ -7,8 +7,8 @@ import org.gitlab4j.api.models.Issue
 import org.gitlab4j.api.models.Project
 import org.gitlab4j.api.models.User
 
-class GitlabConnectApi(gitlabConfiguration: GitlabConfiguration) : ConnectApi {
-    private val gitLabApi = GitLabApi(gitlabConfiguration.host, gitlabConfiguration.token)
+class GitlabConnectApi(gitlabTokenConfiguration: GitlabTokenConfiguration) : ConnectApi {
+    private val gitLabApi = GitLabApi(gitlabTokenConfiguration.host, gitlabTokenConfiguration.token)
 
     override fun search(projectWithNamespace: GitlabProject): List<Project> {
         return gitLabApi.projectApi.getProjects(projectWithNamespace)

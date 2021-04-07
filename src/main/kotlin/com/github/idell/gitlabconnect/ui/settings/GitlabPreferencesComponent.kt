@@ -1,17 +1,17 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
+import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
-import com.intellij.util.ui.JBEmptyBorder
 import java.awt.Color
 import java.awt.FlowLayout
 import javax.swing.JButton
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
-class GitlabConnectSettingsComponent(connectionHost: String, privateToken: String) {
+class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
     private val connectionToken = JPasswordField(privateToken)
@@ -26,50 +26,33 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
             .panel
     }
 
-    fun getPanel(): JPanel {
-        return mainPanel
-    }
+    fun getPanel(): JPanel = mainPanel
 
-    fun getMyUserNameText(): String = hostName.text
+    fun getHost(): String = hostName.text
 
-    fun getMyTokenText(): String {
-        return String(connectionToken.password)
-    }
+    fun getToken(): String = String(connectionToken.password)
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
-        var switch = false
 
-        jButton.addActionListener {
-            switch = if (!switch) {
-                success()
-            } else {
-                fail()
-            }
-        }
-        configureConnectionResult()
+        jButton.addActionListener(
+            CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) }
+        )
+
         jPanel.add(jButton)
         jPanel.add(connectionResult)
         return jPanel
     }
 
-    private fun configureConnectionResult() {
-        connectionResult.isEditable = false
-        connectionResult.isOpaque = false
-        connectionResult.border = JBEmptyBorder(0)
-    }
-
-    private fun success(): Boolean {
-        connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_SUCCESS)
-        connectionResult.foreground = DARK_GREEN
-        return true
-    }
-
-    private fun fail(): Boolean {
-        connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_FAILED)
-        connectionResult.foreground = Color.RED
-        return false
+    private fun drawFailOrSuccess(result: Boolean) {
+        if (result) {
+            connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_SUCCESS)
+            connectionResult.foreground = DARK_GREEN
+        } else {
+            connectionResult.text = GitlabConnectBundle.message(CONNECTION_RESULT, CONNECTION_FAILED)
+            connectionResult.foreground = Color.RED
+        }
     }
 
     companion object {
@@ -80,7 +63,6 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
         const val HOST = "host"
         private const val CONNECTION_SUCCESS = "success"
         private const val CONNECTION_FAILED = "failed"
-
         private val DARK_GREEN = Color(3, 146, 94)
     }
 }

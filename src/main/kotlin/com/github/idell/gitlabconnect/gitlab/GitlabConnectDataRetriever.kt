@@ -22,6 +22,11 @@ class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : Con
     override fun getCurrentUser(): UserInfo {
         return gitlabConnectApi.currentUser().to()
     }
+
+    companion object {
+        fun from(host: String, token: String): GitlabConnectDataRetriever =
+            GitlabConnectDataRetriever(GitlabConnectApi(GitlabTokenConfiguration(host, token)))
+    }
 }
 
 private fun List<org.gitlab4j.api.models.Issue>.to(): Issues {

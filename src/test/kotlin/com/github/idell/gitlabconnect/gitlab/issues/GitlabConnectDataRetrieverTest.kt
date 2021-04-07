@@ -3,9 +3,9 @@ package com.github.idell.gitlabconnect.gitlab.issues
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import com.github.idell.gitlabconnect.gitlab.ConnectApi
 import com.github.idell.gitlabconnect.gitlab.ConnectDataRetriever
-import com.github.idell.gitlabconnect.gitlab.GitlabConfiguration
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.gitlab.ProjectSearch
@@ -152,7 +152,7 @@ internal class GitlabConnectDataRetrieverTest {
     internal fun name() {
         val dataRetriever = GitlabConnectDataRetriever(
             GitlabConnectApi(
-                GitlabConfiguration(
+                GitlabTokenConfiguration(
                     "https://gitlab.lastminute.com",
                     "FPUDahkVWszzX4_wKTjD"
                 )
