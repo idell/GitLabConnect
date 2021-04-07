@@ -4,7 +4,7 @@ import com.intellij.credentialStore.CredentialAttributes
 import com.intellij.credentialStore.CredentialStore
 import com.intellij.credentialStore.generateServiceName
 import com.intellij.ide.passwordSafe.PasswordSafe
-import java.util.*
+import java.util.Optional
 
 class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSafe.instance) {
 
