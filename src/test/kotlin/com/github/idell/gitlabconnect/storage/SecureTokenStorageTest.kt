@@ -9,7 +9,7 @@ import org.jmock.Mockery
 import org.jmock.junit5.JUnit5Mockery
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
+import java.util.Optional
 
 internal class SecureTokenStorageTest {
     var context: Mockery = object : JUnit5Mockery() {}
@@ -25,9 +25,9 @@ internal class SecureTokenStorageTest {
     @Test
     internal fun `secure storage will return the token`() {
         context.expecting {
-            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY",A_KEY),A_TOKEN)
+            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY), A_TOKEN)
 
-            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY",A_KEY))
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY))
             will(returnValue(A_TOKEN))
         }
 
@@ -41,7 +41,7 @@ internal class SecureTokenStorageTest {
         context.expecting {
             oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $ANOTHER_KEY", ANOTHER_KEY), A_TOKEN)
 
-            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY",A_KEY))
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY))
             will(returnValue(null))
         }
 
@@ -50,7 +50,7 @@ internal class SecureTokenStorageTest {
         assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.empty<String>())
     }
 
-    companion object{
+    companion object {
         private const val A_KEY = "aKey"
         private const val ANOTHER_KEY = "anotherKey"
         private const val A_SERVICE_NAME = "IntelliJ Platform gitlabconnect"
