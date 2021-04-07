@@ -1,12 +1,10 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.storage.GlobalSettings
 import com.github.idell.gitlabconnect.ui.settings.GitlabPreferencesComponent.Companion.CONNECTION_LABEL
 import com.github.idell.gitlabconnect.ui.settings.GitlabPreferencesComponent.Companion.HOST
 import com.github.idell.gitlabconnect.ui.settings.GitlabPreferencesComponent.Companion.TOKEN
 import com.intellij.ui.components.JBLabel
-import com.intellij.util.xmlb.XmlSerializer
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import javax.swing.JPanel

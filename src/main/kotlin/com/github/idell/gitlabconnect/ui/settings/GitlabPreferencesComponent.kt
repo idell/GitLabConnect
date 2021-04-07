@@ -7,9 +7,7 @@ import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
 import java.awt.Color
 import java.awt.FlowLayout
-import java.awt.event.ActionEvent
 import javax.swing.JButton
-import javax.swing.JCheckBox
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
@@ -23,9 +21,11 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     init {
         mainPanel = FormBuilder.createFormBuilder()
             .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
-                                 connectionTokenContainer,
-                                 1)
+            .addLabeledComponent(
+                JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
+                connectionTokenContainer,
+                1
+            )
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
@@ -43,7 +43,7 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
 
         jButton.addActionListener(
             CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) }
-                                 )
+        )
 
         jPanel.add(jButton)
         jPanel.add(connectionResult)

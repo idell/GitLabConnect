@@ -14,7 +14,7 @@ class CheckConnectionActionListener(
     override fun actionPerformed(e: ActionEvent?) {
         try {
             callback.invoke(GitlabTestService().test(getToken.invoke()))
-        } catch (e : GitlabConnectException){
+        } catch (e: GitlabConnectException) {
             callback.invoke(false)
         }
     }

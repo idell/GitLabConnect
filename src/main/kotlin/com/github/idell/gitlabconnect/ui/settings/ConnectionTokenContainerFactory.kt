@@ -1,7 +1,6 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import java.awt.Color
 import java.awt.FlowLayout
 import java.awt.event.ActionEvent
 import javax.swing.JCheckBox
