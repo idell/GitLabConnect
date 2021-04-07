@@ -21,8 +21,9 @@ internal class GitlabConnectSettingsComponentTest {
         assertThat(jLabels.filter { it.text == GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN) }).isNotEmpty
 
         val jPanels: List<JPanel> = panel.components.filterIsInstance<JPanel>()
-        assertThat(jPanels.size).isEqualTo(3)
-        val components: List<JPasswordField> = jPanels.flatMap { it.components.filterIsInstance<JPasswordField>() }
-        assertThat(components).isNotEmpty
+        assertThat(jPanels.size).isEqualTo(2)
+
+        val jPasswordFields: List<JPasswordField> = panel.components.filterIsInstance<JPasswordField>()
+        assertThat(jPasswordFields).isNotEmpty
     }
 }
