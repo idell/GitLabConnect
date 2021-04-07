@@ -25,28 +25,35 @@ internal class SecureTokenStorageTest {
     @Test
     internal fun `secure storage will return the token`() {
         context.expecting {
-            oneOf(passwordSafe).setPassword(CredentialAttributes("IntelliJ Platform gitlabconnect — aKey","aKey"),"aToken")
+            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY",A_KEY),A_TOKEN)
 
-            allowing(passwordSafe).getPassword(CredentialAttributes("IntelliJ Platform gitlabconnect — aKey","aKey"))
-            will(returnValue("aToken"))
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY",A_KEY))
+            will(returnValue(A_TOKEN))
         }
 
-        secureTokenStorage.storeToken("aKey", "aToken")
+        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
 
-        assertThat(secureTokenStorage.getToken("aKey")).isEqualTo(Optional.ofNullable("aToken"))
+        assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.ofNullable(A_TOKEN))
     }
 
     @Test
     internal fun `will return nullable if token not found`() {
         context.expecting {
-            oneOf(passwordSafe).setPassword(CredentialAttributes("IntelliJ Platform gitlabconnect — anotherKey","anotherKey"),"aToken")
+            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $ANOTHER_KEY", ANOTHER_KEY), A_TOKEN)
 
-            allowing(passwordSafe).getPassword(CredentialAttributes("IntelliJ Platform gitlabconnect — aKey","aKey"))
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY",A_KEY))
             will(returnValue(null))
         }
 
-        secureTokenStorage.storeToken("anotherKey", "aToken")
+        secureTokenStorage.storeToken(ANOTHER_KEY, A_TOKEN)
 
-        assertThat(secureTokenStorage.getToken("aKey")).isEqualTo(Optional.empty<String>())
+        assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.empty<String>())
+    }
+
+    companion object{
+        private const val A_KEY = "aKey"
+        private const val ANOTHER_KEY = "anotherKey"
+        private const val A_SERVICE_NAME = "IntelliJ Platform gitlabconnect"
+        private const val A_TOKEN = "aToken"
     }
 }
