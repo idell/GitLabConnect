@@ -9,13 +9,13 @@ import javax.swing.JPasswordField
 
 class ConnectionTokenContainerFactory(private val connectionToken: JPasswordField) {
     fun create(): JPanel {
-        val connectionTokenContainer2 = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
-        connectionTokenContainer2.add(connectionToken)
+        val connectionTokenContainer = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
+        connectionTokenContainer.add(connectionToken)
         connectionToken.columns = TOKEN_INPUT_COLUMNS
-        val jCheckBox = JCheckBox(GitlabConnectBundle.message(SHOW_TOKEN_LABEL))
-        jCheckBox.addActionListener { showTokenListener(it) }
-        connectionTokenContainer2.add(jCheckBox)
-        return connectionTokenContainer2
+        val showTokenCheckBox = JCheckBox(GitlabConnectBundle.message(SHOW_TOKEN_LABEL))
+        showTokenCheckBox.addActionListener { showTokenListener(it) }
+        connectionTokenContainer.add(showTokenCheckBox)
+        return connectionTokenContainer
     }
 
     private fun showTokenListener(it: ActionEvent) {
