@@ -6,7 +6,7 @@ import com.intellij.openapi.components.Service
 import org.gitlab4j.api.GitLabApiException
 
 @Service
-class GitlabTestService {
+object GitlabTestService {
 
     fun test(host: String, token: String): Boolean {
         return try {
