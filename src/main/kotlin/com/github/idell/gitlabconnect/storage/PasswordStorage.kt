@@ -16,6 +16,7 @@ class PasswordStorage(private val hostId: String) {
         val serviceName = generateServiceName(SUBSYSTEM, key)
         return CredentialAttributes(serviceName, key)
     }
+    //TODO ivn if the key was a fixed string, the storage always retrieve the same couple : hostId-token -> try it!
 
     companion object {
         private const val SUBSYSTEM = "gitlabconnect"

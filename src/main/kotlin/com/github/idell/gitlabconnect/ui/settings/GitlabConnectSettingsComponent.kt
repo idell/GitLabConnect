@@ -43,6 +43,7 @@ class GitlabConnectSettingsComponent(connectionHost: String, privateToken: Strin
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
+        println(mainPanel)
     }
 
     fun getPanel(): JPanel {
