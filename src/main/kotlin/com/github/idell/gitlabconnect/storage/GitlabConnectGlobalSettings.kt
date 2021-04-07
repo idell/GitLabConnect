@@ -12,10 +12,13 @@ import com.intellij.openapi.components.Storage
 class GitlabConnectGlobalSettings : PersistentStateComponent<GlobalSettings> {
 
     private var state: GlobalSettings = GlobalSettings()
-
+//TODO ivn cosi facendo ogni volta che ricarica mi trovo uno stato nuovo (state: GlobalSettings = GlobalSettings()), invece devo recuperare il vecchio
     override fun getState(): GlobalSettings {
         synchronized(this) {
-            return state
+            state.tokenConfig.host
+            val token = SecureTokenStorage().getToken(state.tokenConfig.host)
+            return GlobalSettings(tokenConfig = TokenConfiguration(host = state.tokenConfig.host,
+                                                                   token = token.orElse("")))
         }
     }
 

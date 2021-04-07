@@ -14,7 +14,7 @@ import javax.swing.JPasswordField
 class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
     private val hostName = JBTextField(connectionHost)
-    private val connectionToken = JPasswordField(privateToken)
+    private var connectionToken = JPasswordField(privateToken)
     private val connectionTokenContainer = ConnectionTokenContainerFactory(connectionToken).create()
     private var connectionResult = ConnectionResultFactory().createConnectionResult()
 
@@ -36,6 +36,11 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     fun getHost(): String = hostName.text
 
     fun getToken(): String = String(connectionToken.password)
+
+    fun reset() {
+        connectionToken = JPasswordField("")
+        hostName.text = ""
+    }
 
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
@@ -59,6 +64,8 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
             connectionResult.foreground = Color.RED
         }
     }
+
+
 
     companion object {
         private const val BUTTON_TEXT = "ui.settings.connection.test.button"

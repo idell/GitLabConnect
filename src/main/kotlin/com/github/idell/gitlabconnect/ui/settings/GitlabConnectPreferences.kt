@@ -4,12 +4,14 @@ import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.github.idell.gitlabconnect.services.gitlab.GitlabTestService
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.github.idell.gitlabconnect.storage.GlobalSettings
+import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
 
 class GitlabConnectPreferences : Configurable {
     private val gitlabTestService = GitlabTestService
+    private val secureTokenStorage: SecureTokenStorage = SecureTokenStorage()
     private var settings = GitlabConnectGlobalSettings.get()
     private var component: GitlabPreferencesComponent = GitlabPreferencesComponent(
         settings.getHost(),
@@ -26,14 +28,15 @@ class GitlabConnectPreferences : Configurable {
     }
 
     override fun apply() {
+        secureTokenStorage.storeToken(component.getHost(),component.getToken())
         settings = settings.copy(
             enabled = gitlabTestService.test(component.getHost(), component.getToken()),
             tokenConfig = TokenConfiguration(component.getHost(), component.getToken())
         )
     }
 
-    private fun GlobalSettings.getHost(): String = this.getHost()
-    private fun GlobalSettings.getToken(): String = this.getToken()
+    private fun GlobalSettings.getHost(): String = this.tokenConfig.host
+    private fun GlobalSettings.getToken(): String = this.tokenConfig.token
 
     override fun getDisplayName(): String = GitlabConnectBundle.getMessage("ui.plugin.name")
 }
