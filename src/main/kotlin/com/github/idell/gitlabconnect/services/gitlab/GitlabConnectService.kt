@@ -5,6 +5,7 @@ import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
 import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
+import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 
@@ -15,7 +16,7 @@ class GitlabConnectService(project: Project) {
         GitlabConnectApi(
             GitlabTokenConfiguration(
                 GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host,
-                GitlabConnectGlobalSettings.getInstance().state.tokenConfig.token
+                SecureTokenStorage().getToken(GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host).orElse("")
             )
         )
     )

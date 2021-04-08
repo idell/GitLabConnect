@@ -10,5 +10,7 @@ class CheckConnectionActionListener(
     private val callback: (switch: Boolean) -> Unit
 ) : ActionListener {
 
-    override fun actionPerformed(e: ActionEvent?) = callback.invoke(GitlabTestService().test(getToken.invoke()))
+    override fun actionPerformed(e: ActionEvent?) {
+        callback.invoke(GitlabTestService().test(getToken.invoke()))
+    }
 }
