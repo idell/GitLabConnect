@@ -7,7 +7,6 @@ import com.intellij.openapi.components.Service
 
 @Service
 class GitlabTestService {
-
     fun test(host: String, token: String): Boolean {
         return try {
             GitlabConnectDataRetriever
