@@ -12,10 +12,11 @@
         <projectService serviceImplementation="com.github.idell.gitlabconnect.services.MyProjectService"/>
         <toolWindow id="GitlabConnect" secondary="false" anchor="bottom"
                     factoryClass="com.github.idell.gitlabconnect.ui.GitlabConnectToolWindowFactory"/>
-        <applicationConfigurable parentId="tools" instance="com.github.idell.gitlabconnect.ui.settings.GitlabConfigurable"
+        <applicationConfigurable parentId="tools" instance="com.github.idell.gitlabconnect.ui.settings.GitlabConnectPreferences"
                                  id="org.intellij.sdk.settings.AppSettingsConfigurable"
                                  displayName="GitlabConnect"/>
 
+        <applicationService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings"/>
         <applicationService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectSettingState"/>
         <projectService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectProjectConfigState" />
 
@@ -25,7 +26,6 @@
     <extensions defaultExtensionNs="com.intellij">
 
     </extensions>
-
 
     <applicationListeners>
         <listener class="com.github.idell.gitlabconnect.listeners.MyProjectManagerListener"
