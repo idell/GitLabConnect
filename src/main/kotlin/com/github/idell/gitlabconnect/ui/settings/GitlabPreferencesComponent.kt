@@ -37,11 +37,6 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
 
     fun getToken(): String = String(connectionToken.password)
 
-    fun reset() {
-        connectionToken = JPasswordField("")
-        hostName.text = ""
-    }
-
     private fun testConnectionPanel(): JPanel {
         val jPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
@@ -64,8 +59,6 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
             connectionResult.foreground = Color.RED
         }
     }
-
-
 
     companion object {
         private const val BUTTON_TEXT = "ui.settings.connection.test.button"

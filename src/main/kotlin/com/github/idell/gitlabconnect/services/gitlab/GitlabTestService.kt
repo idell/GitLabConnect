@@ -6,7 +6,7 @@ import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.openapi.components.Service
 
 @Service
-object GitlabTestService {
+class GitlabTestService {
 
     fun test(host: String, token: String): Boolean {
         return try {

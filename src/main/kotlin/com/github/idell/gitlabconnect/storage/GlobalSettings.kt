@@ -1,11 +1,11 @@
 package com.github.idell.gitlabconnect.storage
 
 data class GlobalSettings(
-    val enabled: Boolean = false,
-    val tokenConfig: TokenConfiguration = TokenConfiguration()
+    var enabled: Boolean = false,
+    var tokenConfig: TokenConfiguration = TokenConfiguration()
 )
 
 data class TokenConfiguration(
-    val host: String = "<insert your connection host here>",
-    val token: String = "<insert your connection token here>"
+    var host: String = "<insert your connection host here>",
+    var token: String = "<insert your connection token here>"
 )
