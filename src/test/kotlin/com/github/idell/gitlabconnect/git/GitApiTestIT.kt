@@ -70,4 +70,5 @@ internal class GitApiTestIT {
 
         assertTrue { remotes.isEmpty() }
     }
+
 }

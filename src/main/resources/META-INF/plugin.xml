@@ -17,12 +17,15 @@
                                  displayName="GitlabConnect"/>
 
         <applicationService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectSettingState"/>
+        <projectService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectProjectConfigState" />
 
+        <startupActivity implementation="com.github.idell.gitlabconnect.activities.GitlabConnectAvailabilityActivity" />
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">
 
     </extensions>
+
 
     <applicationListeners>
         <listener class="com.github.idell.gitlabconnect.listeners.MyProjectManagerListener"
