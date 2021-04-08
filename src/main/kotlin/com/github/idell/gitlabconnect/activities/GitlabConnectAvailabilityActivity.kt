@@ -18,6 +18,8 @@ class GitlabConnectAvailabilityActivity : StartupActivity {
         val previousStatus = actualConfig(project).gitlabStatus
         val notificationService: NotificationService = project.service()
 
+        if (!globalSettings.enabled) return
+
         project.basePath
             ?: let {
                 GitlabConnectAvailability(GitApi.from("$it/.git"))
