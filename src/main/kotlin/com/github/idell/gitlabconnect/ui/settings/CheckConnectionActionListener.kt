@@ -8,7 +8,7 @@ import java.awt.event.ActionListener
 class CheckConnectionActionListener(
     private val getToken: () -> TokenConfiguration,
     private val callback: (switch: Boolean) -> Unit
-                                   ) : ActionListener {
+) : ActionListener {
 
     override fun actionPerformed(e: ActionEvent?) = callback.invoke(GitlabTestService().test(getToken.invoke()))
 }
