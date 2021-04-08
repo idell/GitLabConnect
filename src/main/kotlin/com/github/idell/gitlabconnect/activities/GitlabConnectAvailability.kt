@@ -4,9 +4,9 @@ import com.github.idell.gitlabconnect.git.VcsApi
 import com.github.idell.gitlabconnect.storage.GitlabStatus
 import com.github.idell.gitlabconnect.storage.ProjectConfig
 
-class GitlabConnectAvailability(private val globalHost: String) {
+class GitlabConnectAvailability(private val vcsApi: VcsApi?) {
 
-    fun generateConfig(vcsApi: VcsApi?): ProjectConfig =
+    fun generateConfig(globalHost: String): ProjectConfig =
         vcsApi
             ?.let { evaluate(it, globalHost) }
             ?: ProjectConfig(GitlabStatus.GIT_NOT_FOUND)

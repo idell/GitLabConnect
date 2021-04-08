@@ -20,8 +20,8 @@ class GitlabConnectAvailabilityActivity : StartupActivity {
 
         project.basePath
             ?: let {
-                GitlabConnectAvailability(globalSettings.tokenConfig.host)
-                    .generateConfig(GitApi.from("$it/.git"))
+                GitlabConnectAvailability(GitApi.from("$it/.git"))
+                    .generateConfig(globalSettings.tokenConfig.host)
             }
                 .also { actualConfig(project).update(it) }
                 .takeIf { previousStatus == NOT_ANALYZED && it.gitlabStatus == GITLAB_PROJECT }
