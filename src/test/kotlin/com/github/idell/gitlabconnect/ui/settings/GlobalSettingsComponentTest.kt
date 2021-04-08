@@ -21,9 +21,10 @@ internal class GlobalSettingsComponentTest {
         assertThat(jLabels.filter { it.text == GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN) }).isNotEmpty
 
         val jPanels: List<JPanel> = panel.components.filterIsInstance<JPanel>()
-        assertThat(jPanels.size).isEqualTo(2)
+        assertThat(jPanels.size).isEqualTo(3)
 
-        val jPasswordFields: List<JPasswordField> = panel.components.filterIsInstance<JPasswordField>()
-        assertThat(jPasswordFields).isNotEmpty
+        val mutableListOf = mutableListOf<JPasswordField>()
+        jPanels.forEach { mutableListOf.addAll(it.components.filterIsInstance<JPasswordField>()) }
+        assertThat(mutableListOf).isNotEmpty
     }
 }
