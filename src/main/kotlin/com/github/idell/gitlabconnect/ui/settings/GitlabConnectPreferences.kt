@@ -10,9 +10,10 @@ import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
 
 class GitlabConnectPreferences : Configurable {
+
+    private var settings = GitlabConnectGlobalSettings.getInstance().state
     private val gitlabTestService = GitlabTestService
     private val secureTokenStorage: SecureTokenStorage = SecureTokenStorage()
-    private var settings = GitlabConnectGlobalSettings.get()
     private var component: GitlabPreferencesComponent = GitlabPreferencesComponent(
         settings.getHost(),
         settings.getToken()
