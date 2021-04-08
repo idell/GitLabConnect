@@ -16,7 +16,8 @@ class GitlabConnectService(project: Project) {
         GitlabConnectApi(
             GitlabTokenConfiguration(
                 GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host,
-                SecureTokenStorage().getToken(GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host).orElse("")
+                SecureTokenStorage().getToken(GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host)
+                    .orElse("")
             )
         )
     )
