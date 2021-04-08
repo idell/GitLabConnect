@@ -19,7 +19,7 @@
         <applicationService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings"/>
         <projectService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectProjectConfigState" />
 
-        <startupActivity implementation="com.github.idell.gitlabconnect.activities.GitlabConnectAvailabilityActivity" />
+        <postStartupActivity implementation="com.github.idell.gitlabconnect.activities.GitlabConnectAvailabilityActivity" />
     </extensions>
 
     <extensions defaultExtensionNs="com.intellij">

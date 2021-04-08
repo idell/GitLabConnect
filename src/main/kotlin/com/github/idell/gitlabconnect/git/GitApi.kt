@@ -26,8 +26,6 @@ class GitApi(private val repository: Repository) : VcsApi {
                 GitApi(
                     FileRepositoryBuilder()
                         .setGitDir(File(repository))
-                        .readEnvironment()
-                        .findGitDir()
                         .setMustExist(true)
                         .build()
                 )
