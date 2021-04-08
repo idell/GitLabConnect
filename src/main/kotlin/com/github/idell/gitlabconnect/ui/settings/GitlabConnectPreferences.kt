@@ -8,7 +8,7 @@ import javax.swing.JPanel
 
 class GitlabConnectPreferences : Configurable {
 
-    private var settings = GitlabConnectGlobalSettings.get()
+    private var settings = GitlabConnectGlobalSettings.getInstance().state
     private var component: GitlabPreferencesComponent = GitlabPreferencesComponent(
         settings.tokenConfig.host,
         settings.tokenConfig.token
