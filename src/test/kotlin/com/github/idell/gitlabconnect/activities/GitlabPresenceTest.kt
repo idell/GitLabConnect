@@ -64,4 +64,3 @@ internal class GitlabPresenceTest {
         this.checking(Expectations().apply(block))
     }
 }
-

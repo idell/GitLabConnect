@@ -5,7 +5,7 @@ import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.io.File
 
-class GitApi(private val repository: Repository): VcsApi {
+class GitApi(private val repository: Repository) : VcsApi {
 
     override fun findRemotes(): Remotes {
         return repository.remoteNames

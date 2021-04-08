@@ -12,10 +12,9 @@ class GitlabPresence(private val vcsApi: VcsApi) {
             ?.takeIf { it.belongTo(globalHost) }
             ?.let { GitlabAvailable(it) }
             ?: GitRepositoryUnavailable
-
 }
 
 sealed class GitlabAvailability
 
-data class GitlabAvailable(val remote: Remote): GitlabAvailability()
-object GitRepositoryUnavailable: GitlabAvailability()
+data class GitlabAvailable(val remote: Remote) : GitlabAvailability()
+object GitRepositoryUnavailable : GitlabAvailability()

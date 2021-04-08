@@ -6,12 +6,13 @@ import com.intellij.notification.NotificationType
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 
-
 @Service
 class TemporaryBalloonNotificationService(private val project: Project) : NotificationService {
 
-    private val notificationGroup = NotificationGroup("gitlabConnect",
-        NotificationDisplayType.BALLOON, true)
+    private val notificationGroup = NotificationGroup(
+        "gitlabConnect",
+        NotificationDisplayType.BALLOON, true
+    )
 
     override fun info(message: String) {
         notificationGroup.createNotification(message, NotificationType.INFORMATION)

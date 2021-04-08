@@ -29,7 +29,6 @@ class Remote(val name: String, val address: String) {
 
 typealias Remotes = List<Remote>
 
-
 fun Remotes.findOrigin(): Remote? {
     return this.find { it.name == "origin" }
 }
