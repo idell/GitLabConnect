@@ -37,8 +37,24 @@ internal class SecureTokenStorageTest {
     }
 
     @Test
-    internal fun `will return nullable if token not found`() {
+    internal fun `do not store if is not changed`() {
         context.expecting {
+            oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY), A_TOKEN)
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY))
+            will(returnValue(A_TOKEN))
+        }
+
+        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
+        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
+        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
+    }
+
+    @Test
+    internal fun `will return empty if token not found`() {
+        context.expecting {
+            allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $ANOTHER_KEY", ANOTHER_KEY))
+            will(returnValue(null))
+
             oneOf(passwordSafe).setPassword(CredentialAttributes("$A_SERVICE_NAME — $ANOTHER_KEY", ANOTHER_KEY), A_TOKEN)
 
             allowing(passwordSafe).getPassword(CredentialAttributes("$A_SERVICE_NAME — $A_KEY", A_KEY))

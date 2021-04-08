@@ -12,8 +12,12 @@ class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSaf
         return Optional.ofNullable(passwordSafe.getPassword(createCredentialAttributes(key)))
     }
 
-    fun storeToken(key: String, token: String) =
-        passwordSafe.setPassword(createCredentialAttributes(key), token)
+    fun storeToken(key: String, token: String) {
+        val storedToken = passwordSafe.getPassword(createCredentialAttributes(key))
+        if (storedToken != null && storedToken != token) {
+            passwordSafe.setPassword(createCredentialAttributes(key), token)
+        }
+    }
 
     private fun createCredentialAttributes(key: String): CredentialAttributes {
         val serviceName = generateServiceName(SUBSYSTEM, key)
