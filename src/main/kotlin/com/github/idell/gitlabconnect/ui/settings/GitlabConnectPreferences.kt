@@ -8,9 +8,9 @@ import com.intellij.openapi.options.Configurable
 import javax.swing.JPanel
 
 class GitlabConnectPreferences : Configurable {
-
+    private val secureTokenStorage = SecureTokenStorage()
     private var settings = GitlabConnectGlobalSettings.getInstance().state
-    private val token = SecureTokenStorage().getToken(settings.tokenConfig.host).orElse("")
+    private val token = secureTokenStorage.getToken(settings.tokenConfig.host).orElse("")
     private var component: GitlabPreferencesComponent = GitlabPreferencesComponent(
         settings.tokenConfig.host,
         token
@@ -22,13 +22,13 @@ class GitlabConnectPreferences : Configurable {
 
     override fun isModified(): Boolean {
         return component.getHost() != settings.tokenConfig.host ||
-            component.getToken() != token
+            component.getToken() != secureTokenStorage.getToken(settings.tokenConfig.host).orElse("")
     }
 
     override fun apply() {
         settings.enabled = GitlabTestService().test(component.getHost(), component.getToken())
         settings.tokenConfig.host = component.getHost()
-        SecureTokenStorage().storeToken(component.getHost(), component.getToken())
+        secureTokenStorage.storeToken(component.getHost(), component.getToken())
     }
 
     override fun getDisplayName(): String = GitlabConnectBundle.getMessage("ui.plugin.name")
