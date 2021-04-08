@@ -1,7 +1,13 @@
 package com.github.idell.gitlabconnect.gitlab.issues
 
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
-import com.github.idell.gitlabconnect.gitlab.*
+import com.github.idell.gitlabconnect.gitlab.ConnectApi
+import com.github.idell.gitlabconnect.gitlab.ConnectDataRetriever
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
+import com.github.idell.gitlabconnect.gitlab.Issue
+import com.github.idell.gitlabconnect.gitlab.ProjectInfo
+import com.github.idell.gitlabconnect.gitlab.ProjectSearch
+import com.github.idell.gitlabconnect.gitlab.UserInfo
 import org.gitlab4j.api.models.Namespace
 import org.gitlab4j.api.models.Project
 import org.gitlab4j.api.models.User
@@ -16,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
-import java.util.*
+import java.util.Optional
 import kotlin.test.assertFalse
 import org.gitlab4j.api.models.Issue as GitlabIssue
 
