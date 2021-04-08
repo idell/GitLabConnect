@@ -17,7 +17,6 @@
                                  displayName="GitlabConnect"/>
 
         <applicationService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings"/>
-        <applicationService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectSettingState"/>
         <projectService serviceImplementation="com.github.idell.gitlabconnect.storage.GitlabConnectProjectConfigState" />
 
         <startupActivity implementation="com.github.idell.gitlabconnect.activities.GitlabConnectAvailabilityActivity" />
