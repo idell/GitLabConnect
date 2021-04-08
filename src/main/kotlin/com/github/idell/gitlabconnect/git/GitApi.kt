@@ -1,5 +1,6 @@
 package com.github.idell.gitlabconnect.git
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException
 import org.eclipse.jgit.lib.ConfigConstants
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
@@ -30,7 +31,7 @@ class GitApi(private val repository: Repository) : VcsApi {
                         .setMustExist(true)
                         .build()
                 )
-            } catch (e: Exception) {
+            } catch (e: RepositoryNotFoundException) {
                 return null
             }
         }
