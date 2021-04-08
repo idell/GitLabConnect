@@ -19,7 +19,10 @@ class GitlabConnectAvailabilityActivity : StartupActivity {
         val notificationService: NotificationService = project.service()
 
         project.basePath
-            ?: let { GitlabConnectAvailability(globalSettings.tokenConfig.host).generateConfig(GitApi.from("$it/.git")) }
+            ?: let {
+                GitlabConnectAvailability(globalSettings.tokenConfig.host)
+                    .generateConfig(GitApi.from("$it/.git"))
+            }
                 .also { actualConfig(project).update(it) }
                 .takeIf { previousStatus == NOT_ANALYZED && it.gitlabStatus == GITLAB_PROJECT }
                 ?.apply { notificationService.info("gitlab project found!") }
