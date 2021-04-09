@@ -3,9 +3,7 @@ package com.github.idell.gitlabconnect.gitlab.issues
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import com.github.idell.gitlabconnect.gitlab.ConnectApi
 import com.github.idell.gitlabconnect.gitlab.ConnectDataRetriever
-import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
-import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.gitlab.ProjectSearch
@@ -21,7 +19,6 @@ import org.jmock.junit5.JUnit5Mockery
 import org.jmock.lib.legacy.ClassImposteriser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
@@ -145,25 +142,6 @@ internal class GitlabConnectDataRetrieverTest {
         }
 
         assertThrows<GitlabConnectException> { gitlabConnectDataRetriever.getCurrentUser() }
-    }
-
-    @Test
-    @Disabled
-    internal fun name() {
-        val dataRetriever = GitlabConnectDataRetriever(
-            GitlabConnectApi(
-                GitlabTokenConfiguration(
-                    "https://gitlab.lastminute.com",
-                    "FPUDahkVWszzX4_wKTjD"
-                )
-            )
-        )
-
-        val project = dataRetriever.search(ProjectSearch.from("core-software/appfw-java/app-framework"))
-        val get = project.get()
-        println(get.name)
-        val issues = dataRetriever.getIssues(get)
-        println(issues.isEmpty())
     }
 
     private fun anUser(s: String): User {
