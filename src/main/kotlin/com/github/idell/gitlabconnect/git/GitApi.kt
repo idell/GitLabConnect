@@ -1,15 +1,16 @@
 package com.github.idell.gitlabconnect.git
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException
 import org.eclipse.jgit.lib.ConfigConstants
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.io.File
 
-class GitApi(private val repository: Repository) {
+class GitApi(private val repository: Repository) : VcsApi {
 
-    fun findRemotes(): GitRemotes {
+    override fun findRemotes(): Remotes {
         return repository.remoteNames
-            .map { GitRemote(it, getRemoteAddress(it)) }
+            .map { Remote(it, getRemoteAddress(it)) }
             .toList()
     }
 
@@ -20,15 +21,17 @@ class GitApi(private val repository: Repository) {
     )
 
     companion object {
-        fun from(repository: String): GitApi {
-            return GitApi(
-                FileRepositoryBuilder()
-                    .setGitDir(File(repository))
-                    .readEnvironment()
-                    .findGitDir()
-                    .setMustExist(true)
-                    .build()
-            )
+        fun from(repository: String): GitApi? {
+            return try {
+                GitApi(
+                    FileRepositoryBuilder()
+                        .setGitDir(File(repository))
+                        .setMustExist(true)
+                        .build()
+                )
+            } catch (e: RepositoryNotFoundException) {
+                return null
+            }
         }
     }
 }

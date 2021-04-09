@@ -36,7 +36,9 @@ dependencies {
     testImplementation("org.jmock:jmock-legacy:2.12.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
     implementation("org.gitlab4j:gitlab4j-api:4.15.7")
-    implementation("org.eclipse.jgit:org.eclipse.jgit:5.4.2.201908231537-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.4.2.201908231537-r") {
+        exclude("org.slf4j", "slf4j-api")
+    }
 }
 
 tasks {

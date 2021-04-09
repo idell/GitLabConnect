@@ -15,7 +15,7 @@ class GitlabConnectApi(gitlabTokenConfiguration: GitlabTokenConfiguration) : Con
     }
 
     override fun getIssues(project: ProjectInfo): List<Issue> {
-        return gitLabApi.issuesApi.getIssues(project.id).all()
+        return gitLabApi.issuesApi.getIssues(project.id as Any)
     }
 
     override fun currentUser(): User {
