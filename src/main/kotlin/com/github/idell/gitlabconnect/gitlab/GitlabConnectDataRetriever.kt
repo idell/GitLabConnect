@@ -31,7 +31,7 @@ class GitlabConnectDataRetriever(private val gitlabConnectApi: ConnectApi) : Con
 
 private fun List<org.gitlab4j.api.models.Issue>.to(): Issues {
     return map { issue ->
-        Issue(issue.title, issue.webUrl, issue.labels)
+        Issue(issue.title, issue.webUrl, issue.labels, issue.description)
     }.toList()
 }
 

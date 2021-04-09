@@ -90,8 +90,8 @@ internal class GitlabConnectDataRetrieverTest {
         val issues = gitlabConnectDataRetriever.getIssues(ProjectInfo(1, "order-manager", "obi1"))
         assertEquals(
             listOf(
-                Issue("an issue", "an url", listOf("a label", "a fancy label")),
-                Issue("another issue", "another url", listOf("another label"))
+                Issue("an issue", "an url", listOf("a label", "a fancy label"),"aDescription"),
+                Issue("another issue", "another url", listOf("another label"),"aDescription")
             ),
             issues
         )
