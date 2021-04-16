@@ -15,7 +15,8 @@ object IssueStubGenerator : Runnable, IssueGenerator {
                 "http://www.example.com/agreement/attack.html",
                 listOf("great vengeance", "darkness"),
                 "* add smoke test and e2e tests execution also into spinnaker deploy pipeline\n" +
-    "* start from Jenkins pipeline script team-resources/continuous-integration/projects/rumba/QA_rumba.Jenkinsfile"
+                 "* start from Jenkins pipeline script team-resources/continuous-integration/projects/rumba/QA_rumba" +
+                ".Jenkinsfile"
             ),
             Issue(
                 "Morbi tincidunt tempor rutrum. Donec accumsan odio.",
@@ -29,8 +30,9 @@ object IssueStubGenerator : Runnable, IssueGenerator {
                 listOf("evil men"),
                 "We could have this starting AppFw application using starter database\n" +
                     "```\n" +
-    "WARN 10379 --- [           main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is larger than maxActive, " +
-                "setting maxIdle to: 5\n" +
+                "WARN 10379 --- [           main] o.a.tomcat.jdbc.pool.ConnectionPool      " +
+                ": maxIdle is larger than maxActive, " +
+                    "setting maxIdle to: 5\n" +
                     "```\n" +
                     "We are not managing directly this value with starter database.\n" +
                     "The default value is `100` so... we can do the same in AppFw.. setting its value to maxActive"
@@ -47,14 +49,14 @@ object IssueStubGenerator : Runnable, IssueGenerator {
             "\n - `mnv integration-test` <- integration test " +
             "\n https://gitlab.lastminute.com/core-software/appfw-java/app-framework/issues/105" +
             "\n but surefire/failsafe segregate only this two type of tests which doesn't cover all " +
-               "the wide spectrum of modern tests like contract tests and container tests. but surefire/failsafe " +
-               "segregate only this two type of tests which doesn't cover all the wide spectrum of modern tests " +
-               "like contract tests and container tests." +
+            "the wide spectrum of modern tests like contract tests and container tests. but surefire/failsafe " +
+            "segregate only this two type of tests which doesn't cover all the wide spectrum of modern tests " +
+            "like contract tests and container tests." +
             "\n ## Expected benefit(s) / Improved feature(s)" +
             "\n 1. segregate per subtype tests and not only IT and unit which is more precise" +
             "\n 2. permits to run locally only a subset of tests" +
             "\n 3. easy to identify errors in test in CI suite that use this convention (to simplify a pipeline " +
-               "ballon per type of test that can be red or green)" +
+            "ballon per type of test that can be red or green)" +
             "\n 4. using profiles is more visibile to devs than `integration-test` goal" +
             "\n \n ### Details" +
             "\n we can introduce a kind of segregation guided by maven profiles:" +

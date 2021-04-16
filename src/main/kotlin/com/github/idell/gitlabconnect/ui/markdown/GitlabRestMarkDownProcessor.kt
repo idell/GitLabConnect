@@ -19,7 +19,7 @@ class GitlabRestMarkDownProcessor(
     private val tokenStorage: SecureTokenStorage
 ) : MarkDownProcessor {
 
-    override fun process(issue: Issue,projectInfo: ProjectInfo): String {
+    override fun process(issue: Issue, projectInfo: ProjectInfo): String {
         val (enabled, tokenConfig) = globalSettings.state
         if (!enabled) return appendDescriptionToTitle(issue)
 
