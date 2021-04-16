@@ -19,14 +19,13 @@ class GitlabConnectApi(gitlabTokenConfiguration: GitlabTokenConfiguration) : Con
         return gitLabApi.issuesApi.getIssues(project.id as Any)
     }
 
-    override fun markdownApi(markedDownText:String): String =
+    override fun markdownApi(markedDownText: String): String =
         try {
-        gitLabApi.markdownApi.getMarkdown(markedDownText).html
-    } catch (gitlabApiException : GitLabApiException){
+            gitLabApi.markdownApi.getMarkdown(markedDownText).html
+        } catch (gitlabApiException: GitLabApiException) {
             println(gitlabApiException)
-        throw GitlabProcessException(gitlabApiException)
-    }
-
+            throw GitlabProcessException(gitlabApiException)
+        }
 
     override fun currentUser(): User {
         try {

@@ -1,13 +1,13 @@
-//package com.github.idell.gitlabconnect.ui.issue
+// package com.github.idell.gitlabconnect.ui.issue
 //
-//import com.github.idell.gitlabconnect.gitlab.Issue
-//import com.intellij.util.ui.UIUtil
-//import java.awt.Component
-//import javax.swing.JList
-//import javax.swing.JTextArea
-//import javax.swing.ListCellRenderer
+// import com.github.idell.gitlabconnect.gitlab.Issue
+// import com.intellij.util.ui.UIUtil
+// import java.awt.Component
+// import javax.swing.JList
+// import javax.swing.JTextArea
+// import javax.swing.ListCellRenderer
 //
-//class ShowIssueListener : ListCellRenderer<Issue> {
+// class ShowIssueListener : ListCellRenderer<Issue> {
 //    override fun getListCellRendererComponent(list: JList<out Issue>,
 //        value: Issue,
 //        index: Int,
@@ -31,4 +31,4 @@
 //        return { jbTextArea }
 //    }
 //
-//}
+// }

@@ -9,7 +9,7 @@ import com.intellij.openapi.components.Storage
     name = "org.intellij.sdk.settings.GitlabConnectSettings",
     storages = [Storage("gitlabConnectGlobalSettings.xml")]
 )
-class GitlabConnectGlobalSettings : PersistentStateComponent<GlobalSettings> {
+class GitlabConnectGlobalSettings private constructor(): PersistentStateComponent<GlobalSettings> {
 
     private var state: GlobalSettings = GlobalSettings()
 

@@ -10,9 +10,13 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import org.apache.http.protocol.HTTP
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-class GitlabRestMarkDownProcessor(private val globalSettings: GitlabConnectGlobalSettings,
-    private val tokenStorage: SecureTokenStorage) : MarkDownProcessor {
+class GitlabRestMarkDownProcessor(
+    private val globalSettings: GitlabConnectGlobalSettings,
+    private val tokenStorage: SecureTokenStorage
+) : MarkDownProcessor {
 
     override fun process(issue: Issue): String {
         val (enabled, tokenConfig) = globalSettings.state
@@ -28,18 +32,25 @@ class GitlabRestMarkDownProcessor(private val globalSettings: GitlabConnectGloba
             composeEndpoint(tokenConfig)
                 .httpPost()
                 .useHttpCache(USE_HTTP_CACHES)
-                .header(HTTP.CONTENT_TYPE to JSON,
-                        PRIVATE_TOKEN to token)
-                .body(Gson().toJson(Payload(appendDescriptionToTitle(issue),
-                                            project = "team-commander/rumba")))
+                .header(
+                    HTTP.CONTENT_TYPE to JSON,
+                    PRIVATE_TOKEN to token
+                )
+                .body(
+                    Gson().toJson(
+                        Payload(
+                            appendDescriptionToTitle(issue),
+                            project = "team-commander/rumba"
+                        )
+                    )
+                )
                 .response()
 
         return when (result) {
             is Result.Success -> Gson().fromJson(response.body().asString(JSON), Response::class.java).html
             is Result.Failure -> appendDescriptionToTitle(issue)
+                .also {  LOGGER.warn("Error calling gitlab: ${result.error}")}
         }
-
-
     }
 
     private fun composeEndpoint(tokenConfig: TokenConfiguration): String {
@@ -57,10 +68,9 @@ class GitlabRestMarkDownProcessor(private val globalSettings: GitlabConnectGloba
         private const val MARKDOWN_ENDPOINT = "api/v4/markdown"
         private const val PRIVATE_TOKEN = "Private-Token"
         private const val TOKEN_NOT_FOUND_MESSAGE = "storage.token.not-found"
-
+        private val LOGGER : Logger = LoggerFactory.getLogger(GitlabRestMarkDownProcessor::class.java)
     }
 }
-
 
 data class Payload(val text: String, val gfm: Boolean = true, val project: String)
 
