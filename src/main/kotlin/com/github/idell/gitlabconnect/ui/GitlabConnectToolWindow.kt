@@ -16,6 +16,7 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.components.BorderLayoutPanel
 import java.awt.FlowLayout
+import java.math.BigInteger
 import javax.swing.BorderFactory
 import javax.swing.JComponent
 import javax.swing.JEditorPane
@@ -66,7 +67,7 @@ class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val is
             rightComponent.font = UIUtil.getLabelFont()
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
-            val html = makDownProcessor.process(list.selectedValue, ProjectInfo(123,
+            val html = makDownProcessor.process(list.selectedValue, ProjectInfo(BigInteger.ZERO.toInt(),
                                                                                 "rumba",
                                                                                 "team-commander"))
             rightComponent.text = html
