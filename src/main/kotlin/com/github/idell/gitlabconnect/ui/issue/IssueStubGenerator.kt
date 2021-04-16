@@ -15,8 +15,8 @@ object IssueStubGenerator : Runnable, IssueGenerator {
                 "http://www.example.com/agreement/attack.html",
                 listOf("great vengeance", "darkness"),
                 "* add smoke test and e2e tests execution also into spinnaker deploy pipeline\n" +
-                 "* start from Jenkins pipeline script team-resources/continuous-integration/projects/rumba/QA_rumba" +
-                ".Jenkinsfile"
+                    "* start from Jenkins pipeline script team-resources/continuous-integration/projects/rumba/QA_rumba" +
+                    ".Jenkinsfile"
             ),
             Issue(
                 "Morbi tincidunt tempor rutrum. Donec accumsan odio.",
@@ -30,8 +30,8 @@ object IssueStubGenerator : Runnable, IssueGenerator {
                 listOf("evil men"),
                 "We could have this starting AppFw application using starter database\n" +
                     "```\n" +
-                "WARN 10379 --- [           main] o.a.tomcat.jdbc.pool.ConnectionPool      " +
-                ": maxIdle is larger than maxActive, " +
+                    "WARN 10379 --- [           main] o.a.tomcat.jdbc.pool.ConnectionPool      " +
+                    ": maxIdle is larger than maxActive, " +
                     "setting maxIdle to: 5\n" +
                     "```\n" +
                     "We are not managing directly this value with starter database.\n" +

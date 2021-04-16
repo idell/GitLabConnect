@@ -67,9 +67,14 @@ class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val is
             rightComponent.font = UIUtil.getLabelFont()
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
-            val html = makDownProcessor.process(list.selectedValue, ProjectInfo(BigInteger.ZERO.toInt(),
-                                                                                "rumba",
-                                                                                "team-commander"))
+            val html = makDownProcessor.process(
+                list.selectedValue,
+                ProjectInfo(
+                    BigInteger.ZERO.toInt(),
+                    "rumba",
+                    "team-commander"
+                )
+            )
             rightComponent.text = html
         }
     }
