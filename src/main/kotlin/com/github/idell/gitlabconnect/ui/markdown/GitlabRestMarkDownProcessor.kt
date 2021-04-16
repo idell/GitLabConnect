@@ -54,9 +54,10 @@ class GitlabRestMarkDownProcessor(
     }
 
     private fun composeEndpoint(tokenConfig: TokenConfiguration): String {
-        return if (tokenConfig.host.endsWith("/"))
-            "${tokenConfig.host}$MARKDOWN_ENDPOINT"
-        else "${tokenConfig.host}/$MARKDOWN_ENDPOINT"
+        return when {
+            tokenConfig.host.endsWith("/") -> "${tokenConfig.host}$MARKDOWN_ENDPOINT"
+            else                           -> "${tokenConfig.host}/$MARKDOWN_ENDPOINT"
+        }
     }
 
     private fun appendDescriptionToTitle(issue: Issue): String =
