@@ -1,6 +1,7 @@
 package com.github.idell.gitlabconnect.gitlab
 
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
+import com.github.idell.gitlabconnect.exception.GitlabProcessException
 import org.gitlab4j.api.GitLabApi
 import org.gitlab4j.api.GitLabApiException
 import org.gitlab4j.api.models.Issue
@@ -17,6 +18,15 @@ class GitlabConnectApi(gitlabTokenConfiguration: GitlabTokenConfiguration) : Con
     override fun getIssues(project: ProjectInfo): List<Issue> {
         return gitLabApi.issuesApi.getIssues(project.id as Any)
     }
+
+    override fun markdownApi(markedDownText:String): String =
+        try {
+        gitLabApi.markdownApi.getMarkdown(markedDownText).html
+    } catch (gitlabApiException : GitLabApiException){
+            println(gitlabApiException)
+        throw GitlabProcessException(gitlabApiException)
+    }
+
 
     override fun currentUser(): User {
         try {

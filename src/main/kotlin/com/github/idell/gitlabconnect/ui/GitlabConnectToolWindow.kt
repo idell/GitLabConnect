@@ -1,92 +1,86 @@
 package com.github.idell.gitlabconnect.ui
 
 import com.github.idell.gitlabconnect.gitlab.Issue
+import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
+import com.github.idell.gitlabconnect.storage.SecureTokenStorage
+import com.github.idell.gitlabconnect.ui.markdown.GitlabRestMarkDownProcessor
+import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
+import com.github.idell.gitlabconnect.ui.issue.listener.ShowIssueListener
+import com.github.idell.gitlabconnect.ui.markdown.MarkDownProcessor
+import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.openapi.wm.ToolWindow
+import com.intellij.ui.BrowserHyperlinkListener
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBScrollPane
-import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.components.BorderLayoutPanel
-import org.apache.commons.io.FileUtils
-import java.awt.Color
-import java.awt.Component
-import java.io.File
-import java.nio.charset.Charset
+import java.awt.FlowLayout
+import javax.swing.BorderFactory
 import javax.swing.JComponent
 import javax.swing.JEditorPane
-import javax.swing.JList
 import javax.swing.JSplitPane
-import javax.swing.ListCellRenderer
-import kotlin.random.Random
 
-class GitlabConnectToolWindow(val toolWindow: ToolWindow) {
+class GitlabConnectToolWindow(private val toolWindow: ToolWindow) {
 
-    private var leftComponent: JBPanel<BorderLayoutPanel> = JBPanel()
+    private var leftComponent: JBPanel<BorderLayoutPanel> = JBPanel(VerticalFlowLayout(FlowLayout.LEFT, DEFAULT_GAP, DEFAULT_GAP, FILL, FILL))
     private var rightComponent: JEditorPane = JEditorPane()
-    private var scrollable : JBScrollPane = JBScrollPane(rightComponent)
-    private var externalPanel: JSplitPane = JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, leftComponent, scrollable)
+    private var scrollable: JBScrollPane = JBScrollPane(rightComponent)
+    private var externalPanel: JSplitPane = JSplitPane(JSplitPane.HORIZONTAL_SPLIT, CONTINUOUS_LAYOUT, leftComponent, scrollable)
+    private val makDownProcessor: MarkDownProcessor = GitlabRestMarkDownProcessor(GitlabConnectGlobalSettings(),
+                                                                                  SecureTokenStorage())
 
     init {
         this.render()
     }
 
     private fun render() {
-
-        val items = ShowIssueListener.IssueStubGenerator.generate()
+        //        val scheduleWithFixedDelay: ScheduledFuture<*> = AppExecutorUtil.getAppScheduledExecutorService()
+        //            .scheduleWithFixedDelay(getRunnable(), 5, 5, TimeUnit.MINUTES)
+        externalPanel.dividerSize = DEFAULT_DIVIDER_SIZE
+        val items = IssueStubGenerator.generate()
         val list: JBList<Issue> = JBList(items)
         list.cellRenderer = ShowIssueListener()
         leftComponent.add(list)
-        rightComponent.isEditable = false
-        list.addListSelectionListener {
-            rightComponent.contentType="text/markdown"
 
-//            rightComponent.editorKit=JBHtmlEditorKit()
-            rightComponent.text = list.selectedValue.description
+        list.addListSelectionListener {
+            rightComponent.border = createBorder()
+            rightComponent.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, USE_DISPLAY_PROPERTIES)
+            rightComponent.addHyperlinkListener { BrowserHyperlinkListener() }
+            rightComponent.font = UIUtil.getLabelFont()
+            rightComponent.isEditable = NOT_EDITABLE
+            rightComponent.contentType = PANEL_CONTENT_TYPE
+            val html = makDownProcessor.process(list.selectedValue)
+            rightComponent.text = html
         }
-        externalPanel.dividerSize = 1
     }
+
+    private fun createBorder() = BorderFactory.createCompoundBorder(
+        BorderFactory.createEmptyBorder(PANEL_SMALL_BORDER,
+                                        PANEL_MEDIUM_BORDER,
+                                        PANEL_SMALL_BORDER,
+                                        PANEL_SMALL_BORDER),
+        BorderFactory.createEmptyBorder(PANEL_SMALL_BORDER,
+                                        PANEL_SMALL_BORDER,
+                                        PANEL_SMALL_BORDER,
+                                        PANEL_SMALL_BORDER))
 
     fun geContent(): JComponent {
         return externalPanel
     }
+
+    companion object{
+        private const val PANEL_CONTENT_TYPE = "text/html"
+        private const val PANEL_SMALL_BORDER = 5
+        private const val PANEL_MEDIUM_BORDER = 15
+        private const val DEFAULT_DIVIDER_SIZE = 1
+        private const val DEFAULT_GAP = 0
+        private const val NOT_EDITABLE = false
+        private const val USE_DISPLAY_PROPERTIES = true
+        private const val CONTINUOUS_LAYOUT = true
+        private const val FILL = true
+
+    }
+
 }
 
-class ShowIssueListener : ListCellRenderer<Issue> {
-    override fun getListCellRendererComponent(list: JList<out Issue>?,
-        value: Issue,
-        index: Int,
-        isSelected: Boolean,
-        cellHasFocus: Boolean): Component {
-        //TODO ivn check jbTextField is not editable! -> set not editable
-        val jbTextField = JBTextField("${value.title}")
-        if (isSelected) {
-            jbTextField.background = UIUtil.getFocusedFillColor()
-        }
-
-        return jbTextField
-
-    }
-
-    object IssueStubGenerator {
-        fun generate(): MutableList<Issue> =
-            mutableListOf(Issue("Quisque eget condimentum erat. Interdum et malesuada.",
-                                "http://www.example.com/agreement/attack.html",
-                                listOf("great vengeance", "darkness"), "aDescription"),
-                          Issue("Morbi tincidunt tempor rutrum. Donec accumsan odio.",
-                                "http://airport.example.com/account.php",
-                                listOf("weirdo techie"),
-                                FileUtils.readFileToString(File("/Users/idelloro/Projects/GitLabConnect/src/main/kotlin/com/github/idell/gitlabconnect/ui/settings/description.txt"),Charset.forName("UTF-8"))),
-                          Issue("Nulla facilisi. Sed in lorem cursus, vehicula.",
-                                "http://bubble.example.com/?box=authority",
-                                listOf("evil men"), "aDescription"))
-    }
-
-    object RandomColorGenerator {
-        fun generateColor(): Color {
-            return Color(Random.nextInt(0, 256),
-                         Random.nextInt(0, 256),
-                         Random.nextInt(0, 256))
-        }
-    }
-}

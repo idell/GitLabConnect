@@ -8,4 +8,5 @@ interface ConnectApi {
     fun search(projectWithNamespace: GitlabProject): List<Project>
     fun getIssues(project: ProjectInfo): List<Issue>
     fun currentUser(): User
+    fun markdownApi(markedDownText: String): String
 }

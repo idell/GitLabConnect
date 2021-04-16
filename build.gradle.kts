@@ -39,7 +39,8 @@ dependencies {
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.4.2.201908231537-r") {
         exclude("org.slf4j", "slf4j-api")
     }
-    implementation("org.pegdown:pegdown:1.5.0")
+    implementation("com.github.kittinunf.fuel:fuel:2.3.1")
+    implementation("com.google.code.gson:gson:2.8.6")
 }
 
 tasks {
