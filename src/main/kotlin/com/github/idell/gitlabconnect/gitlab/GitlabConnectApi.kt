@@ -23,7 +23,6 @@ class GitlabConnectApi(gitlabTokenConfiguration: GitlabTokenConfiguration) : Con
         try {
             gitLabApi.markdownApi.getMarkdown(markedDownText).html
         } catch (gitlabApiException: GitLabApiException) {
-            println(gitlabApiException)
             throw GitlabProcessException(gitlabApiException)
         }
 
