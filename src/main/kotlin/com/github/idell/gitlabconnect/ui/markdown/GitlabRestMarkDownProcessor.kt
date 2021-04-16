@@ -3,6 +3,7 @@ package com.github.idell.gitlabconnect.ui.markdown
 import com.github.idell.gitlabconnect.GitlabConnectBundle
 import com.github.idell.gitlabconnect.exception.GitlabProcessException
 import com.github.idell.gitlabconnect.gitlab.Issue
+import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
@@ -18,7 +19,7 @@ class GitlabRestMarkDownProcessor(
     private val tokenStorage: SecureTokenStorage
 ) : MarkDownProcessor {
 
-    override fun process(issue: Issue): String {
+    override fun process(issue: Issue,projectInfo: ProjectInfo): String {
         val (enabled, tokenConfig) = globalSettings.state
         if (!enabled) return appendDescriptionToTitle(issue)
 
@@ -40,7 +41,7 @@ class GitlabRestMarkDownProcessor(
                     Gson().toJson(
                         Payload(
                             appendDescriptionToTitle(issue),
-                            project = "team-commander/rumba"
+                            project = "${projectInfo.namespace}/${projectInfo.name}"
                         )
                     )
                 )
@@ -56,7 +57,7 @@ class GitlabRestMarkDownProcessor(
     private fun composeEndpoint(tokenConfig: TokenConfiguration): String {
         return when {
             tokenConfig.host.endsWith("/") -> "${tokenConfig.host}$MARKDOWN_ENDPOINT"
-            else                           -> "${tokenConfig.host}/$MARKDOWN_ENDPOINT"
+            else -> "${tokenConfig.host}/$MARKDOWN_ENDPOINT"
         }
     }
 

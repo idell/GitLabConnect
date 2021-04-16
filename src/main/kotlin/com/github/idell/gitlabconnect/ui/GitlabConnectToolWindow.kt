@@ -1,6 +1,7 @@
 package com.github.idell.gitlabconnect.ui
 
 import com.github.idell.gitlabconnect.gitlab.Issue
+import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
@@ -65,7 +66,7 @@ class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val is
             rightComponent.font = UIUtil.getLabelFont()
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
-            val html = makDownProcessor.process(list.selectedValue)
+            val html = makDownProcessor.process(list.selectedValue, ProjectInfo(123,"rumba","team-commander"))
             rightComponent.text = html
         }
     }
