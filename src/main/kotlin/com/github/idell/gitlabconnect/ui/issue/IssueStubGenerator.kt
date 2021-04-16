@@ -15,8 +15,8 @@ object IssueStubGenerator : Runnable, IssueGenerator {
                 "http://www.example.com/agreement/attack.html",
                 listOf("great vengeance", "darkness"),
                 "* add smoke test and e2e tests execution also into spinnaker deploy pipeline\n" +
-                    "* start from Jenkins pipeline script team-resources/continuous-integration/projects/rumba/QA_rumba" +
-                    ".Jenkinsfile"
+                    "* start from Jenkins pipeline script team-resources/continuous-integration/projects/rumba" +
+                    "/QA_rumba.Jenkinsfile"
             ),
             Issue(
                 "Morbi tincidunt tempor rutrum. Donec accumsan odio.",
