@@ -49,7 +49,7 @@ class GitlabRestMarkDownProcessor(
         return when (result) {
             is Result.Success -> Gson().fromJson(response.body().asString(JSON), Response::class.java).html
             is Result.Failure -> appendDescriptionToTitle(issue)
-                .also {  LOGGER.warn("Error calling gitlab: ${result.error}")}
+                .also { LOGGER.warn("Error calling gitlab: ${result.error}") }
         }
     }
 
@@ -68,7 +68,7 @@ class GitlabRestMarkDownProcessor(
         private const val MARKDOWN_ENDPOINT = "api/v4/markdown"
         private const val PRIVATE_TOKEN = "Private-Token"
         private const val TOKEN_NOT_FOUND_MESSAGE = "storage.token.not-found"
-        private val LOGGER : Logger = LoggerFactory.getLogger(GitlabRestMarkDownProcessor::class.java)
+        private val LOGGER: Logger = LoggerFactory.getLogger(GitlabRestMarkDownProcessor::class.java)
     }
 }
 
