@@ -69,6 +69,7 @@ class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val is
             rightComponent.contentType = PANEL_CONTENT_TYPE
             val html = makDownProcessor.process(
                 list.selectedValue,
+                //GitlabConnectProjectConfigState
                 ProjectInfo(
                     BigInteger.ZERO.toInt(),
                     "rumba",

@@ -32,6 +32,7 @@ class GitlabRestMarkDownProcessor(
         val (_, response, result) =
             composeEndpoint(tokenConfig)
                 .httpPost()
+                .timeout(DEFAULT_TIMEOUT)
                 .useHttpCache(USE_HTTP_CACHES)
                 .header(
                     HTTP.CONTENT_TYPE to JSON,
@@ -50,7 +51,7 @@ class GitlabRestMarkDownProcessor(
         return when (result) {
             is Result.Success -> Gson().fromJson(response.body().asString(JSON), Response::class.java).html
             is Result.Failure -> appendDescriptionToTitle(issue)
-                .also { LOGGER.warn("Error calling gitlab: ${result.error}") }
+                .also { LOGGER.warn(GitlabConnectBundle.message(REST_CALL_ERROR_MESSAGE, GITLAB, result.error)) }
         }
     }
 
@@ -70,7 +71,11 @@ class GitlabRestMarkDownProcessor(
         private const val MARKDOWN_ENDPOINT = "api/v4/markdown"
         private const val PRIVATE_TOKEN = "Private-Token"
         private const val TOKEN_NOT_FOUND_MESSAGE = "storage.token.not-found"
+        private const val REST_CALL_ERROR_MESSAGE = "rest.call.error"
+        private const val GITLAB = "Gitlab"
+        private const val DEFAULT_TIMEOUT = 1000
         private val LOGGER: Logger = LoggerFactory.getLogger(GitlabRestMarkDownProcessor::class.java)
+
     }
 }
 
