@@ -76,11 +76,13 @@ internal class GitlabConnectDataRetrieverTest {
                     listOf(
                         anIssueWith(
                             "an issue", "an url",
-                            listOf("a label", "a fancy label")
+                            listOf("a label", "a fancy label"),
+                            "aDescription"
                         ),
                         anIssueWith(
                             "another issue", "another url",
-                            listOf("another label")
+                            listOf("another label"),
+                            "aDescription"
                         )
                     )
                 )
@@ -152,11 +154,12 @@ internal class GitlabConnectDataRetrieverTest {
         return user
     }
 
-    private fun anIssueWith(title: String, webUrl: String, labels: List<String>): GitlabIssue {
+    private fun anIssueWith(title: String, webUrl: String, labels: List<String>, description: String): GitlabIssue {
         val issue = GitlabIssue()
         issue.title = title
         issue.webUrl = webUrl
         issue.labels = labels
+        issue.description = description
         return issue
     }
 
