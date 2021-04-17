@@ -75,7 +75,6 @@ class GitlabRestMarkDownProcessor(
         private const val GITLAB = "Gitlab"
         private const val DEFAULT_TIMEOUT = 1000
         private val LOGGER: Logger = LoggerFactory.getLogger(GitlabRestMarkDownProcessor::class.java)
-
     }
 }
 

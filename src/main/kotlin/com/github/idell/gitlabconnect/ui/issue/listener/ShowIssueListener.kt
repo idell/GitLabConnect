@@ -20,7 +20,7 @@ class ShowIssueListener : ListCellRenderer<Issue> {
     ): Component {
         val field = JBTextField(value.title)
         field.font = UIUtil.getTreeFont()
-        field.border= JBEmptyBorder(EMPTY_BORDER_OFFSET)
+        field.border = JBEmptyBorder(EMPTY_BORDER_OFFSET)
         field.preferredSize = Dimension(value.title.length * DOUBLE, DEFAULT_FIELD_HEIGHT)
         if (isSelected) {
             field.background = UIUtil.getListSelectionBackground(FOCUSED)
@@ -33,7 +33,5 @@ class ShowIssueListener : ListCellRenderer<Issue> {
         private const val DEFAULT_FIELD_HEIGHT = 35
         private const val FOCUSED = true
         private const val EMPTY_BORDER_OFFSET = 0
-
-
     }
 }
