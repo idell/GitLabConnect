@@ -6,16 +6,21 @@ import com.intellij.credentialStore.generateServiceName
 import com.intellij.ide.passwordSafe.PasswordSafe
 import java.util.Optional
 
-class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSafe.instance) {
+interface TokenStorage {
+    fun getToken(key: TokenKey): Token
+    fun storeToken(tokenData: TokenData)
+}
 
-    fun getToken(key: String): Optional<String> {
+class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSafe.instance) : TokenStorage {
+
+    override fun getToken(key: TokenKey): Token {
         return Optional.ofNullable(passwordSafe.getPassword(createCredentialAttributes(key)))
     }
 
-    fun storeToken(key: String, token: String) {
-        val storedToken = passwordSafe.getPassword(createCredentialAttributes(key))
-        if (storedToken != null && storedToken != token) {
-            passwordSafe.setPassword(createCredentialAttributes(key), token)
+    override fun storeToken(tokenData: TokenData) {
+        val storedToken = passwordSafe.getPassword(createCredentialAttributes(tokenData.key))
+        if (storedToken != null && storedToken != tokenData.token) {
+            passwordSafe.setPassword(createCredentialAttributes(tokenData.key), tokenData.token)
         }
     }
 

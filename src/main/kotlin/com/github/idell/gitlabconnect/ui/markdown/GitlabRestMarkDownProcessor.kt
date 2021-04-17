@@ -5,8 +5,8 @@ import com.github.idell.gitlabconnect.exception.GitlabProcessException
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
-import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
+import com.github.idell.gitlabconnect.storage.TokenStorage
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.gson.Gson
@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 
 class GitlabRestMarkDownProcessor(
     private val globalSettings: GitlabConnectGlobalSettings,
-    private val tokenStorage: SecureTokenStorage
+    private val tokenStorage: TokenStorage
 ) : MarkDownProcessor {
 
     override fun process(issue: Issue, projectInfo: ProjectInfo): String {

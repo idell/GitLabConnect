@@ -31,7 +31,7 @@ internal class SecureTokenStorageTest {
             will(returnValue(A_TOKEN))
         }
 
-        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
+        secureTokenStorage.storeToken(TokenData(A_KEY, A_TOKEN))
 
         assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.ofNullable(A_TOKEN))
     }
@@ -44,9 +44,9 @@ internal class SecureTokenStorageTest {
             will(returnValue(A_TOKEN))
         }
 
-        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
-        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
-        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
+        secureTokenStorage.storeToken(TokenData(A_KEY, A_TOKEN))
+        secureTokenStorage.storeToken(TokenData(A_KEY, A_TOKEN))
+        secureTokenStorage.storeToken(TokenData(A_KEY, A_TOKEN))
     }
 
     @Test
@@ -61,7 +61,7 @@ internal class SecureTokenStorageTest {
             will(returnValue(null))
         }
 
-        secureTokenStorage.storeToken(ANOTHER_KEY, A_TOKEN)
+        secureTokenStorage.storeToken(TokenData(ANOTHER_KEY, A_TOKEN))
 
         assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.empty<String>())
     }
@@ -76,8 +76,8 @@ internal class SecureTokenStorageTest {
             will(returnValue(ANOTHER_TOKEN))
         }
 
-        secureTokenStorage.storeToken(A_KEY, A_TOKEN)
-        secureTokenStorage.storeToken(A_KEY, ANOTHER_TOKEN)
+        secureTokenStorage.storeToken(TokenData(A_KEY, A_TOKEN))
+        secureTokenStorage.storeToken(TokenData(A_KEY, ANOTHER_TOKEN))
 
         assertThat(secureTokenStorage.getToken(A_KEY)).isEqualTo(Optional.ofNullable(ANOTHER_TOKEN))
     }
