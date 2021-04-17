@@ -1,12 +1,9 @@
 package com.github.idell.gitlabconnect.ui.markdown
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.exception.GitlabProcessException
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
-import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
-import com.github.idell.gitlabconnect.storage.TokenConfiguration
-import com.github.idell.gitlabconnect.storage.TokenStorage
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.gson.Gson
@@ -14,29 +11,18 @@ import org.apache.http.protocol.HTTP
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class GitlabRestMarkDownProcessor(
-    private val globalSettings: GitlabConnectGlobalSettings,
-    private val tokenStorage: TokenStorage
-) : MarkDownProcessor {
+class GitlabRestMarkDownProcessor(private val gitlabTokenConfiguration: GitlabTokenConfiguration) : MarkDownProcessor {
 
     override fun process(issue: Issue, projectInfo: ProjectInfo): String {
-        val (enabled, tokenConfig) = globalSettings.state
-        if (!enabled) return appendDescriptionToTitle(issue)
-
-        val token: String = tokenStorage
-            .getToken(tokenConfig.host)
-            .orElseThrow {
-                GitlabProcessException(GitlabConnectBundle.message(TOKEN_NOT_FOUND_MESSAGE, tokenConfig.host))
-            }
 
         val (_, response, result) =
-            composeEndpoint(tokenConfig)
+            composeEndpoint(gitlabTokenConfiguration)
                 .httpPost()
                 .timeout(DEFAULT_TIMEOUT)
                 .useHttpCache(USE_HTTP_CACHES)
                 .header(
                     HTTP.CONTENT_TYPE to JSON,
-                    PRIVATE_TOKEN to token
+                    PRIVATE_TOKEN to gitlabTokenConfiguration.token
                 )
                 .body(
                     Gson().toJson(
@@ -55,7 +41,7 @@ class GitlabRestMarkDownProcessor(
         }
     }
 
-    private fun composeEndpoint(tokenConfig: TokenConfiguration): String {
+    private fun composeEndpoint(tokenConfig: GitlabTokenConfiguration): String {
         return when {
             tokenConfig.host.endsWith("/") -> "${tokenConfig.host}$MARKDOWN_ENDPOINT"
             else -> "${tokenConfig.host}/$MARKDOWN_ENDPOINT"
@@ -70,7 +56,6 @@ class GitlabRestMarkDownProcessor(
         private const val JSON = "application/json"
         private const val MARKDOWN_ENDPOINT = "api/v4/markdown"
         private const val PRIVATE_TOKEN = "Private-Token"
-        private const val TOKEN_NOT_FOUND_MESSAGE = "storage.token.not-found"
         private const val REST_CALL_ERROR_MESSAGE = "rest.call.error"
         private const val GITLAB = "Gitlab"
         private const val DEFAULT_TIMEOUT = 1000

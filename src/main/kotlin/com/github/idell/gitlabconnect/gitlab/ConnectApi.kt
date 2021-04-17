@@ -1,12 +1,12 @@
 package com.github.idell.gitlabconnect.gitlab
 
-import org.gitlab4j.api.models.Issue
-import org.gitlab4j.api.models.Project
-import org.gitlab4j.api.models.User
+import org.gitlab4j.api.models.Issue as GitlabIssue
+import org.gitlab4j.api.models.Project as GitlabApiProject
+import org.gitlab4j.api.models.User as GitlabApiUser
 
 interface ConnectApi {
-    fun search(projectWithNamespace: GitlabProject): List<Project>
-    fun getIssues(project: ProjectInfo): List<Issue>
-    fun currentUser(): User
-    fun markdownApi(issue: com.github.idell.gitlabconnect.gitlab.Issue, project: ProjectInfo): String
+    fun search(projectWithNamespace: GitlabProject): List<GitlabApiProject>
+    fun getIssues(project: ProjectInfo): List<GitlabIssue>
+    fun currentUser(): GitlabApiUser
+    fun markdownApi(issue: Issue, project: ProjectInfo): String
 }

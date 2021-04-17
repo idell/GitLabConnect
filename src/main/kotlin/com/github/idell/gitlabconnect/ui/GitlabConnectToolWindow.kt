@@ -1,12 +1,9 @@
 package com.github.idell.gitlabconnect.ui
 
+import com.github.idell.gitlabconnect.gitlab.ConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
-import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
-import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
-import com.github.idell.gitlabconnect.ui.markdown.GitlabRestMarkDownProcessor
-import com.github.idell.gitlabconnect.ui.markdown.MarkDownProcessor
 import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.BrowserHyperlinkListener
@@ -23,7 +20,11 @@ import javax.swing.JEditorPane
 import javax.swing.JSplitPane
 import javax.swing.ListCellRenderer
 
-class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val issueListener: ListCellRenderer<Issue>) {
+class GitlabConnectToolWindow(
+    private val toolWindow: ToolWindow,
+    private val issueListener: ListCellRenderer<Issue>,
+    private val gitlabApi: ConnectApi
+) {
 
     private var rightComponent: JEditorPane = JEditorPane()
     private var scrollable: JBScrollPane = JBScrollPane(rightComponent)
@@ -41,10 +42,6 @@ class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val is
         CONTINUOUS_LAYOUT,
         leftComponent,
         scrollable
-    )
-    private val makDownProcessor: MarkDownProcessor = GitlabRestMarkDownProcessor(
-        GitlabConnectGlobalSettings.getInstance(),
-        SecureTokenStorage()
     )
 
     init {
@@ -67,9 +64,9 @@ class GitlabConnectToolWindow(private val toolWindow: ToolWindow, private val is
             rightComponent.font = UIUtil.getLabelFont()
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
-            val html = makDownProcessor.process(
+
+            val html = gitlabApi.markdownApi(
                 list.selectedValue,
-                // GitlabConnectProjectConfigState
                 ProjectInfo(
                     BigInteger.ZERO.toInt(),
                     "rumba",

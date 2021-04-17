@@ -1,5 +1,6 @@
 package com.github.idell.gitlabconnect.ui.markdown
 
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
@@ -36,10 +37,7 @@ internal class GitlabRestMarkDownProcessorTest {
     internal fun setUp() {
         secureTokenStorage = context.mock(TokenStorage::class.java)
         globalSettings = context.mock(GitlabConnectGlobalSettings::class.java)
-        markDownProcessor = GitlabRestMarkDownProcessor(
-            globalSettings,
-            secureTokenStorage
-        )
+        markDownProcessor = GitlabRestMarkDownProcessor(GitlabTokenConfiguration("aHost", "aToken"))
     }
 
     @Test
