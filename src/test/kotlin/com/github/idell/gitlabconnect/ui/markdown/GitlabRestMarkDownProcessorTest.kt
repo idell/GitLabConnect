@@ -5,6 +5,7 @@ import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.github.idell.gitlabconnect.storage.GlobalSettings
+import com.github.idell.gitlabconnect.storage.ProjectConfig
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.github.idell.gitlabconnect.storage.TokenStorage
 import org.assertj.core.api.Assertions.assertThat
@@ -37,7 +38,8 @@ internal class GitlabRestMarkDownProcessorTest {
     internal fun setUp() {
         secureTokenStorage = context.mock(TokenStorage::class.java)
         globalSettings = context.mock(GitlabConnectGlobalSettings::class.java)
-        markDownProcessor = GitlabRestMarkDownProcessor(GitlabTokenConfiguration("aHost", "aToken"))
+        markDownProcessor =
+            GitlabRestMarkDownProcessor(GitlabTokenConfiguration("aHost", "aToken")) { ProjectConfig() }
     }
 
     @Test

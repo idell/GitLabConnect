@@ -6,7 +6,8 @@ import java.net.URL
 class Remote(val name: String, val address: String) {
 
     init {
-        if (!address.matches(Regex(REGEX))) throw GitlabConnectException("address is not a valid git repository")
+        if (!address.matches(Regex(REGEX))) throw
+        GitlabConnectException("address [$address] is not a valid git repository")
     }
 
     fun belongTo(host: String): Boolean {
