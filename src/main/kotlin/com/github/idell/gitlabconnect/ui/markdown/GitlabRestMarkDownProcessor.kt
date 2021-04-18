@@ -1,11 +1,8 @@
 package com.github.idell.gitlabconnect.ui.markdown
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.exception.GitlabConnectException
-import com.github.idell.gitlabconnect.git.Remote
 import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
-import com.github.idell.gitlabconnect.storage.ProjectConfig
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.google.gson.Gson
@@ -13,22 +10,9 @@ import org.apache.http.protocol.HTTP
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class GitlabRestMarkDownProcessor(
-    private val gitlabTokenConfiguration: GitlabTokenConfiguration,
-    private val projectSupplier: () -> ProjectConfig
-) : MarkDownProcessor {
+class GitlabRestMarkDownProcessor(private val gitlabTokenConfiguration: GitlabTokenConfiguration) : MarkDownProcessor {
 
     override fun process(issue: Issue): String {
-
-        val (_, address) = projectSupplier.invoke()
-        val info: Remote = try {
-            Remote("origin", address)
-        } catch (e: GitlabConnectException) {
-            LOGGER.warn("Error obtaining git remote", e)
-            // TODO ivn remove this stub (maybe could be useful to get a default project or a
-            //  "random" project in the remotes)
-            Remote("origin", "git@gitlab.lastminute.com:team-commander/rumba.git")
-        }
 
         val (_, response, result) =
             composeEndpoint(gitlabTokenConfiguration)
@@ -42,8 +26,7 @@ class GitlabRestMarkDownProcessor(
                 .body(
                     Gson().toJson(
                         Payload(
-                            text = appendDescriptionToTitle(issue),
-                            project = info.getRepositoryWithNamespace()
+                            text = appendDescriptionToTitle(issue)
                         )
                     )
                 )
@@ -78,6 +61,6 @@ class GitlabRestMarkDownProcessor(
     }
 }
 
-data class Payload(val text: String, val gfm: Boolean = true, val project: String)
+data class Payload(val text: String, val gfm: Boolean = true)
 
 data class Response(val html: String)
