@@ -2,7 +2,6 @@ package com.github.idell.gitlabconnect.ui
 
 import com.github.idell.gitlabconnect.gitlab.ConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
-import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
 import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.openapi.wm.ToolWindow
@@ -13,7 +12,6 @@ import com.intellij.ui.components.JBScrollPane
 import com.intellij.util.ui.UIUtil
 import com.intellij.util.ui.components.BorderLayoutPanel
 import java.awt.FlowLayout
-import java.math.BigInteger
 import javax.swing.BorderFactory
 import javax.swing.JComponent
 import javax.swing.JEditorPane
@@ -65,15 +63,7 @@ class GitlabConnectToolWindow(
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
 
-            val html = gitlabApi.markdownApi(
-                list.selectedValue,
-                ProjectInfo(
-                    BigInteger.ZERO.toInt(),
-                    "rumba",
-                    "team-commander"
-                )
-            )
-            rightComponent.text = html
+            rightComponent.text = gitlabApi.markdownApi(list.selectedValue)
         }
     }
 

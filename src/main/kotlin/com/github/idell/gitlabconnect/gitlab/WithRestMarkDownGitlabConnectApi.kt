@@ -16,5 +16,5 @@ class WithRestMarkDownGitlabConnectApi(
 
     override fun currentUser(): User = gitlabConnectApi.currentUser()
 
-    override fun markdownApi(issue: Issue, project: ProjectInfo): String = markDownProcessor.process(issue, project)
+    override fun markdownApi(issue: Issue): String = markDownProcessor.process(issue)
 }

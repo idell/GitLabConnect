@@ -2,7 +2,6 @@ package com.github.idell.gitlabconnect.ui.markdown
 
 import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
-import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.github.idell.gitlabconnect.storage.GlobalSettings
 import com.github.idell.gitlabconnect.storage.ProjectConfig
@@ -64,8 +63,7 @@ internal class GitlabRestMarkDownProcessorTest {
                 "http",
                 emptyList(),
                 ""
-            ),
-            ProjectInfo(1, "", "")
+            )
         )
         assertThat(actual).isEqualTo("")
     }

@@ -23,16 +23,17 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val gitlabTokenConfiguration = retrieveGitlabTokenConfiguration()
         val gitlabConnectApi = GitlabConnectApi(gitlabTokenConfiguration)
+        val projectConfig = GitlabConnectProjectConfigState.actualConfig(ProjectManager.getInstance().defaultProject)
         val gitlabConnectToolWindow = GitlabConnectToolWindow(
             toolWindow,
             ShowIssueListener(),
             WithRestMarkDownGitlabConnectApi(
                 gitlabConnectApi,
                 GitlabRestMarkDownProcessor(gitlabTokenConfiguration) {
-                    GitlabConnectProjectConfigState.actualConfig(ProjectManager.getInstance().defaultProject)
+                    projectConfig
                 }
             )
-        )
+                                                             )
         val contentFactory = ContentFactory.SERVICE.getInstance()
         val content = contentFactory.createContent(
             gitlabConnectToolWindow.geContent(),

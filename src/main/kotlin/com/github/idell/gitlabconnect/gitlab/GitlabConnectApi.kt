@@ -19,7 +19,7 @@ class GitlabConnectApi(gitlabTokenConfiguration: GitlabTokenConfiguration) : Con
         return gitLabApi.issuesApi.getIssues(project.id as Any)
     }
     @Deprecated("Use the one implemented by WithRestMarkDownGitlabConnectApi until issue #30 is not solved")
-    override fun markdownApi(issue: Issue, project: ProjectInfo): String {
+    override fun markdownApi(issue: Issue): String {
         try {
             return gitLabApi.markdownApi.getMarkdown(issue.description).html
         } catch (gitlabApiException: GitLabApiException) {

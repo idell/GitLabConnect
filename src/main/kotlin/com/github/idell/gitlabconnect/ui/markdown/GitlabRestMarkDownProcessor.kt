@@ -5,7 +5,6 @@ import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import com.github.idell.gitlabconnect.git.Remote
 import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
-import com.github.idell.gitlabconnect.gitlab.ProjectInfo
 import com.github.idell.gitlabconnect.storage.ProjectConfig
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -19,7 +18,7 @@ class GitlabRestMarkDownProcessor(
     private val projectSupplier: () -> ProjectConfig
 ) : MarkDownProcessor {
 
-    override fun process(issue: Issue, projectInfo: ProjectInfo): String {
+    override fun process(issue: Issue): String {
 
         val (_, address) = projectSupplier.invoke()
         val info: Remote = try {
