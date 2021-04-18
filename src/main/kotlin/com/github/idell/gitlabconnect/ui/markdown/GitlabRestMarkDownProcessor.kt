@@ -24,11 +24,7 @@ class GitlabRestMarkDownProcessor(private val gitlabTokenConfiguration: GitlabTo
                     PRIVATE_TOKEN to gitlabTokenConfiguration.token
                 )
                 .body(
-                    Gson().toJson(
-                        Payload(
-                            text = appendDescriptionToTitle(issue)
-                        )
-                    )
+                    Gson().toJson(Payload(appendDescriptionToTitle(issue)))
                 )
                 .response()
 
