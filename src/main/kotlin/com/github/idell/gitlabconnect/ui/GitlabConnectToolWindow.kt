@@ -1,7 +1,6 @@
 package com.github.idell.gitlabconnect.ui
 
 import com.github.idell.gitlabconnect.gitlab.ConnectApi
-import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
 import com.intellij.openapi.ui.VerticalFlowLayout
