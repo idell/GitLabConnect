@@ -1,9 +1,7 @@
 package com.github.idell.gitlabconnect.storage
 
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
+import com.intellij.openapi.components.*
+import com.intellij.openapi.project.Project
 
 @State(
     name = "org.intellij.sdk.settings.GitlabConnectSettings",
@@ -31,6 +29,6 @@ class GitlabConnectGlobalSettings private constructor() : PersistentStateCompone
             ServiceManager.getService(GitlabConnectGlobalSettings::class.java)
 
         @JvmStatic
-        fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).getState()
+        fun get(project: Project): GlobalSettings = project.service<GitlabConnectGlobalSettings>().getState()
     }
 }

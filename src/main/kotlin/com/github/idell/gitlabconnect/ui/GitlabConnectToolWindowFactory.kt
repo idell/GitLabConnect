@@ -5,10 +5,12 @@ import com.github.idell.gitlabconnect.exception.GitlabProcessException
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.WithRestMarkDownGitlabConnectApi
+import com.github.idell.gitlabconnect.services.restclient.RestClientService
 import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
 import com.github.idell.gitlabconnect.storage.SecureTokenStorage
 import com.github.idell.gitlabconnect.ui.issue.listener.ShowIssueListener
 import com.github.idell.gitlabconnect.ui.markdown.GitlabRestMarkDownProcessor
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
@@ -26,7 +28,7 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
             ShowIssueListener(),
             WithRestMarkDownGitlabConnectApi(
                 gitlabConnectApi,
-                GitlabRestMarkDownProcessor(Fuel)
+                GitlabRestMarkDownProcessor(project.service<RestClientService>().get())
             )
         )
         val contentFactory = ContentFactory.SERVICE.getInstance()

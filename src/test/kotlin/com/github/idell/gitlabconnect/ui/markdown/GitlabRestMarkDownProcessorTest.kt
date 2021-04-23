@@ -2,9 +2,12 @@ package com.github.idell.gitlabconnect.ui.markdown
 
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.storage.TokenStorage
-import com.github.kittinunf.fuel.core.Method
-import com.github.kittinunf.fuel.core.requests.DefaultRequest
+import com.github.idell.gitlabconnect.utils.restclient.Failure
+import com.github.idell.gitlabconnect.utils.restclient.GitlabConnectRestClient
+import com.github.idell.gitlabconnect.utils.restclient.Success
+import com.google.gson.Gson
 import org.assertj.core.api.Assertions.assertThat
+import org.jmock.AbstractExpectations.any
 import org.jmock.AbstractExpectations.returnValue
 import org.jmock.Expectations
 import org.jmock.Mockery
@@ -13,13 +16,12 @@ import org.jmock.lib.legacy.ClassImposteriser
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import java.net.URL
 
 internal class GitlabRestMarkDownProcessorTest {
 
     private lateinit var secureTokenStorage: TokenStorage
     private lateinit var markDownProcessor: GitlabRestMarkDownProcessor
-    private lateinit var restClient : RestClient
+    private lateinit var gitlabConnectRestClient : GitlabConnectRestClient
 
     @RegisterExtension
     var context: Mockery = object : JUnit5Mockery() {
@@ -31,27 +33,26 @@ internal class GitlabRestMarkDownProcessorTest {
     @BeforeEach
     internal fun setUp() {
         secureTokenStorage = context.mock(TokenStorage::class.java)
-        restClient = context.mock(RestClient::class.java)
-        markDownProcessor = GitlabRestMarkDownProcessor(restClient)
+        gitlabConnectRestClient = context.mock(GitlabConnectRestClient::class.java)
+        markDownProcessor = GitlabRestMarkDownProcessor(gitlabConnectRestClient)
     }
 
     @Test
-    internal fun process() {
-        val request = DefaultRequest(Method.POST, URL("anHost/api/v4/markdown"))
+    internal fun aSuccessRequest() {
+        val issue = Issue(
+            "abc",
+            "http",
+            emptyList(),
+            ""
+        )
 
         context.expecting {
-            allowing(restClient).post("api/v4/markdown")
-            with(returnValue(request))
+            oneOf(gitlabConnectRestClient).post("api/v4/markdown", Gson().toJson(MarkdownRequest.from(issue)))
+            will(returnValue(Success(Gson().toJson(MarkdownResponse("<p>My html</p>")))))
         }
-        val actual = markDownProcessor.process(
-            Issue(
-                "abc",
-                "http",
-                emptyList(),
-                ""
-            )
-        )
-        assertThat(actual).isEqualTo("")
+        val actual = markDownProcessor.process(issue)
+
+        assertThat(actual).isEqualTo("<p>My html</p>")
     }
 
     private fun Mockery.expecting(block: Expectations.() -> Unit) {
