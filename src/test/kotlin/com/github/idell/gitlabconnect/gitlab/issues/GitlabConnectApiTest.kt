@@ -4,7 +4,9 @@ import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import com.github.idell.gitlabconnect.gitlab.*
 import com.github.idell.gitlabconnect.gitlab.Issue
 import org.gitlab4j.api.GitLabApi
+import org.gitlab4j.api.IssuesApi
 import org.gitlab4j.api.ProjectApi
+import org.gitlab4j.api.UserApi
 import org.gitlab4j.api.models.Namespace
 import org.gitlab4j.api.models.Project
 import org.gitlab4j.api.models.User
@@ -14,20 +16,21 @@ import org.jmock.Expectations
 import org.jmock.Mockery
 import org.jmock.junit5.JUnit5Mockery
 import org.jmock.lib.legacy.ClassImposteriser
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.*
-import kotlin.test.assertFalse
 import org.gitlab4j.api.models.Issue as GitlabIssue
 
 internal class GitlabConnectApiTest {
 
+    private lateinit var userApi: UserApi
+    private lateinit var issueApi: IssuesApi
     private lateinit var gitLabApi: GitLabApi
     private lateinit var connectApi: ConnectApi
-    private lateinit var projects: ProjectApi
+    private lateinit var projectApi: ProjectApi
 
     @RegisterExtension
     var context: Mockery = object : JUnit5Mockery() {
@@ -39,7 +42,9 @@ internal class GitlabConnectApiTest {
     @BeforeEach
     internal fun setUp() {
         gitLabApi = context.mock(GitLabApi::class.java)
-        projects = context.mock(ProjectApi::class.java)
+        projectApi = context.mock(ProjectApi::class.java)
+        issueApi = context.mock(IssuesApi::class.java)
+        userApi = context.mock(UserApi::class.java)
         connectApi = GitlabConnectApi(gitLabApi)
     }
 
@@ -49,8 +54,8 @@ internal class GitlabConnectApiTest {
 
         context.expecting {
             oneOf(gitLabApi).projectApi
-            will(returnValue(projects))
-            oneOf(projects).getProjects(projectSearch.pathWithNamespace())
+            will(returnValue(projectApi))
+            oneOf(projectApi).getProjects(projectSearch.pathWithNamespace())
             will(returnValue(generateProjects(EXPECTED_PROJECT, EXPECTED_ID)))
         }
 
@@ -63,19 +68,21 @@ internal class GitlabConnectApiTest {
 
         context.expecting {
             oneOf(gitLabApi).projectApi
-            will(returnValue(projects))
-            oneOf(projects).getProjects(projectSearch.pathWithNamespace())
+            will(returnValue(projectApi))
+            oneOf(projectApi).getProjects(projectSearch.pathWithNamespace())
             will(returnValue(generateProjects()))
         }
 
         assertEquals(Optional.empty<Int>(), connectApi.search(projectSearch))
     }
 
-/*    @Test
+    @Test
     internal fun `given a project id, returns his issues`() {
 
         context.expecting {
-            oneOf(gitLabApi).getIssues(ProjectInfo(1, "order-manager", "obi1"))
+            oneOf(gitLabApi).issuesApi
+            will(returnValue(issueApi))
+            oneOf(issueApi).getIssues(1 as Any)
             will(
                 returnValue(
                     listOf(
@@ -106,32 +113,37 @@ internal class GitlabConnectApiTest {
 
     @Test
     internal fun `given a project id, when it has no issues, returns an empty list`() {
+        val project = ProjectInfo(1, "order-manager", "obi1")
 
         context.expecting {
-            oneOf(gitLabApi).getIssues(ProjectInfo(1, "order-manager", "obi1"))
+            oneOf(gitLabApi).issuesApi
+            will(returnValue(issueApi))
+            oneOf(issueApi).getIssues(project.id as Any)
             will(returnValue(emptyList<GitlabIssue>()))
         }
 
-        val issues = connectApi.getIssues(ProjectInfo(1, "order-manager", "obi1"))
+        val issues = connectApi.getIssues(project)
         assertEquals(emptyList<Issue>(), issues)
     }
 
     @Test
     internal fun `given a gitlab configuration when retrieving user info return it correctly`() {
         context.expecting {
-            oneOf(gitLabApi).currentUser()
+            oneOf(gitLabApi).userApi
+            will(returnValue(userApi))
+            oneOf(userApi).currentUser
             will(returnValue(anUser("active")))
         }
 
-        val actualUser = connectApi.getCurrentUser()
-
-        assertEquals(UserInfo(1, "John Doe", "active"), actualUser)
+        assertEquals(UserInfo(1, "John Doe", "active"), connectApi.getCurrentUser())
     }
 
     @Test
     internal fun `given a gitlab configuration, when retrieving user info, return an inactive user`() {
         context.expecting {
-            oneOf(gitLabApi).currentUser()
+            oneOf(gitLabApi).userApi
+            will(returnValue(userApi))
+            oneOf(userApi).currentUser
             will(returnValue(anUser("inactive")))
         }
 
@@ -144,12 +156,14 @@ internal class GitlabConnectApiTest {
     @Test
     internal fun `given a gitlab configuration when retrieving user info throw exception due to unauthorized user`() {
         context.expecting {
-            oneOf(gitLabApi).currentUser()
+            oneOf(gitLabApi).userApi
+            will(returnValue(userApi))
+            oneOf(userApi).currentUser
             will(throwException(GitlabConnectException("an error")))
         }
 
         assertThrows<GitlabConnectException> { connectApi.getCurrentUser() }
-    }*/
+    }
 
     private fun anUser(s: String): User {
         val user = User()
