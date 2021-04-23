@@ -26,7 +26,7 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
             ShowIssueListener(),
             WithRestMarkDownGitlabConnectApi(
                 gitlabConnectApi,
-                GitlabRestMarkDownProcessor(gitlabTokenConfiguration)
+                GitlabRestMarkDownProcessor(Fuel)
             )
         )
         val contentFactory = ContentFactory.SERVICE.getInstance()

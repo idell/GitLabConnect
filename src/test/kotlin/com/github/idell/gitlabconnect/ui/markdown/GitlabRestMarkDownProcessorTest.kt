@@ -1,11 +1,9 @@
 package com.github.idell.gitlabconnect.ui.markdown
 
-import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.idell.gitlabconnect.gitlab.Issue
-import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
-import com.github.idell.gitlabconnect.storage.GlobalSettings
-import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.github.idell.gitlabconnect.storage.TokenStorage
+import com.github.kittinunf.fuel.core.Method
+import com.github.kittinunf.fuel.core.requests.DefaultRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.jmock.AbstractExpectations.returnValue
 import org.jmock.Expectations
@@ -13,17 +11,15 @@ import org.jmock.Mockery
 import org.jmock.junit5.JUnit5Mockery
 import org.jmock.lib.legacy.ClassImposteriser
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
-import java.util.Optional
+import java.net.URL
 
-@Disabled
 internal class GitlabRestMarkDownProcessorTest {
 
     private lateinit var secureTokenStorage: TokenStorage
-    private lateinit var globalSettings: GitlabConnectGlobalSettings
     private lateinit var markDownProcessor: GitlabRestMarkDownProcessor
+    private lateinit var restClient : RestClient
 
     @RegisterExtension
     var context: Mockery = object : JUnit5Mockery() {
@@ -35,26 +31,17 @@ internal class GitlabRestMarkDownProcessorTest {
     @BeforeEach
     internal fun setUp() {
         secureTokenStorage = context.mock(TokenStorage::class.java)
-        globalSettings = context.mock(GitlabConnectGlobalSettings::class.java)
-        markDownProcessor =
-            GitlabRestMarkDownProcessor(GitlabTokenConfiguration("aHost", "aToken"))
+        restClient = context.mock(RestClient::class.java)
+        markDownProcessor = GitlabRestMarkDownProcessor(restClient)
     }
 
     @Test
     internal fun process() {
-        context.expecting {
-            allowing(globalSettings).state
-            will(
-                returnValue(
-                    GlobalSettings(
-                        enabled = true,
-                        tokenConfig = TokenConfiguration("anHost", "")
-                    )
-                )
-            )
+        val request = DefaultRequest(Method.POST, URL("anHost/api/v4/markdown"))
 
-            allowing(secureTokenStorage).getToken("anHost")
-            will(returnValue(Optional.of("aToken")))
+        context.expecting {
+            allowing(restClient).post("api/v4/markdown")
+            with(returnValue(request))
         }
         val actual = markDownProcessor.process(
             Issue(
@@ -70,4 +57,5 @@ internal class GitlabRestMarkDownProcessorTest {
     private fun Mockery.expecting(block: Expectations.() -> Unit) {
         this.checking(Expectations().apply(block))
     }
+
 }
