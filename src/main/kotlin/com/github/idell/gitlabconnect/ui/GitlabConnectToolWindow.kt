@@ -1,6 +1,7 @@
 package com.github.idell.gitlabconnect.ui
 
 import com.github.idell.gitlabconnect.gitlab.ConnectApi
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
 import com.intellij.openapi.ui.VerticalFlowLayout
@@ -21,7 +22,7 @@ import javax.swing.ListCellRenderer
 class GitlabConnectToolWindow(
     private val toolWindow: ToolWindow,
     private val issueListener: ListCellRenderer<Issue>,
-    private val gitlabApi: ConnectApi
+    private val gitlabConnectApi: ConnectApi
 ) {
 
     private var rightComponent: JEditorPane = JEditorPane()
@@ -63,7 +64,7 @@ class GitlabConnectToolWindow(
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
 
-            rightComponent.text = gitlabApi.markdownApi(list.selectedValue)
+            rightComponent.text = gitlabConnectApi.markdownApi(list.selectedValue)
         }
     }
 

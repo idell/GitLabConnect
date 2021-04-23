@@ -1,6 +1,6 @@
 package com.github.idell.gitlabconnect.storage
 
-import com.github.idell.gitlabconnect.gitlab.issues.GitlabConnectDataRetrieverTest.Companion.expecting
+import com.github.idell.gitlabconnect.gitlab.issues.GitlabConnectApiTest.Companion.expecting
 import com.intellij.credentialStore.CredentialAttributes
 import com.intellij.credentialStore.CredentialStore
 import org.assertj.core.api.Assertions.assertThat

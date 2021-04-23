@@ -1,7 +1,7 @@
 package com.github.idell.gitlabconnect.services.gitlab
 
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
-import com.github.idell.gitlabconnect.gitlab.GitlabConnectDataRetriever
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.storage.TokenConfiguration
 import com.intellij.openapi.components.Service
 
@@ -9,7 +9,7 @@ import com.intellij.openapi.components.Service
 class GitlabTestService {
     fun test(host: String, token: String): Boolean {
         return try {
-            GitlabConnectDataRetriever
+            GitlabConnectApi
                 .from(host, token)
                 .getCurrentUser()
                 .isActive()
@@ -20,7 +20,7 @@ class GitlabTestService {
 
     fun test(config: TokenConfiguration): Boolean {
         return try {
-            GitlabConnectDataRetriever
+            GitlabConnectApi
                 .from(config.host, config.token)
                 .getCurrentUser()
                 .isActive()
