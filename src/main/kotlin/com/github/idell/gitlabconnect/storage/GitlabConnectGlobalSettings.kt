@@ -29,6 +29,6 @@ class GitlabConnectGlobalSettings private constructor() : PersistentStateCompone
             ServiceManager.getService(GitlabConnectGlobalSettings::class.java)
 
         @JvmStatic
-        fun get(project: Project): GlobalSettings = project.service<GitlabConnectGlobalSettings>().getState()
+        fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).getState()
     }
 }

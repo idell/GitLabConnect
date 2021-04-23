@@ -15,7 +15,7 @@ import com.intellij.openapi.startup.StartupActivity
 class GitlabConnectAvailabilityActivity : StartupActivity, DumbAware {
 
     override fun runActivity(project: Project) {
-        val globalSettings = GitlabConnectGlobalSettings.get(project)
+        val globalSettings = GitlabConnectGlobalSettings.getInstance().state
         val previousStatus = actualConfig(project).gitlabStatus
         val notificationService: TemporaryBalloonNotificationService = project.service()
 

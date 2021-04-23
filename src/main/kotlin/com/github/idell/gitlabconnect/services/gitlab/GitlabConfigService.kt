@@ -14,7 +14,7 @@ class GitlabConfigService(val project: Project) {
     private val tokenStorage = SecureTokenStorage()
 
     fun get(): GitlabTokenConfiguration {
-        val (_, tokenConfig) = GitlabConnectGlobalSettings.get(project)
+        val (_, tokenConfig) = GitlabConnectGlobalSettings.get()
 
         val token = tokenStorage.getToken(tokenConfig.host).orElseThrow {
             GitlabProcessException(GitlabConnectBundle.message(TOKEN_NOT_FOUND_MESSAGE, tokenConfig.host))
