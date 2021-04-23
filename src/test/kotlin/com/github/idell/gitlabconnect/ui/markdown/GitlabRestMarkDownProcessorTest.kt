@@ -7,7 +7,6 @@ import com.github.idell.gitlabconnect.utils.restclient.GitlabConnectRestClient
 import com.github.idell.gitlabconnect.utils.restclient.Success
 import com.google.gson.Gson
 import org.assertj.core.api.Assertions.assertThat
-import org.jmock.AbstractExpectations.any
 import org.jmock.AbstractExpectations.returnValue
 import org.jmock.Expectations
 import org.jmock.Mockery
@@ -50,9 +49,25 @@ internal class GitlabRestMarkDownProcessorTest {
             oneOf(gitlabConnectRestClient).post("api/v4/markdown", Gson().toJson(MarkdownRequest.from(issue)))
             will(returnValue(Success(Gson().toJson(MarkdownResponse("<p>My html</p>")))))
         }
-        val actual = markDownProcessor.process(issue)
 
-        assertThat(actual).isEqualTo("<p>My html</p>")
+        assertThat(markDownProcessor.process(issue)).isEqualTo("<p>My html</p>")
+    }
+
+    @Test
+    internal fun aFailedRequest() {
+        val issue = Issue(
+            "abc",
+            "http",
+            emptyList(),
+            ""
+        )
+
+        context.expecting {
+            oneOf(gitlabConnectRestClient).post("api/v4/markdown", Gson().toJson(MarkdownRequest.from(issue)))
+            will(returnValue(Failure(RuntimeException())))
+        }
+
+        assertThat(markDownProcessor.process(issue)).isEqualTo(MarkdownRequest.from(issue).text)
     }
 
     private fun Mockery.expecting(block: Expectations.() -> Unit) {
