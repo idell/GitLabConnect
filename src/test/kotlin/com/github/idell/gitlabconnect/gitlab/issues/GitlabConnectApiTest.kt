@@ -1,7 +1,6 @@
 package com.github.idell.gitlabconnect.gitlab.issues
 
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
-import com.github.idell.gitlabconnect.gitlab.*
 import com.github.idell.gitlabconnect.gitlab.Issue
 import org.gitlab4j.api.GitLabApi
 import org.gitlab4j.api.IssuesApi
@@ -16,13 +15,19 @@ import org.jmock.Expectations
 import org.jmock.Mockery
 import org.jmock.junit5.JUnit5Mockery
 import org.jmock.lib.legacy.ClassImposteriser
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.RegisterExtension
 import java.util.*
 import org.gitlab4j.api.models.Issue as GitlabIssue
+import com.github.idell.gitlabconnect.gitlab.ConnectApi
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
+import com.github.idell.gitlabconnect.gitlab.ProjectInfo
+import com.github.idell.gitlabconnect.gitlab.ProjectSearch
+import com.github.idell.gitlabconnect.gitlab.UserInfo
 
 internal class GitlabConnectApiTest {
 

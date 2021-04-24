@@ -5,11 +5,10 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
-
 @State(
     name = "org.intellij.sdk.settings.GitlabConnectSettings",
     storages = [Storage("gitlabConnectGlobalSettings.xml")]
-      )
+)
 class GitlabConnectGlobalSettings private constructor() : PersistentStateComponent<GlobalSettings> {
 
     private var state: GlobalSettings = GlobalSettings()
