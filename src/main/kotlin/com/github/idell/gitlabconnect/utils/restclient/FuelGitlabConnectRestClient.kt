@@ -4,17 +4,20 @@ import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.result.Result
+import org.slf4j.LoggerFactory
 
 class FuelGitlabConnectRestClient(private val gitlabConfiguration: GitlabTokenConfiguration) : GitlabConnectRestClient {
 
     override fun post(endpoint: String, jsonBody: String): GitlabRestResponse {
 
-        val (_, response, result) = Fuel.post("${gitlabConfiguration.host}/$endpoint")
+        val path = "${gitlabConfiguration.host}/$endpoint"
+        val (_, response, result) = Fuel.post(path)
             .header(PRIVATE_TOKEN to gitlabConfiguration.token)
             .useHttpCache(USE_HTTP_CACHES)
             .timeout(DEFAULT_TIMEOUT)
             .jsonBody(jsonBody)
             .response()
+        also { LOGGER.info("#debug Calling gitlab with: [${gitlabConfiguration.token}] to path [$path]") }
 
         return when (result) {
             is Result.Success -> Success(response.body().asString(JSON))
@@ -27,5 +30,6 @@ class FuelGitlabConnectRestClient(private val gitlabConfiguration: GitlabTokenCo
         private const val USE_HTTP_CACHES = true
         private const val PRIVATE_TOKEN = "Private-Token"
         private const val DEFAULT_TIMEOUT = 1000
+        private val LOGGER = LoggerFactory.getLogger(FuelGitlabConnectRestClient::class.java)
     }
 }

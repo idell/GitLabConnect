@@ -1,8 +1,11 @@
 package com.github.idell.gitlabconnect.ui
 
-import com.github.idell.gitlabconnect.gitlab.ConnectApi
+import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
+import com.github.idell.gitlabconnect.services.gitlab.GitlabConnectApiService
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
+import com.intellij.openapi.components.service
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.VerticalFlowLayout
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.BrowserHyperlinkListener
@@ -21,8 +24,8 @@ import javax.swing.ListCellRenderer
 class GitlabConnectToolWindow(
     private val toolWindow: ToolWindow,
     private val issueListener: ListCellRenderer<Issue>,
-    private val gitlabConnectApi: ConnectApi
-) {
+    private val project: Project
+                             ) {
 
     private var rightComponent: JEditorPane = JEditorPane()
     private var scrollable: JBScrollPane = JBScrollPane(rightComponent)
@@ -62,8 +65,7 @@ class GitlabConnectToolWindow(
             rightComponent.font = UIUtil.getLabelFont()
             rightComponent.isEditable = NOT_EDITABLE
             rightComponent.contentType = PANEL_CONTENT_TYPE
-
-            rightComponent.text = gitlabConnectApi.markdownApi(list.selectedValue)
+            rightComponent.text = project.service<GitlabConnectApiService>().getApi().markdownApi(list.selectedValue)
         }
     }
 

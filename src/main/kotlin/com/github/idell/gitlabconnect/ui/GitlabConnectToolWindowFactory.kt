@@ -16,7 +16,7 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
         val gitlabConnectToolWindow = GitlabConnectToolWindow(
             toolWindow,
             ShowIssueListener(),
-            project.service<GitlabConnectApiService>().getApi(),
+            project,
         )
 
         val content = ContentFactory.SERVICE.getInstance().createContent(
@@ -27,6 +27,8 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
 
         toolWindow.contentManager.addContent(content)
     }
+
+
 
     companion object {
         private const val ISSUES_TAB_NAME = "ui.tab.issue.name"
