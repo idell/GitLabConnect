@@ -14,14 +14,24 @@ class GitlabRestMarkDownProcessor(private val gitlabConnectRestClient: GitlabCon
     override fun process(issue: Issue): String {
         val markdownRequest = MarkdownRequest.from(issue)
 
-        return when (val gitlabRestResponse = gitlabConnectRestClient.post(MARKDOWN_ENDPOINT,
-                                                                           Gson().toJson(markdownRequest))) {
+        return when (
+            val gitlabRestResponse = gitlabConnectRestClient.post(
+                MARKDOWN_ENDPOINT,
+                Gson().toJson(markdownRequest)
+            )
+        ) {
             is Success -> Gson().fromJson(gitlabRestResponse.body, MarkdownResponse::class.java).html
             is Failure ->
                 markdownRequest.text
-                    .also { LOGGER.warn(GitlabConnectBundle.message(REST_CALL_ERROR_MESSAGE,
-                                                                    GITLAB,
-                                                                    gitlabRestResponse.throwable)) }
+                    .also {
+                        LOGGER.warn(
+                            GitlabConnectBundle.message(
+                                REST_CALL_ERROR_MESSAGE,
+                                GITLAB,
+                                gitlabRestResponse.throwable
+                            )
+                        )
+                    }
         }
     }
 
