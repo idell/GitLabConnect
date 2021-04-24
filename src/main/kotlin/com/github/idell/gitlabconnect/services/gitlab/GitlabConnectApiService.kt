@@ -24,7 +24,7 @@ class GitlabConnectApiService(val project: Project) {
         return GitlabConnectGlobalSettings.getInstance().state.enabled
     }
 
-    fun getApi(): ConnectApi {
-        return WithRestMarkDownGitlabConnectApi(gitlabConnectDataRetriever, GitlabRestMarkDownProcessor(project.service<RestClientService>().get()))
-    }
+    fun getApi(): ConnectApi =
+        WithRestMarkDownGitlabConnectApi(gitlabConnectDataRetriever,
+                                         GitlabRestMarkDownProcessor(project.service<RestClientService>().get()))
 }
