@@ -8,12 +8,9 @@ import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 
 @Service
-class RestClientService(project: Project) {
-
-    private val fuelGitlabConnectRestClient: GitlabConnectRestClient =
-        FuelGitlabConnectRestClient(project.service<GitlabConfigService>().get())
+class RestClientService(private val project: Project) {
 
     fun get(): GitlabConnectRestClient {
-        return fuelGitlabConnectRestClient
+        return FuelGitlabConnectRestClient(project.service<GitlabConfigService>().get())
     }
 }

@@ -17,14 +17,16 @@ class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSaf
 
     override fun getToken(key: TokenKey): Token {
         val ofNullable = Optional.ofNullable(passwordSafe.getPassword(createCredentialAttributes(key)))
-        LOGGER.info("#debug getting token for key: [$key] result: [${ofNullable.get()}]")
+        if (key != null && ofNullable.isPresent) {
+            LOGGER.info("#debug getting token for key: [$key] result: [${ofNullable.get()}]")
+        }
         return ofNullable
     }
 
     override fun storeToken(tokenData: TokenData) {
         LOGGER.info("#debug saving token: [${tokenData.token}] for key: [${tokenData.key}]")
         val storedToken = passwordSafe.getPassword(createCredentialAttributes(tokenData.key))
-        if (storedToken != null && storedToken != tokenData.token) {
+        if (storedToken != tokenData.token) {
             passwordSafe.setPassword(createCredentialAttributes(tokenData.key), tokenData.token)
         }
     }
