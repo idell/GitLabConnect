@@ -26,7 +26,7 @@ class GitlabConnectProjectConfigState : PersistentStateComponent<ProjectConfig> 
     companion object {
 
         @JvmStatic
-        fun actualConfig(project: Project): ProjectConfig {
+        fun projectConfig(project: Project): ProjectConfig {
             return getInstance(project).state
         }
 

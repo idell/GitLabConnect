@@ -1,14 +1,14 @@
 package com.github.idell.gitlabconnect.ui.settings
 
-import com.github.idell.gitlabconnect.services.gitlab.GitlabTestService
-import com.github.idell.gitlabconnect.storage.TokenConfiguration
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
+import com.github.idell.gitlabconnect.services.gitlab.GitlabTestConnectionService
 import java.awt.event.ActionEvent
 import java.awt.event.ActionListener
 
 class CheckConnectionActionListener(
-    private val getToken: () -> TokenConfiguration,
+    private val getToken: () -> GitlabTokenConfiguration,
     private val callback: (switch: Boolean) -> Unit
 ) : ActionListener {
 
-    override fun actionPerformed(e: ActionEvent?) = callback.invoke(GitlabTestService().test(getToken.invoke()))
+    override fun actionPerformed(e: ActionEvent?) = callback.invoke(GitlabTestConnectionService().test(getToken.invoke()))
 }

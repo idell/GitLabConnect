@@ -2,11 +2,10 @@ package com.github.idell.gitlabconnect.services.gitlab
 
 import com.github.idell.gitlabconnect.exception.GitlabConnectException
 import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
-import com.github.idell.gitlabconnect.storage.TokenConfiguration
-import com.intellij.openapi.components.Service
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
+import com.intellij.openapi.components.ServiceManager
 
-@Service
-class GitlabTestService {
+class GitlabTestConnectionService {
     fun test(host: String, token: String): Boolean {
         return try {
             GitlabConnectApi
@@ -18,14 +17,18 @@ class GitlabTestService {
         }
     }
 
-    fun test(config: TokenConfiguration): Boolean {
+    fun test(config: GitlabTokenConfiguration): Boolean {
         return try {
-            GitlabConnectApi
-                .from(config.host, config.token)
+            GitlabConnectApi(config)
                 .getCurrentUser()
                 .isActive()
         } catch (e: GitlabConnectException) {
             false
         }
+    }
+
+    companion object {
+        @JvmStatic
+        fun gitlabTestConnectionService(): GitlabTestConnectionService = ServiceManager.getService(GitlabTestConnectionService::class.java)
     }
 }

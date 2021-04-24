@@ -2,8 +2,9 @@ package com.github.idell.gitlabconnect.activities
 
 import com.github.idell.gitlabconnect.git.GitApi
 import com.github.idell.gitlabconnect.services.TemporaryBalloonNotificationService
-import com.github.idell.gitlabconnect.storage.GitlabConnectGlobalSettings
-import com.github.idell.gitlabconnect.storage.GitlabConnectProjectConfigState.Companion.actualConfig
+import com.github.idell.gitlabconnect.services.configuration.GitlabConnectConfigurationApplicationService.Companion.gitlabConnectConfigurationApplicationService
+import com.github.idell.gitlabconnect.storage.GitlabConnectPluginSettings.Companion.hostSettings
+import com.github.idell.gitlabconnect.storage.GitlabConnectProjectConfigState.Companion.projectConfig
 import com.github.idell.gitlabconnect.storage.GitlabStatus.GITLAB_PROJECT
 import com.github.idell.gitlabconnect.storage.GitlabStatus.NOT_ANALYZED
 import com.github.idell.gitlabconnect.storage.ProjectConfig
@@ -15,20 +16,16 @@ import com.intellij.openapi.startup.StartupActivity
 class GitlabConnectAvailabilityActivity : StartupActivity, DumbAware {
 
     override fun runActivity(project: Project) {
-        val globalSettings = GitlabConnectGlobalSettings.getInstance().state
-        val previousStatus = actualConfig(project).gitlabStatus
-        val notificationService: TemporaryBalloonNotificationService = project.service()
-
-        if (!globalSettings.enabled) return
+        if (!gitlabConnectConfigurationApplicationService().isEnabled()) return
 
         project.basePath
             ?. let {
                 GitlabConnectAvailability(GitApi.from("$it/.git"))
-                    .generateConfig(globalSettings.tokenConfig.host)
+                    .generateConfig(hostSettings().host ?: "")
             }
-            ?.also { actualConfig(project).update(it) }
-            ?.takeIf { previousStatus == NOT_ANALYZED && it.gitlabStatus == GITLAB_PROJECT }
-            ?.apply { notificationService.info("gitlab project found!") }
+            ?.also { projectConfig(project).update(it) }
+            ?.takeIf { projectConfig(project).gitlabStatus == NOT_ANALYZED && it.gitlabStatus == GITLAB_PROJECT }
+            ?.apply { project.service<TemporaryBalloonNotificationService>().info("gitlab project found!") }
     }
 }
 

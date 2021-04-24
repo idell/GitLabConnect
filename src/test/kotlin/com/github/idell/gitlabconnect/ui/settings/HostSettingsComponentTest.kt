@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 import javax.swing.JPanel
 import javax.swing.JPasswordField
 
-internal class GlobalSettingsComponentTest {
+internal class HostSettingsComponentTest {
 
     @Test
     internal fun `construct a component with form`() {

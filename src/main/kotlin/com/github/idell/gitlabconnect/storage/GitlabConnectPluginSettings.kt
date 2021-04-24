@@ -9,17 +9,17 @@ import com.intellij.openapi.components.Storage
     name = "org.intellij.sdk.settings.GitlabConnectSettings",
     storages = [Storage("gitlabConnectGlobalSettings.xml")]
 )
-class GitlabConnectGlobalSettings private constructor() : PersistentStateComponent<GlobalSettings> {
+class GitlabConnectPluginSettings private constructor() : PersistentStateComponent<HostSettings> {
 
-    private var state: GlobalSettings = GlobalSettings()
+    private var state: HostSettings = HostSettings()
 
-    override fun getState(): GlobalSettings {
+    override fun getState(): HostSettings {
         synchronized(this) {
             return state
         }
     }
 
-    override fun loadState(state: GlobalSettings) {
+    override fun loadState(state: HostSettings) {
         synchronized(this) {
             this.state = state
         }
@@ -27,10 +27,6 @@ class GitlabConnectGlobalSettings private constructor() : PersistentStateCompone
 
     companion object {
         @JvmStatic
-        fun getInstance(): GitlabConnectGlobalSettings =
-            ServiceManager.getService(GitlabConnectGlobalSettings::class.java)
-
-        @JvmStatic
-        fun get(): GlobalSettings = ServiceManager.getService(GitlabConnectGlobalSettings::class.java).getState()
+        fun hostSettings(): HostSettings = ServiceManager.getService(GitlabConnectPluginSettings::class.java).getState()
     }
 }

@@ -1,7 +1,7 @@
 package com.github.idell.gitlabconnect.ui.settings
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.storage.TokenConfiguration
+import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
@@ -42,7 +42,7 @@ class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
         val jButton = JButton(GitlabConnectBundle.message(BUTTON_TEXT))
 
         jButton.addActionListener(
-            CheckConnectionActionListener({ TokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) }
+            CheckConnectionActionListener({ GitlabTokenConfiguration(getHost(), getToken()) }) { drawFailOrSuccess(it) }
         )
 
         jPanel.add(jButton)
