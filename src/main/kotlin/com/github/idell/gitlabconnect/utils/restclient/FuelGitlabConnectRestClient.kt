@@ -7,9 +7,9 @@ import com.github.kittinunf.result.Result
 
 class FuelGitlabConnectRestClient(private val gitlabConfiguration: GitlabTokenConfiguration) : GitlabConnectRestClient {
 
-    override fun post(endpoint: String,jsonBody:String): GitlabRestResponse {
+    override fun post(endpoint: String, jsonBody: String): GitlabRestResponse {
 
-        val (_, response, result) = Fuel.post("${gitlabConfiguration.host}/${endpoint}")
+        val (_, response, result) = Fuel.post("${gitlabConfiguration.host}/$endpoint")
             .header(PRIVATE_TOKEN to gitlabConfiguration.token)
             .useHttpCache(USE_HTTP_CACHES)
             .timeout(DEFAULT_TIMEOUT)
@@ -28,6 +28,4 @@ class FuelGitlabConnectRestClient(private val gitlabConfiguration: GitlabTokenCo
         private const val PRIVATE_TOKEN = "Private-Token"
         private const val DEFAULT_TIMEOUT = 1000
     }
-
-
 }

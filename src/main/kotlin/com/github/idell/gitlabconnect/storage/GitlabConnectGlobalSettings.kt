@@ -1,7 +1,6 @@
 package com.github.idell.gitlabconnect.storage
 
 import com.intellij.openapi.components.*
-import com.intellij.openapi.project.Project
 
 @State(
     name = "org.intellij.sdk.settings.GitlabConnectSettings",

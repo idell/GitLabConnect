@@ -17,7 +17,8 @@ class GitlabConnectApiService(val project: Project) {
     private val gitlabConnectDataRetriever: GitlabConnectApi = GitlabConnectApi.from(
         GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host,
         SecureTokenStorage().getToken(GitlabConnectGlobalSettings.getInstance().state.tokenConfig.host)
-            .orElse(""))
+            .orElse("")
+    )
 
     fun isPluginActive(): Boolean {
         return GitlabConnectGlobalSettings.getInstance().state.enabled

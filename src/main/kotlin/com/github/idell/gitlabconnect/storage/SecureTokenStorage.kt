@@ -30,6 +30,7 @@ class SecureTokenStorage(private val passwordSafe: CredentialStore = PasswordSaf
     }
 
     companion object {
+        private val LOGGER: Logger = LoggerFactory.getLogger(SecureTokenStorage::class.java)
         private const val SUBSYSTEM = "gitlabconnect"
     }
 }

@@ -1,9 +1,7 @@
 package com.github.idell.gitlabconnect.gitlab
 
 import com.github.idell.gitlabconnect.ui.markdown.MarkDownProcessor
-import org.gitlab4j.api.models.Project
-import org.gitlab4j.api.models.User
-import java.util.*
+import java.util.Optional
 
 class WithRestMarkDownGitlabConnectApi(
     private val gitlabConnectApi: ConnectApi,

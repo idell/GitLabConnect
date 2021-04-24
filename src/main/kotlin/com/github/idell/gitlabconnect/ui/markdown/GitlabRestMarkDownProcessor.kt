@@ -16,8 +16,9 @@ class GitlabRestMarkDownProcessor(private val gitlabConnectRestClient: GitlabCon
 
         return when (val gitlabRestResponse = gitlabConnectRestClient.post(MARKDOWN_ENDPOINT, Gson().toJson(markdownRequest))) {
             is Success -> Gson().fromJson(gitlabRestResponse.body, MarkdownResponse::class.java).html
-            is Failure -> markdownRequest.text
-                .also { LOGGER.warn(GitlabConnectBundle.message(REST_CALL_ERROR_MESSAGE, GITLAB, gitlabRestResponse.throwable)) }
+            is Failure ->
+                markdownRequest.text
+                    .also { LOGGER.warn(GitlabConnectBundle.message(REST_CALL_ERROR_MESSAGE, GITLAB, gitlabRestResponse.throwable)) }
         }
     }
 

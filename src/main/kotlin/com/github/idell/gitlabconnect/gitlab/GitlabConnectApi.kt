@@ -11,11 +11,10 @@ import java.util.Optional
 class GitlabConnectApi(private val gitLabApi: GitLabApi) : ConnectApi {
 
     constructor(gitlabTokenConfiguration: GitlabTokenConfiguration) :
-            this(GitLabApi(gitlabTokenConfiguration.host, gitlabTokenConfiguration.token))
-
+        this(GitLabApi(gitlabTokenConfiguration.host, gitlabTokenConfiguration.token))
 
     override fun search(projectSearch: ProjectSearch): Optional<ProjectInfo> {
-        val projects: List<Project> =  gitLabApi.projectApi.getProjects(projectSearch.pathWithNamespace())
+        val projects: List<Project> = gitLabApi.projectApi.getProjects(projectSearch.pathWithNamespace())
 
         return try {
             Optional.of(projects.first { project -> project.pathWithNamespace.equals(projectSearch.fullPath()) }.to())

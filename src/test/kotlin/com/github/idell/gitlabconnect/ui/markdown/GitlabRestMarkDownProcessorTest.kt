@@ -20,7 +20,7 @@ internal class GitlabRestMarkDownProcessorTest {
 
     private lateinit var secureTokenStorage: TokenStorage
     private lateinit var markDownProcessor: GitlabRestMarkDownProcessor
-    private lateinit var gitlabConnectRestClient : GitlabConnectRestClient
+    private lateinit var gitlabConnectRestClient: GitlabConnectRestClient
 
     @RegisterExtension
     var context: Mockery = object : JUnit5Mockery() {
@@ -73,5 +73,4 @@ internal class GitlabRestMarkDownProcessorTest {
     private fun Mockery.expecting(block: Expectations.() -> Unit) {
         this.checking(Expectations().apply(block))
     }
-
 }
