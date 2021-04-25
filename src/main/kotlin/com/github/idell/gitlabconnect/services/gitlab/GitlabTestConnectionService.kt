@@ -29,6 +29,7 @@ class GitlabTestConnectionService {
 
     companion object {
         @JvmStatic
-        fun gitlabTestConnectionService(): GitlabTestConnectionService = ServiceManager.getService(GitlabTestConnectionService::class.java)
+        fun gitlabTestConnectionService(): GitlabTestConnectionService = ServiceManager
+            .getService(GitlabTestConnectionService::class.java)
     }
 }

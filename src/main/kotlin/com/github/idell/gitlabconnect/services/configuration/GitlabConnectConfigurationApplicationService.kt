@@ -1,7 +1,6 @@
 package com.github.idell.gitlabconnect.services.configuration
 
 import com.github.idell.gitlabconnect.gitlab.GitlabTokenConfiguration
-import com.github.idell.gitlabconnect.services.gitlab.GitlabTestConnectionService
 import com.github.idell.gitlabconnect.services.gitlab.GitlabTestConnectionService.Companion.gitlabTestConnectionService
 import com.github.idell.gitlabconnect.storage.GitlabConnectPluginSettings.Companion.hostSettings
 import com.github.idell.gitlabconnect.storage.SecureTokenStorage
@@ -32,7 +31,6 @@ class GitlabConnectConfigurationApplicationService {
         SecureTokenStorage().storeToken(TokenData(gitlabTokenConfiguration.host, gitlabTokenConfiguration.token))
         hostSettings().host = gitlabTokenConfiguration.host
     }
-
 
     companion object {
         @JvmStatic

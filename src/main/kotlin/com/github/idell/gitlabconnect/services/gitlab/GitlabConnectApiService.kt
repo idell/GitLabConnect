@@ -16,7 +16,8 @@ class GitlabConnectApiService(val project: Project) {
     fun getApi(): ConnectApi = WithRestMarkDownGitlabConnectApi(
         GitlabConnectApi.from(
             pluginService().gitlabTokenConfiguration().host,
-            pluginService().gitlabTokenConfiguration().token),
+            pluginService().gitlabTokenConfiguration().token
+        ),
         GitlabRestMarkDownProcessor(project.service<RestClientService>().get())
     )
 }

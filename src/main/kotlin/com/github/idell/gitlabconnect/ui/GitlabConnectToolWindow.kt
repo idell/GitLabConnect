@@ -1,6 +1,5 @@
 package com.github.idell.gitlabconnect.ui
 
-import com.github.idell.gitlabconnect.gitlab.GitlabConnectApi
 import com.github.idell.gitlabconnect.gitlab.Issue
 import com.github.idell.gitlabconnect.services.gitlab.GitlabConnectApiService
 import com.github.idell.gitlabconnect.ui.issue.IssueStubGenerator
@@ -25,7 +24,7 @@ class GitlabConnectToolWindow(
     private val toolWindow: ToolWindow,
     private val issueListener: ListCellRenderer<Issue>,
     private val project: Project
-                             ) {
+) {
 
     private var rightComponent: JEditorPane = JEditorPane()
     private var scrollable: JBScrollPane = JBScrollPane(rightComponent)

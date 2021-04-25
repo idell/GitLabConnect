@@ -19,11 +19,13 @@ class GitlabConnectPreferences : Configurable {
 
     override fun isModified(): Boolean {
         return GitlabTokenConfiguration(component.getHost(), component.getToken()) !=
-                gitlabConnectConfigurationApplicationService().gitlabTokenConfiguration()
+            gitlabConnectConfigurationApplicationService().gitlabTokenConfiguration()
     }
 
     override fun apply() {
-        gitlabConnectConfigurationApplicationService().save(GitlabTokenConfiguration(component.getHost(), component.getToken()))
+        gitlabConnectConfigurationApplicationService().save(
+            GitlabTokenConfiguration(component.getHost(), component.getToken())
+        )
     }
 
     override fun getDisplayName(): String = GitlabConnectBundle.getMessage("ui.plugin.name")

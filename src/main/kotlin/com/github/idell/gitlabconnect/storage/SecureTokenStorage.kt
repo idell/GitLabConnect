@@ -4,7 +4,6 @@ import com.intellij.credentialStore.CredentialAttributes
 import com.intellij.credentialStore.CredentialStore
 import com.intellij.credentialStore.generateServiceName
 import com.intellij.ide.passwordSafe.PasswordSafe
-import org.jetbrains.annotations.Nullable
 import org.slf4j.LoggerFactory
 import java.util.Optional
 

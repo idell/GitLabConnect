@@ -1,9 +1,7 @@
 package com.github.idell.gitlabconnect.ui
 
 import com.github.idell.gitlabconnect.GitlabConnectBundle
-import com.github.idell.gitlabconnect.services.gitlab.GitlabConnectApiService
 import com.github.idell.gitlabconnect.ui.issue.listener.ShowIssueListener
-import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
@@ -27,8 +25,6 @@ class GitlabConnectToolWindowFactory : ToolWindowFactory {
 
         toolWindow.contentManager.addContent(content)
     }
-
-
 
     companion object {
         private const val ISSUES_TAB_NAME = "ui.tab.issue.name"
