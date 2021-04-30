@@ -27,7 +27,7 @@ class GitlabConnectToolWindow(
     private val toolWindow: ToolWindow,
     private val issueListener: ListCellRenderer<Issue>,
     private val project: Project
-                             ) {
+) {
 
     private var rightComponent: JEditorPane = JEditorPane()
     private var scrollable: JBScrollPane = JBScrollPane(rightComponent)
@@ -38,14 +38,14 @@ class GitlabConnectToolWindow(
             DEFAULT_GAP,
             FILL,
             FILL
-                          )
-                                                                   )
+        )
+    )
     private var externalPanel: JSplitPane = JSplitPane(
         JSplitPane.HORIZONTAL_SPLIT,
         CONTINUOUS_LAYOUT,
         leftComponent,
         scrollable
-                                                      )
+    )
 
     init {
         this.render()
@@ -72,9 +72,11 @@ class GitlabConnectToolWindow(
 
     private fun useDifferentCSSForNotDarculaTheme() {
         if (!UIUtil.isUnderDarcula()) {
-            val resource: URL = ResourceUtil.getResource(this::class.java,
-                                                         CSS_FOLDER,
-                                                         CSS_FILE)
+            val resource: URL = ResourceUtil.getResource(
+                this::class.java,
+                CSS_FOLDER,
+                CSS_FILE
+            )
             HTMLEditorKit().styleSheet.importStyleSheet(resource.toURI().toURL())
         }
     }
@@ -85,14 +87,14 @@ class GitlabConnectToolWindow(
             PANEL_MEDIUM_BORDER,
             PANEL_SMALL_BORDER,
             PANEL_SMALL_BORDER
-                                       ),
+        ),
         BorderFactory.createEmptyBorder(
             PANEL_SMALL_BORDER,
             PANEL_SMALL_BORDER,
             PANEL_SMALL_BORDER,
             PANEL_SMALL_BORDER
-                                       )
-                                                                   )
+        )
+    )
 
     fun geContent(): JComponent {
         return externalPanel
@@ -112,4 +114,3 @@ class GitlabConnectToolWindow(
         private const val FILL = true
     }
 }
-

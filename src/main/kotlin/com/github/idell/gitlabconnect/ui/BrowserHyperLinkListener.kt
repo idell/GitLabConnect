@@ -12,5 +12,4 @@ class BrowserHyperLinkListener(private val desktop: Desktop) : HyperlinkListener
             desktop.browse(e.url?.toURI())
         }
     }
-
 }
