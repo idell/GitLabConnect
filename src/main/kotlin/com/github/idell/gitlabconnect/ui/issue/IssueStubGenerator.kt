@@ -38,6 +38,7 @@ object IssueStubGenerator : Runnable, IssueGenerator {
                     "The default value is `100` so... we can do the same in AppFw.. setting its value to maxActive"
             )
         )
+
     override fun run() {
         generate()
     }

@@ -13,19 +13,21 @@ import javax.swing.JPasswordField
 
 class GitlabPreferencesComponent(connectionHost: String, privateToken: String) {
     private var mainPanel: JPanel
-    private val hostName = JBTextField(connectionHost)
+    private val hostName = JBTextField(connectionHost,60)
     private var connectionToken = JPasswordField(privateToken)
     private val connectionTokenContainer = ConnectionTokenContainerFactory(connectionToken).create()
     private var connectionResult = ConnectionResultFactory().createConnectionResult()
 
     init {
         mainPanel = FormBuilder.createFormBuilder()
-            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)), hostName, 1, false)
-            .addLabeledComponent(
-                JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
-                connectionTokenContainer,
-                1
-            )
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, HOST)),
+                                 hostName,
+                                 1,
+                                 false)
+            .addLabeledComponent(JBLabel(GitlabConnectBundle.message(CONNECTION_LABEL, TOKEN)),
+                                 connectionTokenContainer,
+                                 1
+                                )
             .addLabeledComponent(JBLabel(""), testConnectionPanel())
             .addComponentFillVertically(JPanel(), 0)
             .panel
